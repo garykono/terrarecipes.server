@@ -30,7 +30,9 @@ if (process.env.NODE_ENV === 'development') {
 // Whitelist allowed client websites
 app.use(cors({
     credentials: true,
-    origin: process.env.CLIENT_URL
+    origin: true,
+    exposedHeaders: ["Set-Cookie"]
+    // origin: process.env.CLIENT_URL
 }));
 
 // Limit requests from same API
