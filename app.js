@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(cors({
     credentials: true,
     origin: true,
-    exposedHeaders: ["Set-Cookie"]
+    // exposedHeaders: ["Set-Cookie"]
     // origin: process.env.CLIENT_URL
 }));
 
