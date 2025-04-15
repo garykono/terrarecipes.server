@@ -1,0 +1,6 @@
+current plan for deleting users:
+it seems standard to soft delete users on most websites, especially when users can create content, leave comments, etc.
+so if a user deletes their account, set them to inactive and whenever a name is shown on the site for something they made, use the 
+	username something like "deleted-user"
+anything the user created will stay in the database, and the server can optionally run any scripts that scan the database and delete
+	unwanted content (ex. go delete all collections with deleted users every month or so)

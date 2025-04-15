@@ -1,0 +1,37 @@
+class AppError extends Error {
+    constructor(statusCode, name, message, options) {
+        super(message);
+        
+        this.name = name;
+        this.statusCode = statusCode;
+        this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+        this.isOperational = true;
+        this.errors = options?.errors;
+
+        // Stops stack trace from showing the function call of this constructor
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+exports.ERROR_NAME = {
+    //400
+    CAST_ERROR: 'CAST_ERROR',
+    DUPLICATE_FIELD_ERROR: 'DUPLICATE_FIELD_ERROR',
+    INVALID_JWT: 'INVALID_JWT',
+    VALIDATION_ERROR: 'VALIDATION_ERROR',
+
+    //401
+    UNAUTHORIZED: 'UNAUTHORIZED',
+
+    //403
+    FORBIDDEN: 'FORBIDDEN',
+
+    //404
+    RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+    URL_NOT_FOUND: 'URL_NOT_FOUND',
+
+    //500
+    SERVER_ERROR: 'SERVER_ERROR',
+}
+
+exports.AppError = AppError;
