@@ -21,12 +21,16 @@ const createAndSendToken = (user, statusCode, res) => {
     const cookieOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
         // Cannot be opened by the browser
-        httpOnly: true
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true
     };
 
     // secure === true means cookie will only be sent over encrypted connection (https). So when we use http, the cookie won't be 
     // sent. Therefore, we only run it in production
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    if (process.env.NODE_ENV === 'production') {
+        cookieOptions.domain = "terrarecipes.xyz";
+    }
     res.cookie('jwt', token, cookieOptions);
 
     // Remove password from output
@@ -77,8 +81,10 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.logout = (req, res) => {
     res.cookie('jwt', 'loggedout', {
-      expires: new Date(Date.now() + 5000),
-      httpOnly: true
+        expires: new Date(Date.now() + 5000),
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
     });
     res.status(200).json({ 
         status: 'success' 
@@ -88,13 +94,25 @@ exports.logout = (req, res) => {
 exports.protect = catchAsync(async (req, res, next) => {
     // 1) Getting token and check if it's there
     let token = '';
+    let foundJWT = false;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
-    } else if (req.headers.cookie && req.headers.cookie.startsWith('jwt')) {
-        token = req.headers.cookie.slice('jwt='.length);
+    } else if (req.headers.cookie) {
+        const parsedCookies = req.headers.cookie.split(';');
+        parsedCookies.forEach((value, index) => {
+            if (value.startsWith('jwt=')) {
+                token = parsedCookies[index].slice('jwt='.length);
+                if (foundJWT === true) {
+                    return next(new AppError(401, ERROR_NAME.UNAUTHORIZED, 'More than one set of login credentials (JWT) provided.'));
+                } else {
+                    foundJWT = true;
+                }
+            }
+        }) 
     }
 
     if (!token) {
+        console.log('no token was given')
         return next(new AppError(401, ERROR_NAME.UNAUTHORIZED, 'You are not logged in! Please log in to get access.'));
     }
     // 2) Verification token
@@ -104,6 +122,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     // 3) Check if user still exists
     const freshUser = await User.findById(decoded.id);
+    console.log('user id', decoded.id)
     if (!freshUser) {
         return next(new AppError(401, ERROR_NAME.UNAUTHORIZED, 'The user belonging to the token no longer exists.'))
     }

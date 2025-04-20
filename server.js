@@ -18,7 +18,11 @@ mongoose.connect(DB).then(() => {
 
 const port = process.env.SERVERPORT || 8080;
 const server = app.listen(port, () => {
-    console.log(`App running on port ${port}...`);
+    if (process.env.NODE_ENV === 'development') {
+        console.log(`App running on port ${port}...`);
+    } else {
+        console.log(`App running on domain '${process.env.SERVER_URL_PROD}'...`)
+    }
 });
 
 process.on('unhandledRejection', (err) => {
