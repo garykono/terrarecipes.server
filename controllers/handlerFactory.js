@@ -22,7 +22,6 @@ exports.getAll = Model => catchAsync(async (req, res, next) => {
 
     // Count total number of pages for front end pagination
     let totalPages = 1;
-    console.log(req.query.page)
     if (req.query.page) {
         const countPagesFeatures = new APIFeatures(Model.find(filter), req.query)
         .filter()

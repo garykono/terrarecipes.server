@@ -8,7 +8,6 @@ const handleCastErrorDB = err => {
 }
 
 const handleDuplicateFieldsDB = err => {
-    console.log(err)
     const errors = Object.keys(err.keyValue).map(field => `${field}: This ${field} is already taken.`);
     // const field = parsed[0];
     // const value = parsed[1].split('"')[0];

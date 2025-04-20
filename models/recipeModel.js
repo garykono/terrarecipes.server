@@ -53,12 +53,12 @@ const recipeSchema = new mongoose.Schema({
 
 const Recipe = mongoose.model('Recipe', recipeSchema);
 
-Recipe.on('index', function(err) {
-    if (err) {
-        console.error('User index error: %s', err);
-    } else {
-        console.info('User indexing complete');
-    }
-});
+// Recipe.on('index', function(err) {
+//     if (err) {
+//         console.error('User index error: %s', err);
+//     } else {
+//         console.info('User indexing complete');
+//     }
+// });
 
 module.exports = Recipe;

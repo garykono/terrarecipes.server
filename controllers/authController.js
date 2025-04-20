@@ -22,8 +22,8 @@ const createAndSendToken = (user, statusCode, res) => {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
         // Cannot be opened by the browser
         httpOnly: true,
-        sameSite: 'none',
-        secure: true
+        // sameSite: 'none',
+        // secure: true
     };
 
     // secure === true means cookie will only be sent over encrypted connection (https). So when we use http, the cookie won't be 
@@ -80,12 +80,19 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.logout = (req, res) => {
-    res.cookie('jwt', 'loggedout', {
+    const cookieOptions = {
         expires: new Date(Date.now() + 5000),
         httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-    });
+        // sameSite: 'none',
+        // secure: true,
+    };
+    
+    if (process.env.NODE_ENV === 'production') {
+        cookieOptions.domain = "terrarecipes.xyz";
+    }
+
+    res.cookie('jwt', 'loggedout', cookieOptions);
+
     res.status(200).json({ 
         status: 'success' 
     });
@@ -122,7 +129,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     // 3) Check if user still exists
     const freshUser = await User.findById(decoded.id);
-    console.log('user id', decoded.id)
     if (!freshUser) {
         return next(new AppError(401, ERROR_NAME.UNAUTHORIZED, 'The user belonging to the token no longer exists.'))
     }
