@@ -28,9 +28,11 @@ const createAndSendToken = (user, statusCode, res) => {
 
     // secure === true means cookie will only be sent over encrypted connection (https). So when we use http, the cookie won't be 
     // sent. Therefore, we only run it in production
-    if (process.env.NODE_ENV === 'production') {
-        cookieOptions.domain = "terrarecipes.xyz";
-    }
+    // if (process.env.NODE_ENV === 'production') {
+    //     cookieOptions.domain = process.env.CLIENT_URL_PROD;
+    // } else {
+    //     cookieOptions.domain = process.env.CLIENT_URL_DEV;
+    // }
     res.cookie('jwt', token, cookieOptions);
 
     // Remove password from output
@@ -105,7 +107,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
     } else if (req.headers.cookie) {
-        const parsedCookies = req.headers.cookie.split(';');
+        const parsedCookies = req.headers.cookie.split(';').map(val => val.trim());
         parsedCookies.forEach((value, index) => {
             if (value.startsWith('jwt=')) {
                 token = parsedCookies[index].slice('jwt='.length);
@@ -119,7 +121,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     }
 
     if (!token) {
-        console.log('no token was given')
         return next(new AppError(401, ERROR_NAME.UNAUTHORIZED, 'You are not logged in! Please log in to get access.'));
     }
     // 2) Verification token
