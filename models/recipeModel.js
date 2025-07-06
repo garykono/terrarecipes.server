@@ -22,7 +22,14 @@ const recipeSchema = new mongoose.Schema({
     ingredients: {
         type: [{
             text: String,
-            isSection: Boolean
+            isSection: Boolean,
+            parsed: {
+                quantity: Number,
+                unit: String,
+                ingredient: String,
+                raw: String,
+                parsedBy: String
+            }
         }],
         validate: {
             validator: function(el) {

@@ -1,0 +1,1808 @@
+{
+  "Vegetables": [
+    {
+      "name": "asparagus",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": ["spear", "bunch"]
+    },
+    {
+      "name": "beet",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "bell pepper",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "broccoli",
+      "needsUnit": true,
+      "standardUnit": null,
+      "acceptableMassUnits": [
+        "pound"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "brussels sprout",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cabbage",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": [
+        "head"
+      ]
+    },
+    {
+      "name": "carrot",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cauliflower",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": [
+        "head"
+      ]
+    },
+    {
+      "name": "celery",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": [
+        "stalk"
+      ]
+    },
+    {
+      "name": "corn",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": [
+        "ear"
+      ]
+    },
+    {
+      "name": "cucumber",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "eggplant",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "garlic",
+      "needsUnit": false,
+      "standardUnit": "clove",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": [
+        "clove",
+        "head"
+      ]
+    },
+    {
+      "name": "green beans",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "jalepeno pepper",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "kale",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "leek",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "lettuce",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": [
+        "head"
+      ]
+    },
+    {
+      "name": "mushrooms",
+      "needsUnit": true,
+      "standardUnit": "ounce",
+      "acceptableMassUnits": [
+        "ounce",
+        "pound",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "onion",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "pea",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "potato",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "radish",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "spinach",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "squash",
+      "needsUnit": false,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "gram", 
+        "kilogram", 
+        "pound", 
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "sweet potato",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "tomato",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "turnip",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "zucchini",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [
+        "gram", 
+        "kilogram", 
+        "pound", 
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    }
+  ],
+  "Fruits": [
+    {
+      "name": "apple",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "apricot",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "banana",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "blackberries",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "blueberries",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cherry",
+      "needsUnit": false,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "coconut",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cranberries",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "date",
+      "needsUnit": false,
+      "standardUnit": "gram",
+      "acceptableMassUnits": [
+        "gram", 
+        "kilogram", 
+        "ounce", 
+        "pound"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "fig",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "grape",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "grapefruit",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "kiwi",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "lemon",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "lime",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "mango",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "melon",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "nectarine",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "orange",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "papaya",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "peach",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "pear",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "pineapple",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "plum",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "pomegranate",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "raspberry",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "strawberry",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "watermelon",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    }
+  ],
+  "Grains & Legumes": [
+    {
+      "name": "barley",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "black beans",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "brown rice",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "buckwheat",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "bulgur",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "chickpeas",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "farro",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "green lentils",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "kidney beans",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "oats",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "pinto beans",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "quinoa",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "red lentils",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "soybeans",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "white rice",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "wild rice",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    }
+  ],
+  "Dairy & Eggs": [
+    {
+      "name": "butter",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [
+        "gram",
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup",
+        "stick"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cheddar cheese",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cream cheese",
+      "needsUnit": true,
+      "standardUnit": "ounce",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "egg",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "goat cheese",
+      "needsUnit": true,
+      "standardUnit": "ounce",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "half and half",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "milk",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "mozzarella",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "parmesan",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "sour cream",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "whipping cream",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "yogurt",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    }
+  ],
+  "Meat & Seafood": [
+    {
+      "name": "bacon",
+      "needsUnit": false,
+      "standardUnit": "slice",
+      "acceptableMassUnits": [
+        "ounce",
+        "pound"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": [
+        "slice"
+      ]
+    },
+    {
+      "name": "beef",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "chicken breast",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "chicken thigh",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "ground beef",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "ground pork",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "ground turkey",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "ham",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "lamb",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "pork chops",
+      "needsUnit": false,
+      "standardUnit": null,
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "salmon",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "sausage",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "shrimp",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "steak",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "tilapia",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "tuna",
+      "needsUnit": true,
+      "standardUnit": "pound",
+      "acceptableMassUnits": [
+        "pound",
+        "ounce",
+        "gram"
+      ],
+      "acceptableVolumeUnits": [],
+      "acceptableCountUnits": []
+    }
+  ],
+  "Seasonings & Spices": [
+    {
+      "name": "basil",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "black pepper",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cayenne pepper",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "chili powder",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cinnamon",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "clove",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "coriander",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cumin",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "dill",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "fennel",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "garlic powder",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "ginger",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "nutmeg",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "oregano",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "paprika",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "parsley",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "red pepper flakes",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "rosemary",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "sage",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "salt",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "thyme",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "turmeric",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [
+        "gram"
+      ],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "vanilla extract",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    }
+  ],
+  "Baking Ingredients": [
+    {
+      "name": "baking powder",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "baking soda",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "brown sugar",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "cornstarch",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "flour",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "honey",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "molasses",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "powdered sugar",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "sugar",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "vanilla extract",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "yeast",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    }
+  ],
+  "Oils & Vinegars": [
+    {
+      "name": "apple cider vinegar",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "balsamic vinegar",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "canola oil",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "coconut oil",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "olive oil",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "rice vinegar",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "sesame oil",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "vegetable oil",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "white vinegar",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    }
+  ],
+  "Condiments & Sauces": [
+    {
+      "name": "barbecue sauce",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "hot sauce",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "jam",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "ketchup",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "mayonnaise",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "mustard",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "peanut butter",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "soy sauce",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "sriracha",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "tomato paste",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "tomato sauce",
+      "needsUnit": true,
+      "standardUnit": "cup",
+      "acceptableMassUnits": [
+        "ounce"
+      ],
+      "acceptableVolumeUnits": [
+        "cup",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "vinegar",
+      "needsUnit": true,
+      "standardUnit": "tablespoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "tablespoon",
+        "teaspoon",
+        "cup"
+      ],
+      "acceptableCountUnits": []
+    },
+    {
+      "name": "worcestershire sauce",
+      "needsUnit": true,
+      "standardUnit": "teaspoon",
+      "acceptableMassUnits": [],
+      "acceptableVolumeUnits": [
+        "teaspoon",
+        "tablespoon"
+      ],
+      "acceptableCountUnits": []
+    }
+  ]
+}

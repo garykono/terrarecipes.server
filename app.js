@@ -12,6 +12,7 @@ const app = express();
 const { AppError, ERROR_NAME } = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
 // Import Routers
+const staticRouter = require('./routes/staticRoutes');
 const recipeRouter = require('./routes/recipeRoutes');
 const userRouter = require('./routes/userRoutes');
 const collectionRouter = require('./routes/collectionRoutes')
@@ -47,7 +48,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Body parser, reading data from the body into req.body
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '50kb' }));
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -72,6 +73,7 @@ app.use(hpp({
 app.use(express.static(`${__dirname}/public`));
 
 // Mount Routes
+app.use('/static', staticRouter);
 app.use('/recipes', recipeRouter);
 app.use('/users', userRouter);
 app.use('/collections', collectionRouter);

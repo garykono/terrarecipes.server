@@ -27,7 +27,7 @@ exports.getCollection = factory.getOne(Collection, [
     },
     { 
         path: 'recipes', 
-        select: '-__v -description -ingredients -directions'
+        select: '-__v -description -directions'
     }
 ]);
 exports.createCollection = factory.createOne(Collection);
