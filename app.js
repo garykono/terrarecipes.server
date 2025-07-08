@@ -37,6 +37,9 @@ app.use(cors({
     // exposedHeaders: ["Set-Cookie"]
 }));
 
+// Since behind proxy on Render, this line is needed for rate limiter to differentiate IP addresses on requests
+app.set('trust proxy', 1);
+
 // Limit requests from same API
 const limiter = rateLimit({
     // How many times you make a request per windowMs
