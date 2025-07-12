@@ -28,7 +28,16 @@ const recipeSchema = new mongoose.Schema({
                 unit: String,
                 ingredient: String,
                 raw: String,
-                parsedBy: String
+                forms: [String],
+                preparations: [String],
+                size: {
+                    type: String,
+                    enum: ["small", "medium", "large"]
+                },
+                parsedBy: {
+                    type: String,
+                    enum: ['manual', 'fallback', 'initialized']
+                }
             }
         }],
         validate: {

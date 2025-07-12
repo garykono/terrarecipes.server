@@ -117,13 +117,13 @@
     "name": "tablespoon",
     "plural": ["tablespoons"],
     "symbol": ["tbs"],
-    "aliases": ["tbsp", "tbspn", "t", "t.", "tablespoons", "tablespoon", "t.", "T", "T."]
+    "aliases": ["tbsp", "tbspn", "t", "t.", "tablespoons", "tablespoon", "t.", "T", "T.", "tbsp."]
   },
   {
     "name": "teaspoon",
     "plural": ["teaspoons"],
     "symbol": ["tsp"],
-    "aliases": ["teaspoon", "tspn", "t", "t."]
+    "aliases": ["teaspoon", "tspn", "t", "t.", "tsp."]
   },
   {
     "name": "gram",
@@ -168,6 +168,12 @@
     "aliases": ["pkg", "pkgs"]
   },
   {
+    "name": "rib",
+    "plural": ["ribs"],
+    "symbol": [],
+    "aliases": []
+  },
+  {
     "name": "slice",
     "plural": ["slices"],
     "symbol": [],
@@ -198,26 +204,8 @@
     "aliases": []
   },
   {
-    "name": "small",
-    "plural": [],
-    "symbol": [],
-    "aliases": []
-  },
-  {
     "name": "slice",
     "plural": ["slices"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "medium",
-    "plural": [],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "large",
-    "plural": [],
     "symbol": [],
     "aliases": []
   }

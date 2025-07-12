@@ -33,15 +33,15 @@ exports.indexStandardizedList = standardList => {
         indexedList[standardName] = standardName;
         // Add the plural version that will map back to the ingredient's standard name
         const pluralName = standardList[standardName].plural;
-        const symbols = standardList[standardName].symbols;
+        const symbols = standardList[standardName].symbol
         const aliases = standardList[standardName].aliases;
         if (pluralName) indexedList[pluralName] = standardName;
-        if (symbols && symbols.length > 0) {
+        if (symbols) {
             symbols.forEach(symbol => {
                 indexedList[symbol] = standardName;
             })
         }
-        if (aliases && aliases.length > 0) {
+        if (aliases) {
             aliases.forEach(alias => {
                 indexedList[alias] = standardName;
             })

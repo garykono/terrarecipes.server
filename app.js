@@ -46,7 +46,7 @@ const limiter = rateLimit({
     limit: 1000,
     // 1 hour to ms
     windowMs: 60 * 60 * 1000,
-    message: 'Too many requests from this IP, please try again in an hour.',
+    // message: 'Too many requests from this IP, please try again in an hour.',
     handler: (req, res) => {
         console.warn(`Rate limit hit: ${req.ip} ${req.method} ${req.originalUrl}`);
         res.status(429).json({ message: 'Too many requests from this IP, please try again in an hour.' });
