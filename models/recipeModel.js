@@ -23,22 +23,25 @@ const recipeSchema = new mongoose.Schema({
         type: [{
             text: String,
             isSection: Boolean,
-            parsed: {
+            parsed: [{
                 quantity: Number,
                 unit: String,
                 ingredient: String,
-                raw: String,
                 forms: [String],
                 preparations: [String],
                 size: {
                     type: String,
                     enum: ["small", "medium", "large"]
                 },
+                isOptional: Boolean,
+                optionalQuantity: Boolean,
+                isSubstitute: Boolean,
+                raw: String,
                 parsedBy: {
                     type: String,
                     enum: ['manual', 'fallback', 'initialized']
                 }
-            }
+            }]
         }],
         validate: {
             validator: function(el) {
