@@ -1,51 +1,73 @@
 const catchAsync = require('../utils/catchAsync');
 const { AppError, ERROR_NAME } = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures')
+const { buildPipelineFromQuery } = require('../utils/buildPipelineFromQuery');
+const { buildSortFilter } = require('../utils/searchUtils');
 
-exports.getAll = Model => catchAsync(async (req, res, next) => {
+exports.getAll = (Model) => catchAsync(async (req, res, next) => {
+    const {
+      customFilter = {},          // e.g., { $or: [...] }
+      addFields,
+      useAggregate = false,
+      sortBy = 'name',      // default sort
+      fields,        // string like 'name quantity' (equivalent to .select())
+    } = req.options;
 
-    // To allow for nested GET reviews on tour. It's a small hack but it's fine for now
-    // let filter = { tags: {$in: ['side']} };
-    let filter = {};
-    if (req.params.tourId) {
-        filter = { tour: req.params.tourId };
-    }
+    let results;
+    let totalCount;
+    let totalPages;
 
-    const features = new APIFeatures(Model.find(filter), req.query)
-        .filter()
-        .sort()
-        .limitFields()
-        .paginate()
+    // Querying with Model.aggregate() for anything more than simple queries and when we need pagination
+    if (useAggregate) {
+        const pipeline = [];
 
-    //const doc = await features.query.explain();
-    const doc = await features.query;
+        if (customFilter) {
+            pipeline.push({ $match: customFilter });
+        }
 
-    // Count total number of pages for front end pagination
-    let totalPages = 1;
-    if (req.query.page) {
-        const countPagesFeatures = new APIFeatures(Model.find(filter), req.query)
-        .filter()
-        .limitFields()
-        .countTotalResults();
+        if (addFields) {
+            pipeline.push({ $addFields: addFields });
+        }
+
+        if (sortBy) {
+            pipeline.push({ $sort: buildSortFilter(sortBy) });
+        }
         
-        totalPages = Math.ceil((await countPagesFeatures.query) / (req.query.limit ? req.query.limit : 100));
-    }
+        // Handles pagination 
+        pipeline.push(...buildPipelineFromQuery(req.query));
 
-    // const doc = await Model.find()
-    //     .where('duration')
-    //     .equals(5)
-    //     .where('difficulty')
-    //     .equals('easy');
+        // Need to implement eventually: select which fields to return
+        
+        const [aggregated] = await Model.aggregate(pipeline);
+
+        results = aggregated.results;
+        totalCount = aggregated.totalCount;
+        totalPages = aggregated.totalPages;
+    } else {
+        // Use Model.find() for basic queries
+        const features = new APIFeatures(Model.find(), req.query)
+            .addQueryFilters()
+            .addCustomFilters(customFilter)
+            .applyFilters()
+            .sort(sortBy)
+            .limitFields()
+            .paginate()
+
+        // This is when the query is actually sent to the database
+        const doc = await features.query;
+        results = doc;
+        totalCount = doc.length;
+        totalPages = 1;
+    }
 
     res.status(200).json({
         status: 'success',
-        results: doc.length,
+        results: totalCount,
         totalPages,
         data: {
-            data: doc
+            data: results
         }
     });
-    
 });
 
 exports.getOne = (Model, popOptions = []) => catchAsync(async (req, res, next) => {

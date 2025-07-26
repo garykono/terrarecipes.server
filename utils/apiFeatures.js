@@ -1,3 +1,5 @@
+const { buildSortFilter } = require("./searchUtils");
+
 class APIFeatures {
     /**
      * 
@@ -8,16 +10,17 @@ class APIFeatures {
     constructor(query, queryString) {
         this.query = query;
         this.queryString = queryString;
+        this.baseFilter = {};
         this.totalPages = 1;
     }
 
     /**
      * 
-     * @returns A query that is filtered by all given query fields except the features we offer in this class (ex. sort)
+     * @returns A query that is filtered by all given query fields except the features handled manually in this class (ex. sort)
      */
-    filter () {
+    addQueryFilters () {
         const queryObj = {...this.queryString};
-        const excludedFields = ['page', 'sort', 'limit', 'fields', 'search'];
+        const excludedFields = ['page', 'sort', 'limit', 'fields', 'search', 'searchFields'];
         excludedFields.forEach(el => delete queryObj[el]);
 
         let queryStr = JSON.stringify(queryObj);
@@ -25,8 +28,32 @@ class APIFeatures {
         // Can just write my own logic to do that.
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
         
-        this.query = this.query.find(JSON.parse(queryStr));
+        this.baseFilter = { ...this.baseFilter, ...JSON.parse(queryStr) };
+        console.log('after addQueryFilters: ', this.baseFilter)
 
+        return this;
+    }
+
+    /**
+     * Add filters that are more directly applied to the query like "$or".
+     * @param {*} customFilter 
+     * @returns 
+     */
+    addCustomFilters(customFilter) {
+        if (customFilter && typeof customFilter === 'object') {
+            // Merge custom filter like $or with existing baseFilter
+            this.baseFilter = { ...this.baseFilter, ...customFilter };
+        }
+        console.log('after addCustomFilters: ', this.baseFilter)
+        return this;
+    }
+
+    /**
+     * Actually submit the query with all accumulated filters
+     * @returns 
+     */
+    applyFilters() {
+        this.query = this.query.find(this.baseFilter);
         return this;
     }
 
@@ -34,9 +61,9 @@ class APIFeatures {
      * 
      * @returns Query with values sorted in ascending order if sort=(insert field here) or descending if sort=-(insert field here)
      */
-    sort() {
-        if(this.queryString.sort) {
-            const sortBy = this.queryString.sort.split(',').join(' ');
+    sort(sort) {
+        if(sort) {
+            const sortBy = buildSortFilter(sort);
             this.query = this.query.sort(sortBy);
         } else {
             // this.query = this.query.sort('-createdAt')
