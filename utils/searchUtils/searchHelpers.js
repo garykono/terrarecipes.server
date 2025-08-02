@@ -1,4 +1,10 @@
-exports.buildSearchFilter = (search, fields) => {
+/**
+ * This is currently for ingredients, but may need to be generalized later
+ * @param {*} search 
+ * @param {*} fields 
+ * @returns 
+ */
+exports.buildRecipeSearchFilter = (search, fields) => {
     if (!search) return [];
 
     const filter = [];

@@ -1,4 +1,4 @@
-const { buildSortFilter } = require("./searchUtils");
+const { buildSortFilter } = require("./searchUtils/searchHelpers");
 
 class APIFeatures {
     /**
@@ -29,7 +29,6 @@ class APIFeatures {
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
         
         this.baseFilter = { ...this.baseFilter, ...JSON.parse(queryStr) };
-        console.log('after addQueryFilters: ', this.baseFilter)
 
         return this;
     }
@@ -44,7 +43,6 @@ class APIFeatures {
             // Merge custom filter like $or with existing baseFilter
             this.baseFilter = { ...this.baseFilter, ...customFilter };
         }
-        console.log('after addCustomFilters: ', this.baseFilter)
         return this;
     }
 

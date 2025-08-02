@@ -1,72 +1,19 @@
 const catchAsync = require('../utils/catchAsync');
 const { AppError, ERROR_NAME } = require('../utils/appError');
-const APIFeatures = require('../utils/apiFeatures')
-const { buildPipelineFromQuery } = require('../utils/buildPipelineFromQuery');
-const { buildSortFilter } = require('../utils/searchUtils');
+const { searchDocuments } = require('../utils/searchUtils/searchExecution');
 
 exports.getAll = (Model) => catchAsync(async (req, res, next) => {
-    const {
-      customFilter = {},          // e.g., { $or: [...] }
-      addFields,
-      useAggregate = false,
-      sortBy = 'name',      // default sort
-      fields,        // string like 'name quantity' (equivalent to .select())
-    } = req.options;
-
-    let results;
-    let totalCount;
-    let totalPages;
-
-    // Querying with Model.aggregate() for anything more than simple queries and when we need pagination
-    if (useAggregate) {
-        const pipeline = [];
-
-        if (customFilter) {
-            pipeline.push({ $match: customFilter });
-        }
-
-        if (addFields) {
-            pipeline.push({ $addFields: addFields });
-        }
-
-        if (sortBy) {
-            pipeline.push({ $sort: buildSortFilter(sortBy) });
-        }
-        
-        // Handles pagination 
-        pipeline.push(...buildPipelineFromQuery(req.query));
-
-        // Need to implement eventually: select which fields to return
-        
-        const [aggregated] = await Model.aggregate(pipeline);
-
-        results = aggregated.results;
-        totalCount = aggregated.totalCount;
-        totalPages = aggregated.totalPages;
-    } else {
-        // Use Model.find() for basic queries
-        const features = new APIFeatures(Model.find(), req.query)
-            .addQueryFilters()
-            .addCustomFilters(customFilter)
-            .applyFilters()
-            .sort(sortBy)
-            .limitFields()
-            .paginate()
-
-        // This is when the query is actually sent to the database
-        const doc = await features.query;
-        results = doc;
-        totalCount = doc.length;
-        totalPages = 1;
-    }
+    const { results, totalCount, totalPages } = await searchDocuments(
+        Model,
+        req.options,
+        req.query
+    );
 
     res.status(200).json({
         status: 'success',
         results: totalCount,
         totalPages,
-        data: {
-            data: results
-        }
+        data: { data: results }
     });
 });
 

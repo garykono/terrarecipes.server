@@ -16,6 +16,7 @@ const staticRouter = require('./routes/staticRoutes');
 const recipeRouter = require('./routes/recipeRoutes');
 const userRouter = require('./routes/userRoutes');
 const collectionRouter = require('./routes/collectionRoutes')
+const categoryRouter = require('./routes/categoryRoutes');
 
 
 // Global Middlewares
@@ -84,6 +85,7 @@ app.use('/static', staticRouter);
 app.use('/recipes', recipeRouter);
 app.use('/users', userRouter);
 app.use('/collections', collectionRouter);
+app.use('/category', categoryRouter)
 
 app.all('*', (req, res, next) => {
     next(new AppError(404, ERROR_NAME.URL_NOT_FOUND, `Can't find ${req.originalUrl} on this server!`));

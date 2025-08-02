@@ -1,0 +1,425 @@
+{
+    "core": [
+        {
+            "title": "Breakfast",
+            "slug": "breakfast",
+            "icon": "🥞",
+            "searchTags": ["breakfast"],
+            "description": "Start your day right with quick, hearty, and energizing breakfast recipes.",
+            "subCategories": {
+                "quickBreakfast": {
+                    "title": "Quick Breakfasts",
+                    "description": "Ready in under 15 minutes",
+                    "searchCriteria": {
+                        "tags": ["quick"]
+                    }
+                },
+                "healthyBreakfasts": {
+                    "title": "Healthy Breakfasts",
+                    "description": "Light and nutritious",
+                    "searchCriteria": {
+                        "tags": ["healthy"]
+                    }
+                },
+                "sweetBreakfasts": {
+                    "title": "Sweet Breakfasts",
+                    "description": "Pancakes, waffles, muffins",
+                    "searchCriteria": {
+                        "tags": ["sweet"]
+                    }
+                },
+                "savoryBreakfasts": {
+                    "title": "Savory Breakfasts",
+                    "description": "Egg dishes, breakfast burritos",
+                    "searchCriteria": {
+                        "tags": ["savory"]
+                    }
+                },
+                "makeAheadBreakfasts": {
+                    "title": "Make-Ahead Breakfasts",
+                    "description": "Overnight oats, casseroles",
+                    "searchCriteria": {
+                        "tags": ["make ahead"]
+                    }
+                }
+            },
+            "relatedCategories": ["brunch", "coffee & tea", "smoothies"]
+        },
+        {
+            "title": "Lunch",
+            "slug": "lunch",
+            "icon": "🥪",
+            "searchTags": ["lunch"],
+            "description": "Midday meals that are satisfying, flavorful, and perfect for work or home.",
+            "subCategories": {
+                "lightLunches": {
+                    "title": "Light Lunches",
+                    "description": "Wraps, grain bowls, salads",
+                    "searchCriteria": {
+                        "tags": ["light"]
+                    }
+                },
+                "mealPrepLunches": {
+                    "title": "Meal Prep Lunches",
+                    "description": "Packable for work or school",
+                    "searchCriteria": {
+                        "tags": ["meal prep"]
+                    }
+                },
+                "quickLunches": {
+                    "title": "Quick Lunches",
+                    "description": "20 minutes or less",
+                    "searchCriteria": {
+                        "tags": ["quick"]
+                    }
+                },
+                "comfortLunches": {
+                    "title": "Comfort Lunches",
+                    "description": "Melts, pastas, hearty soups",
+                    "searchCriteria": {
+                        "tags": ["comfort"]
+                    }
+                },
+                "vegetarianLunches": {
+                    "title": "Vegetarian Lunches",
+                    "description": "Meat-free and filling",
+                    "searchCriteria": {
+                        "tags": ["vegetarian"]
+                    }
+                }
+            },
+            "relatedCategories": ["sandwiches", "soups", "wraps"]
+        },
+        {
+            "title": "Dinner",
+            "slug": "dinner",
+            "icon": "🍲",
+            "searchTags": ["dinner"],
+            "description": "Delicious dinners to bring the day to a close—comforting, fresh, and flavorful.",
+            "subCategories": {
+                "familyDinners": {
+                    "title": "Family Dinners",
+                    "description": "Kid-friendly and crowd-pleasing",
+                    "searchCriteria": {
+                        "tags": ["family"]
+                    }
+                },
+                "quickWeeknightDinners": {
+                    "title": "Quick Weeknight Dinners",
+                    "description": "30 minutes or less",
+                    "searchCriteria": {
+                        "tags": ["quick", "weeknight"]
+                    }
+                },
+                "healthyDinners": {
+                    "title": "Healthy Dinners",
+                    "description": "Balanced and nutritious",
+                    "searchCriteria": {
+                        "tags": ["healthy"]
+                    }
+                },
+                "comfortDinners": {
+                    "title": "Comfort Dinners",
+                    "description": "Stews, casseroles, pasta",
+                    "searchCriteria": {
+                        "tags": ["comfort"]
+                    }
+                },
+                "specialOccasionDinners": {
+                    "title": "Special Occasion Dinners",
+                    "description": "Date night, celebrations",
+                    "searchCriteria": {
+                        "tags": ["special occasion"]
+                    }
+                }
+            },
+            "relatedCategories": ["sides", "desserts", "drinks"]
+        },
+        {
+            "title": "Snacks",
+            "slug": "snacks",
+            "icon": "🍿",
+            "searchTags": ["snack"],
+            "description": "Quick bites and tasty treats for when you need something in between meals.",
+            "subCategories": {
+                "healthySnacks": {
+                    "title": "Healthy Snacks",
+                    "description": "Energy bites, fruit dips, roasted nuts",
+                    "searchCriteria": {
+                        "tags": ["healthy"]
+                    }
+                },
+                "sweetSnacks": {
+                    "title": "Sweet Snacks",
+                    "description": "Cookies, bars, no-bake treats",
+                    "searchCriteria": {
+                        "tags": ["sweet"]
+                    }
+                },
+                "savorySnacks": {
+                    "title": "Savory Snacks",
+                    "description": "Dips, popcorn, spiced crackers",
+                    "searchCriteria": {
+                        "tags": ["savory"]
+                    }
+                },
+                "highProteinSnacks": {
+                    "title": "High-Protein Snacks",
+                    "description": "Yogurt bowls, protein bars",
+                    "searchCriteria": {
+                        "tags": ["protein"]
+                    }
+                },
+                "partySnacks": {
+                    "title": "Party Snacks",
+                    "description": "Appetizer-style small bites",
+                    "searchCriteria": {
+                        "tags": ["party"]
+                    }
+                }
+            },
+            "relatedCategories": ["appetizers", "finger foods", "party platters"]
+        },
+        {
+            "title": "Appetizers",
+            "slug": "appetizers",
+            "icon": "🥟",
+            "searchTags": ["appetizer"],
+            "description": "Small dishes and finger foods perfect for entertaining or starting a meal.",
+            "subCategories": {
+                "hotAppetizers": {
+                    "title": "Hot Appetizers",
+                    "description": "Sliders, cheesy dips, skewers",
+                    "searchCriteria": {
+                        "tags": ["hot"]
+                    }
+                },
+                "coldAppetizers": {
+                    "title": "Cold Appetizers",
+                    "description": "Charcuterie, bruschetta, deviled eggs",
+                    "searchCriteria": {
+                        "tags": ["cold"]
+                    }
+                },
+                "vegetarianAppetizers": {
+                    "title": "Vegetarian Appetizers",
+                    "description": "Veggie-forward bites",
+                    "searchCriteria": {
+                        "tags": ["vegetarian"]
+                    }
+                },
+                "seafoodAppetizers": {
+                    "title": "Seafood Appetizers",
+                    "description": "Shrimp cocktail, smoked salmon",
+                    "searchCriteria": {
+                        "tags": ["seafood"]
+                    }
+                },
+                    "partyPlatters": {
+                    "title": "Party Platters",
+                    "description": "Boards and grazing tables",
+                    "searchCriteria": {
+                        "tags": ["party"]
+                    }
+                }
+            },
+            "relatedCategories": ["dips", "party snacks", "cocktail pairings"]
+        },
+        {
+            "title": "Sides",
+            "slug": "sides",
+            "icon": "🍟",
+            "searchTags": ["side"],
+            "description": "Perfect pairings to complement any main dish, from vegetables to grains.",
+            "subCategories": {
+                "vegetableSides": {
+                    "title": "Vegetable Sides",
+                    "description": "Roasted, grilled, and sautéed vegetables",
+                    "searchCriteria": {
+                        "tags": ["vegetable"]
+                    }
+                },
+                "potatoSides": {
+                    "title": "Potato Sides",
+                    "description": "Fries, mashed, gratin, and more",
+                    "searchCriteria": {
+                        "tags": ["potato"]
+                    }
+                },
+                "grainSides": {
+                    "title": "Grain Sides",
+                    "description": "Rice, quinoa, couscous dishes",
+                    "searchCriteria": {
+                        "tags": ["grain"]
+                    }
+                },
+                "saladSides": {
+                    "title": "Salad Sides",
+                    "description": "Fresh side salads for any meal",
+                    "searchCriteria": {
+                        "tags": ["salad"]
+                    }
+                },
+                "holidaySides": {
+                    "title": "Holiday Sides",
+                    "description": "Festive, crowd-pleasing accompaniments",
+                    "searchCriteria": {
+                        "tags": ["holiday"]
+                    }
+                }
+            },
+            "relatedCategories": ["vegetable dishes", "bread recipes", "rice & grains"]
+        },
+        {
+            "title": "Desserts",
+            "slug": "desserts",
+            "icon": "🍰",
+            "searchTags": ["dessert"],
+            "description": "Sweet treats and indulgent recipes to finish your meal on a high note.",
+            "subCategories": {
+                "chocolateDesserts": {
+                    "title": "Chocolate Desserts",
+                    "description": "Brownies, cakes, mousse",
+                    "searchCriteria": {
+                        "tags": ["chocolate"]
+                    }
+                },
+                "fruitDesserts": {
+                    "title": "Fruit Desserts",
+                    "description": "Pies, crisps, tarts",
+                    "searchCriteria": {
+                        "tags": ["fruit"]
+                    }
+                },
+                "noBakeDesserts": {
+                    "title": "No-Bake Desserts",
+                    "description": "Cheesecake bars, mousse cups",
+                    "searchCriteria": {
+                        "tags": ["no bake"]
+                    }
+                },
+                "frozenDesserts": {
+                    "title": "Frozen Desserts",
+                    "description": "Ice cream, popsicles",
+                    "searchCriteria": {
+                        "tags": ["frozen"]
+                    }
+                },
+                "quickDesserts": {
+                    "title": "Quick Desserts",
+                    "description": "Mug cakes, skillet cookies",
+                    "searchCriteria": {
+                        "tags": ["quick"]
+                    }
+                }
+            },
+            "relatedCategories": ["cakes & pies", "cookies & bars", "frozen treats"]
+        },
+        {
+            "title": "Soups",
+            "slug": "soups",
+            "icon": "🍜",
+            "searchTags": ["soup"],
+            "description": "Warm and comforting soups for every season, from light broths to hearty stews.",
+            "subCategories": {
+                "heartySoups": {
+                    "title": "Hearty Soups",
+                    "description": "Stews, chowders, chili",
+                    "searchCriteria": {
+                        "tags": ["hearty"]
+                    }
+                },
+                "lightSoups": {
+                    "title": "Light Soups",
+                    "description": "Broths, miso, vegetable soups",
+                    "searchCriteria": {
+                        "tags": ["light"]
+                    }
+                },
+                "creamySoups": {
+                    "title": "Creamy Soups",
+                    "description": "Bisques, cream-based soups",
+                    "searchCriteria": {
+                        "tags": ["creamy"]
+                    }
+                },
+                "vegetarianSoups": {
+                    "title": "Vegetarian Soups",
+                    "description": "Lentil, minestrone, and other meat-free soups",
+                    "searchCriteria": {
+                        "tags": ["vegetarian"]
+                    }
+                },
+                "coldSoups": {
+                    "title": "Cold Soups",
+                    "description": "Gazpacho, chilled cucumber soup",
+                    "searchCriteria": {
+                        "tags": ["cold"]
+                    }
+                }
+            },
+            "relatedCategories": ["stews", "chili", "bread sides"]
+        },
+        {
+            "title": "Salads",
+            "slug": "salads",
+            "icon": "🥗",
+            "searchTags": ["salad"],
+            "description": "Fresh, crisp, and vibrant salads for sides, light meals, or hearty mains.",
+            "subCategories": {
+                "greenSalads": {
+                    "title": "Green Salads",
+                    "description": "Leafy greens with light dressings",
+                    "searchCriteria": {
+                        "tags": ["green"]
+                    }
+                },
+                "grainSalads": {
+                    "title": "Grain Salads",
+                    "description": "Quinoa, farro, bulgur",
+                    "searchCriteria": {
+                        "tags": ["grain"]
+                    }
+                },
+                "proteinSalads": {
+                    "title": "Protein Salads",
+                    "description": "Chicken, tuna, egg salads",
+                    "searchCriteria": {
+                        "tags": ["protein"]
+                    }
+                },
+                "fruitSalads": {
+                    "title": "Fruit Salads",
+                    "description": "Summer and tropical mixes",
+                    "searchCriteria": {
+                        "tags": ["fruit"]
+                    }
+                },
+                "mealSalads": {
+                    "title": "Meal Salads",
+                    "description": "Hearty salads that stand alone as a meal",
+                    "searchCriteria": {
+                        "tags": ["meal"]
+                    }
+                }
+            },
+            "relatedCategories": ["grain bowls", "soups", "healthy meals"]
+        }
+    ],
+    "featured": [
+        {
+            "title": "Trying to eat healthy?",
+            "slug": "healthy",
+            "icon": "🥗",
+            "searchTags": ["healthy"],
+            "description": "Wholesome recipes packed with nutritious ingredients for balanced eating."
+        },
+        {
+            "title": "Lots of Protein",
+            "slug": "protein",
+            "icon": "🥗",
+            "searchTags": ["protein"],
+            "description": "Protein-rich meals to keep you fueled, strong, and satisfied."
+        }
+    ]
+}

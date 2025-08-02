@@ -49,3 +49,16 @@ exports.indexStandardizedList = standardList => {
     })
     return indexedList;
 }
+
+exports.indexCategories = categories => {
+    const indexedList = {};
+    Object.keys(categories).forEach(categoryGroupName => {
+        indexedList[categoryGroupName] = {};
+        categories[categoryGroupName].forEach(category => {
+            indexedList[categoryGroupName][category.slug] = {
+                ...category
+            }
+        })
+    })
+    return indexedList;
+}
