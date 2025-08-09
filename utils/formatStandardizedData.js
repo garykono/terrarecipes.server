@@ -6,7 +6,7 @@ exports.formatIngredients = (ingredients) => {
             // const { name, ...ingredientWithoutName } = ingredient; i'll leave the name in because it's easier to flatten for fuse
             formattedIngredients[ingredient.name] = {
                 ...ingredient,
-                category
+                mainCategory: category
             }
         })
     });

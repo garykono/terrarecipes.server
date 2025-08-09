@@ -1,5 +1,5 @@
 {
-    "Vegetables": [
+    "🥕 Vegetables": [
         {
             "name": "asparagus",
             "standardUnit": null,
@@ -1035,7 +1035,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Fruits": [
+    "🍎 Fruits": [
         {
             "name": "apple",
             "standardUnit": null,
@@ -1625,7 +1625,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Grains & Legumes": [
+    "🌾 Grains & Legumes": [
         {
             "name": "barley",
             "standardUnit": "cup",
@@ -2068,7 +2068,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Dairy & Eggs": [
+    "🥛 Dairy & Eggs": [
         {
             "name": "butter",
             "standardUnit": "tablespoon",
@@ -2405,7 +2405,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Meat & Seafood": [
+    "🍖 Meat & Seafood": [
         {
             "name": "bacon",
             "standardUnit": "slice",
@@ -2910,7 +2910,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Seasonings & Spices": [
+    "🧂 Seasonings & Spices": [
         {
             "name": "basil",
             "standardUnit": "leaf",
@@ -3635,7 +3635,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Baking Ingredients": [
+    "🍞 Baking Ingredients": [
         {
             "name": "baking powder",
             "standardUnit": "teaspoon",
@@ -3889,7 +3889,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Oils & Vinegars": [
+    "🫒 Oils & Vinegars": [
         {
             "name": "apple cider vinegar",
             "standardUnit": "tablespoon",
@@ -4479,7 +4479,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Wines": [
+    "🍷 Wines": [
         {
             "name": "mirin",
             "standardUnit": "tablespoon",
@@ -4585,7 +4585,7 @@
             "treatOuncesAsVolume": false
         }
     ],
-    "Miscellaneous": [
+    "❓ Uncategorized": [
         {
             "name": "water",
             "standardUnit": "cup",
