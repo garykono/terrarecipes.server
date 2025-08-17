@@ -1,6 +1,6 @@
 {
-    "core": [
-        {
+    "core": {
+        "breakfast": {
             "title": "Breakfast",
             "slug": "breakfast",
             "icon": "🥞",
@@ -45,7 +45,7 @@
             },
             "relatedCategories": ["brunch", "coffee & tea", "smoothies"]
         },
-        {
+        "lunch": {
             "title": "Lunch",
             "slug": "lunch",
             "icon": "🥪",
@@ -90,7 +90,7 @@
             },
             "relatedCategories": ["sandwiches", "soups", "wraps"]
         },
-        {
+        "dinner": {
             "title": "Dinner",
             "slug": "dinner",
             "icon": "🍲",
@@ -135,7 +135,7 @@
             },
             "relatedCategories": ["sides", "desserts", "drinks"]
         },
-        {
+        "snacks": {
             "title": "Snacks",
             "slug": "snacks",
             "icon": "🍿",
@@ -180,7 +180,7 @@
             },
             "relatedCategories": ["appetizers", "finger foods", "party platters"]
         },
-        {
+        "appetizers": {
             "title": "Appetizers",
             "slug": "appetizers",
             "icon": "🥟",
@@ -225,7 +225,7 @@
             },
             "relatedCategories": ["dips", "party snacks", "cocktail pairings"]
         },
-        {
+        "sides": {
             "title": "Sides",
             "slug": "sides",
             "icon": "🍟",
@@ -270,7 +270,7 @@
             },
             "relatedCategories": ["vegetable dishes", "bread recipes", "rice & grains"]
         },
-        {
+        "desserts": {
             "title": "Desserts",
             "slug": "desserts",
             "icon": "🍰",
@@ -315,7 +315,7 @@
             },
             "relatedCategories": ["cakes & pies", "cookies & bars", "frozen treats"]
         },
-        {
+        "soups": {
             "title": "Soups",
             "slug": "soups",
             "icon": "🍜",
@@ -360,7 +360,7 @@
             },
             "relatedCategories": ["stews", "chili", "bread sides"]
         },
-        {
+        "salads": {
             "title": "Salads",
             "slug": "salads",
             "icon": "🥗",
@@ -405,21 +405,134 @@
             },
             "relatedCategories": ["grain bowls", "soups", "healthy meals"]
         }
-    ],
-    "featured": [
-        {
-            "title": "Trying to eat healthy?",
-            "slug": "healthy",
-            "icon": "🥗",
-            "searchTags": ["healthy"],
-            "description": "Wholesome recipes packed with nutritious ingredients for balanced eating."
+    },
+    "featured": {
+        "seasonal": {
+            "autumn": {
+                "autumn harvest": {
+                    "title": "Autumn Harvest",
+                    "icon": "🍂",
+                    "description": "Celebrate the flavors of fall with hearty dishes featuring squash, pumpkin, and other seasonal vegetables.",
+                    "slug": "autumn-harvest",
+                    "searchTags": ["squash", "pumpkin", "root vegetables"]
+                },
+                "apple and pear recipes": {
+                    "title": "Apple & Pear Recipes",
+                    "icon": "🍎",
+                    "description": "Sweet and savory recipes highlighting the best autumn fruits like apples and pears.",
+                    "slug": "apple-pear-recipes",
+                    "searchTags": ["apple", "pear", "dessert", "baking"]
+                },
+                "pumpkin everything": {
+                    "title": "Pumpkin Everything",
+                    "icon": "🥧",
+                    "description": "From lattes to pies, enjoy all your favorite pumpkin treats this fall.",
+                    "slug": "pumpkin-everything",
+                    "searchTags": ["pumpkin", "desserts", "fall drinks"]
+                },
+                "comforting fall meals": {
+                    "title": "Comforting Fall Meals",
+                    "icon": "🍁",
+                    "description": "Hearty soups, stews, and casseroles to warm you up on crisp autumn evenings.",
+                    "slug": "comforting-fall-meals",
+                    "searchTags": ["hearty meals", "soup", "stew", "casserole"]
+                },
+                "root veggie delights": {
+                    "title": "Root Veggie Delights",
+                    "icon": "🥔",
+                    "description": "Creative recipes featuring carrots, beets, sweet potatoes, and other root vegetables.",
+                    "slug": "root-veggie-delights",
+                    "searchTags": ["carrots", "beets", "sweet potatoes", "root vegetables"]
+                },
+                "nutty treats": {
+                    "title": "Nutty Treats",
+                    "icon": "🌰",
+                    "description": "Delicious recipes using walnuts, pecans, chestnuts, and other autumn nuts.",
+                    "slug": "nutty-treats",
+                    "searchTags": ["walnuts", "pecans", "chestnuts", "desserts"]
+                },
+                "cozy chocolate and spice": {
+                    "title": "Cozy Chocolate & Spice",
+                    "icon": "🍫",
+                    "description": "Warm up with chocolatey and spiced recipes perfect for crisp fall days.",
+                    "slug": "cozy-chocolate-spice",
+                    "searchTags": ["chocolate", "spice", "desserts", "warm drinks"]
+                }
+            }
         },
-        {
-            "title": "Lots of Protein",
-            "slug": "protein",
-            "icon": "🥗",
-            "searchTags": ["protein"],
-            "description": "Protein-rich meals to keep you fueled, strong, and satisfied."
+        "holidayAndEvent": {
+            "halloween treats": {
+                "title": "Halloween Treats",
+                "icon": "🎃",
+                "description": "Fun, spooky, and kid-friendly recipes perfect for Halloween celebrations.",
+                "slug": "halloween-treats",
+                "searchTags": ["halloween", "treats", "party"]
+            },
+            "thanksgiving classics": {
+                "title": "Thanksgiving Classics",
+                "icon": "🦃",
+                "description": "Traditional mains, sides, and pies to make your Thanksgiving feast memorable.",
+                "slug": "thanksgiving-classics",
+                "searchTags": ["thanksgiving", "holiday", "feast"]
+            },
+            "autumn entertaining": {
+                "title": "Autumn Entertaining",
+                "icon": "🍷",
+                "description": "Delicious appetizers and drinks perfect for fall parties and gatherings.",
+                "slug": "autumn-entertaining",
+                "searchTags": ["party", "appetizers", "drinks"]
+            },
+            "fall dinner parties": {
+                "title": "Fall Dinner Parties",
+                "icon": "🥂",
+                "description": "Elevated dishes and recipes for hosting cozy autumn dinner parties.",
+                "slug": "fall-dinner-parties",
+                "searchTags": ["dinner party", "entertaining", "autumn recipes"]
+            }
+        },
+        "discovery": {
+            "one pot wonders": {
+                "title": "One Pot Wonders",
+                "icon": "🥘",
+                "description": "Easy, minimal-cleanup recipes perfect for busy nights or simple cooking.",
+                "slug": "one-pot-wonders",
+                "searchTags": ["one pot", "easy", "minimal cleanup"]
+            },
+            "quick weeknight dinners": {
+                "title": "Quick Weeknight Dinners",
+                "icon": "⏱",
+                "description": "Delicious recipes ready in 30 minutes or less for hectic weekdays.",
+                "slug": "quick-weeknight-dinners",
+                "searchTags": ["quick", "weeknight", "30 minutes"]
+            },
+            "healthy and seasonal": {
+                "title": "Healthy & Seasonal",
+                "icon": "🥗",
+                "description": "Nutritious recipes focused on fresh, seasonal ingredients for fall.",
+                "slug": "healthy-and-seasonal",
+                "searchTags": ["healthy", "seasonal", "autumn vegetables"]
+            },
+            "global fall flavors": {
+                "title": "Global Fall Flavors",
+                "icon": "🌍",
+                "description": "Explore autumn-inspired recipes from around the world.",
+                "slug": "global-fall-flavors",
+                "searchTags": ["global", "international", "fall flavors"]
+            },
+            "cozy sandwiches and wraps": {
+                "title": "Cozy Sandwiches & Wraps",
+                "icon": "🥪",
+                "description": "Warm, hearty, and comforting sandwiches perfect for chilly days.",
+                "slug": "cozy-sandwiches-wraps",
+                "searchTags": ["sandwich", "wraps", "comfort food"]
+            },
+            "baking adventure": {
+                "title": "Baking Adventure",
+                "icon": "🍞",
+                "description": "Fall-inspired breads, muffins, and crisps for bakers of all skill levels.",
+                "slug": "baking-adventure",
+                "searchTags": ["baking", "bread", "muffins", "crisps"]
+            }
         }
-    ]
+    }
 }

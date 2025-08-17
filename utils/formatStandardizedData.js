@@ -50,15 +50,71 @@ exports.indexStandardizedList = standardList => {
     return indexedList;
 }
 
-exports.indexCategories = categories => {
+exports.indexCategories = (categories) => {
     const indexedList = {};
+    // Core and Featured
     Object.keys(categories).forEach(categoryGroupName => {
-        indexedList[categoryGroupName] = {};
-        categories[categoryGroupName].forEach(category => {
-            indexedList[categoryGroupName][category.slug] = {
-                ...category
-            }
-        })
+        if (categoryGroupName === 'core') {
+            indexedList[categoryGroupName] = {
+                ...categories[categoryGroupName]
+            };
+        } else if (categoryGroupName === 'featured') {
+            indexedList[categoryGroupName] = {};
+            // Seasonal
+            const seasons = categories[categoryGroupName].seasonal;
+            Object.keys(seasons).forEach(seasonName => {
+                const categoriesForCurrentSeason = seasons[seasonName];
+                Object.keys(categoriesForCurrentSeason).forEach(category => {
+                    indexedList[categoryGroupName][category] = categoriesForCurrentSeason[category];
+                })
+            })
+            // Holiday and Event
+            const holidayAndEventCategories = categories[categoryGroupName].holidayAndEvent;
+            Object.keys(holidayAndEventCategories).forEach(category => {
+                indexedList[categoryGroupName][category] = holidayAndEventCategories[category];
+            })
+            // Discovery
+            const discoveryCategories = categories[categoryGroupName].discovery;
+            Object.keys(discoveryCategories).forEach(category => {
+                indexedList[categoryGroupName][category] = discoveryCategories[category];
+            })
+        }
     })
     return indexedList;
+}
+
+exports.prepareCategoryData = (indexedCategories) => {
+    const categoryData = {};
+    // Core
+    Object.keys(indexedCategories).forEach(categoryGroupName => {
+        categoryData[categoryGroupName] = [];
+        if (categoryGroupName === 'core') {
+            const coreIndexedCategories = indexedCategories[categoryGroupName];
+            Object.keys(coreIndexedCategories).forEach(coreCategoryName => {
+                categoryData[categoryGroupName].push({
+                    ...coreIndexedCategories[coreCategoryName],
+                    key: coreCategoryName
+                })
+            })
+        } else if (categoryGroupName === 'featured') {
+            const featuredRecipeKeys = [
+                "autumn harvest", 
+                "pumpkin everything", 
+                "apple and pear recipes",
+                "thanksgiving classics", 
+                "halloween treats",
+                "one pot wonders",
+                "healthy and seasonal",
+                "global fall flavors"
+            ];
+            const featuredIndexedCategories = indexedCategories[categoryGroupName];
+            featuredRecipeKeys.forEach(featuredRecipeKey => {
+                categoryData[categoryGroupName].push({
+                    ...featuredIndexedCategories[featuredRecipeKey],
+                    key: featuredRecipeKey
+                })
+            })
+        }
+    })
+    return categoryData;
 }

@@ -2,7 +2,7 @@ const fs = require('fs/promises')
 const path = require('path')
 const catchAsync = require('../utils/catchAsync')
 const { AppError, ERROR_NAME } = require('../utils/appError')
-const { formatIngredients, formatMeasurementUnits, indexStandardizedList, indexCategories } = require('../utils/formatStandardizedData')
+const { formatIngredients, formatMeasurementUnits, indexStandardizedList, indexCategories, prepareCategoryData } = require('../utils/formatStandardizedData')
 
 let cachedIngredients = null;
 let cachedMeasurementUnits = null;
@@ -15,6 +15,8 @@ let cachedIngredientPreparations = null;
 let cachedCategories = null;
 // Indexed for fast look ups by slug on server side (ex. category controller)
 let cachedIndexedCategories = null;
+// Formatted category data to easily be used client side (ex. For a browse page)
+let cachedCategoryData = null
 
 const ingredientsPath = path.join(__dirname, '..', 'data', 'ingredients.json');
 const measurementUnitsPath = path.join(__dirname, '..', 'data', 'measurementUnits.json');
@@ -50,7 +52,7 @@ exports.getFiles = catchAsync(async (req, res, next) => {
         cachedIngredientPreparations = ingredientFormsAndPreparationsJson.preparations;
 
         // Pre-mapped categories
-        loadCategoryData();
+        await loadCategoryData();
     } 
 
     res.status(200).json({
@@ -63,19 +65,20 @@ exports.getFiles = catchAsync(async (req, res, next) => {
             stardardIngredientsGroupedByCategory: cachedIngredients,
             ingredientForms: cachedIngredientForms,
             ingredientPreparations: cachedIngredientPreparations,
-            categories: cachedCategories
+            categories: cachedCategoryData
         }
     });  
 });
 
+async function loadCategoryData() {
+    cachedCategories = JSON.parse(await fs.readFile(categoriesPath, 'utf-8'));
+    cachedIndexedCategories = indexCategories(cachedCategories);
+    cachedCategoryData = prepareCategoryData(cachedIndexedCategories);
+}
+
 exports.getIndexedCategories = async () => {
-    if (!cachedCategories || !cachedIndexedCategories) {
+    if (!cachedIndexedCategories) {
         await loadCategoryData();
     }
     return cachedIndexedCategories;
 };
-
-async function loadCategoryData() {
-    cachedCategories = JSON.parse(await fs.readFile(categoriesPath, 'utf-8'));
-    cachedIndexedCategories = indexCategories(cachedCategories);
-}
