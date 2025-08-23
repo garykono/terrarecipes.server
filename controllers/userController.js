@@ -56,7 +56,7 @@ exports.getUser = factory.getOne(User, [
     },
     {
         path: 'collections', 
-        select: '-__v -recipes'
+        select: '-__v'
     }
 ]);
 exports.updateUser = factory.updateOne(User);
