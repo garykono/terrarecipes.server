@@ -1,212 +1,247 @@
 [
-  {
-    "name": "bag",
-    "plural": ["bags"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "box",
-    "plural": ["boxes"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "bunch",
-    "plural": ["bunches"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "can",
-    "plural": ["cans"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "cup",
-    "plural": ["cups"],
-    "symbol": ["c"],
-    "aliases": ["c."]
-  },
-  {
-    "name": "clove",
-    "plural": ["cloves"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "dash",
-    "plural": ["dashes"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "gallon",
-    "plural": ["gallons"],
-    "symbol": ["gal"],
-    "aliases": []
-  },
-  {
-    "name": "fluid ounce",
-    "plural": ["fluid ounces"],
-    "symbol": ["fl oz"],
-    "aliases": []
-  },
-  {
-    "name": "handful",
-    "plural": ["handfuls"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "head",
-    "plural": ["heads"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "ounce",
-    "plural": ["ounces"],
-    "symbol": ["oz"],
-    "aliases": ["oz."]
-  },
-  {
-    "name": "packet",
-    "plural": ["packets"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "pinch",
-    "plural": ["pinches"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "pint",
-    "plural": ["pints"],
-    "symbol": ["pt"],
-    "aliases": ["pts", "pt."]
-  },
-  {
-    "name": "pound",
-    "plural": ["pounds"],
-    "symbol": ["lb"],
-    "aliases": ["lb.", "lbs", "lbs."]
-  },
-  {
-    "name": "quart",
-    "plural": ["quarts"],
-    "symbol": ["qt"],
-    "aliases": ["qt.", "qts", "qts."]
-  },
-  {
-    "name": "spear",
-    "plural": ["spears"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "splash",
-    "plural": ["splashes"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "tablespoon",
-    "plural": ["tablespoons"],
-    "symbol": ["tbs"],
-    "aliases": ["tbsp", "tbspn", "t", "t.", "tablespoons", "tablespoon", "t.", "T", "T.", "tbsp."]
-  },
-  {
-    "name": "teaspoon",
-    "plural": ["teaspoons"],
-    "symbol": ["tsp"],
-    "aliases": ["teaspoon", "tspn", "t", "t.", "tsp."]
-  },
-  {
-    "name": "gram",
-    "plural": ["grams"],
-    "symbol": ["g"],
-    "aliases": ["g."]
-  },
-  {
-    "name": "head",
-    "plural": ["heads"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "kilogram",
-    "plural": ["kilograms"],
-    "symbol": ["kg"],
-    "aliases": ["kg."]
-  },
-  {
-    "name": "liter",
-    "plural": ["liters"],
-    "symbol": ["lt"],
-    "aliases": ["l", "l.", "lt", "lt.", "mL", "ml", "ml."]
-  },
-  {
-    "name": "milligram",
-    "plural": ["milligrams"],
-    "symbol": ["mg"],
-    "aliases": ["mg."]
-  },
-  {
-    "name": "milliliter",
-    "plural": ["milliliters"],
-    "symbol": ["ml"],
-    "aliases": ["ml.", "mL", "mL."]
-  },
-  {
-    "name": "package",
-    "plural": [],
-    "symbol": [],
-    "aliases": ["pkg", "pkgs"]
-  },
-  {
-    "name": "rib",
-    "plural": ["ribs"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "slice",
-    "plural": ["slices"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "stalk",
-    "plural": ["stalks"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "stick",
-    "plural": [],
-    "symbol": [],
-    "aliases": ["sticks"]
-  },
-  {
-    "name": "piece",
-    "plural": ["pieces"],
-    "symbol": [],
-    "aliases": ["pcs", "pcs."]
-  },
-  {
-    "name": "pinch",
-    "plural": ["pinches"],
-    "symbol": [],
-    "aliases": []
-  },
-  {
-    "name": "slice",
-    "plural": ["slices"],
-    "symbol": [],
-    "aliases": []
-  }
+    {
+        "name": "bag",
+        "plural": "bags",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "box",
+        "plural": "boxes",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "bunch",
+        "plural": "bunches",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "can",
+        "plural": "cans",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "cup",
+        "plural": "cups",
+        "symbol": [ "c" ],
+        "aliases": [ "c." ],
+        "type": "volume"
+    },
+    {
+        "name": "clove",
+        "plural": "cloves",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "dash",
+        "plural": "dashes",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "gallon",
+        "plural": "gallons",
+        "symbol": [ "gal" ],
+        "aliases": [],
+        "type": "volume"
+    },
+    {
+        "name": "fluid ounce",
+        "plural": "fluid ounces",
+        "symbol": [ "fl oz" ],
+        "aliases": [],
+        "type": "volume"
+    },
+    {
+        "name": "handful",
+        "plural": "handfuls",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "head",
+        "plural": "heads",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "ounce",
+        "plural": "ounces",
+        "symbol": [ "oz" ],
+        "aliases": [ "oz." ],
+        "type": "mass"
+    },
+    {
+        "name": "packet",
+        "plural": "packets",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "pinch",
+        "plural": "pinches",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "pint",
+        "plural": "pints",
+        "symbol": [ "pt" ],
+        "aliases": [ "pts", "pt." ],
+        "type": "volume"
+    },
+    {
+        "name": "pound",
+        "plural": "pounds",
+        "symbol": [ "lb" ],
+        "aliases": [ "lb.", "lbs", "lbs." ],
+        "type": "mass"
+    },
+    {
+        "name": "quart",
+        "plural": "quarts",
+        "symbol": [ "qt" ],
+        "aliases": [ "qt.", "qts", "qts." ],
+        "type": "volume"
+    },
+    {
+        "name": "spear",
+        "plural": "spears",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "splash",
+        "plural": "splashes",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "tablespoon",
+        "plural": "tablespoons",
+        "symbol": [ "tbs" ],
+        "aliases": [ "tbsp", "tbspn", "t", "t.", "tablespoons", "tablespoon", "t.", "T", "T.", "tbsp." ],
+        "type": "volume"
+    },
+    {
+        "name": "teaspoon",
+        "plural": "teaspoons",
+        "symbol": [ "tsp" ],
+        "aliases": [ "teaspoon", "tspn", "t", "t.", "tsp." ],
+        "type": "volume"
+    },
+    {
+        "name": "gram",
+        "plural": "grams",
+        "symbol": [ "g" ],
+        "aliases": [ "g." ],
+        "type": "mass"
+    },
+    {
+        "name": "head",
+        "plural": "heads",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "kilogram",
+        "plural": "kilograms",
+        "symbol": [ "kg" ],
+        "aliases": [ "kg." ],
+        "type": "mass"
+    },
+    {
+        "name": "liter",
+        "plural": "liters",
+        "symbol": [ "lt" ],
+        "aliases": [ "l", "l.", "lt", "lt.", "mL", "ml", "ml." ],
+        "type": "volume"
+    },
+    {
+        "name": "milligram",
+        "plural": "milligrams",
+        "symbol": [ "mg" ],
+        "aliases": [ "mg." ],
+        "type": "mass"
+    },
+    {
+        "name": "milliliter",
+        "plural": "milliliters",
+        "symbol": [ "ml" ],
+        "aliases": [ "ml.", "mL", "mL." ],
+        "type": "volume"
+    },
+    {
+        "name": "package",
+        "plural": "packages",
+        "symbol": [],
+        "aliases": [ "pkg", "pkgs" ],
+        "type": "count"
+    },
+    {
+        "name": "piece",
+        "plural": "pieces",
+        "symbol": [],
+        "aliases": [ "pcs", "pcs." ],
+        "type": "count"
+    },
+    {
+        "name": "pinch",
+        "plural": "pinches",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "rib",
+        "plural": "ribs",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "slice",
+        "plural": "slices",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "sprig",
+        "plural": "sprigs",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "stalk",
+        "plural": "stalks",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    },
+    {
+        "name": "stick",
+        "plural": "sticks",
+        "symbol": [],
+        "aliases": [],
+        "type": "count"
+    }
 ]
