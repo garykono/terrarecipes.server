@@ -19,6 +19,11 @@ const recipeSchema = new mongoose.Schema({
         maxLength: [300, 'A recipe description must have 300 or less characters.']
     },
     image: String,
+    servings: Number,
+    prepTimeMin: Number,
+    cookTimeMin: Number,
+    restTimeMin: Number,
+    totalTimeMin: Number,
     ingredients: {
         type: [{
             text: String,
@@ -55,6 +60,11 @@ const recipeSchema = new mongoose.Schema({
         isSection: Boolean
     }],
     tags: [String],
+    difficulty: {
+        type: String,
+        enum: ["easy", "medium", "hard"]
+    },
+    credit: String,
     author: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',

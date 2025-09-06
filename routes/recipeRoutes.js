@@ -12,12 +12,14 @@ router.route('/myRecipes/')
     .post(
         authController.protect,
         authController.assignAuthor,
+        recipeController.computeTotalCookTime,
         recipeController.createRecipe)
 
 router.route('/myRecipes/:id')
     .patch(
         authController.protect,
         authController.verifyAuthor, 
+        recipeController.computeTotalCookTime,
         recipeController.updateRecipe)
     .delete(
         authController.protect,
@@ -34,11 +36,13 @@ router.route('/')
         recipeController.getAllRecipes)
     .post(
         authController.protect,
+        recipeController.computeTotalCookTime,
         recipeController.createRecipe)
 
 router.route('/:id')
     .get(recipeController.getRecipe)
     .patch(
+        recipeController.computeTotalCookTime,
         recipeController.updateRecipe)
     .delete(
         recipeController.deleteRecipe)

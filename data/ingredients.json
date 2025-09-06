@@ -5062,31 +5062,38 @@
         },
         {
             "name": "parsley",
-            "plural": "bunches of parsley",
-            "aliases": [ "flat-leaf parsley", "curly parsley" ],
-            "categories": [ "herbs" ],
-            "forms": [ "chopped", "whole", "garnish" ],
+            "plural": "parsley",
+            "aliases": ["flat-leaf parsley", "curly parsley"],
+            "categories": ["herbs"],
+            "forms": ["chopped", "whole", "garnish"],
             "defaultForm": "chopped",
-            "substitutes": [ "cilantro", "chervil" ],
+            "substitutes": ["cilantro", "chervil"],
             "intensity": "mild",
             "storage": "Wrap in damp paper towel or place upright in water in fridge.",
             "shelfLifeMonths": 0.25,
-            "commonPreparations": [ "chopped", "sprinkled", "pureed" ],
-            "notes": "Fresh parsley is a bright herb used for garnish, flavor enhancement, and in sauces like chimichurri.",
-            "tags": [ "fresh", "herb", "garnish", "vegan" ],
-            "averagePriceUSDPerUnit": 0.2,
-            "standardConversionUnit": "sprig",
-            "standardCountUnit": "sprig",
+            "commonPreparations": ["chopped", "sprinkled", "pureed"],
+            "notes": "Assumes ~1 bunch ≈ 60 g and ≈ 1 cup (240 mL) when chopped.",
+            "tags": ["fresh", "herb", "garnish", "vegan"],
+            "averagePriceUSDPerUnit": 1.5,
+            "standardConversionUnit": "bunch",
+            "standardCountUnit": "bunch",
             "conversions": {
                 "countConversions": {
-                    "sprig": 1
+                    "bunch": 1,
+                    "sprig": 24
                 },
                 "crossConversions": {
-                    "sprig": 1,
-                    "gram": 1,
-                    "milliliter": 2
+                    "bunch": 1,
+                    "gram": 60,
+                    "milliliter": 480
                 },
-                "crossConversionsByForm": {},
+                "crossConversionsByForm": {
+                    "chopped": {
+                        "bunch": 1,
+                        "gram": 60,
+                        "milliliter": 240
+                    }
+                },
                 "trueValues": null
             }
         },
@@ -5147,7 +5154,7 @@
         },
         {
             "name": "rosemary",
-            "plural": "sprigs of rosemary",
+            "plural": "rosemary",
             "aliases": [],
             "categories": [ "herbs" ],
             "forms": [ "sprig", "chopped" ],
@@ -5326,7 +5333,7 @@
         },
         {
             "name": "thyme",
-            "plural": "sprigs of thyme",
+            "plural": "thyme",
             "aliases": [ "thyme leaves" ],
             "categories": [ "herbs" ],
             "forms": [ "whole", "chopped" ],
@@ -6748,14 +6755,14 @@
             "tags": [ "gluten-free", "vegan" ],
             "averagePriceUSDPerUnit": 0.05,
             "treatOuncesAsVolume": false,
-            "standardConversionUnit": "leaf",
-            "standardCountUnit": "leaf",
+            "standardConversionUnit": "whole",
+            "standardCountUnit": "whole",
             "conversions": {
                 "countConversions": {
-                    "leaf": 1
+                    "whole": 1
                 },
                 "crossConversions": {
-                    "leaf": 1,
+                    "whole": 1,
                     "gram": 0.2,
                     "milliliter": 0.3
                 },

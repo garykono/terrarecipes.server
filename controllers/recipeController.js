@@ -15,6 +15,23 @@ exports.search = (req, res, next) => {
     next();
 }
 
+exports.computeTotalCookTime = (req, res, next) => {
+    const {
+        prepTimeMin: prepRaw = 0,
+        cookTimeMin: cookRaw = 0,
+        restTimeMin: restRaw = 0,
+    } = req.body;
+
+    // Coerce to numbers
+    const prepTimeMin = Number(prepRaw) || 0;
+    const cookTimeMin = Number(cookRaw) || 0;
+    const restTimeMin = Number(restRaw) || 0;
+
+    req.body.totalTimeMin = prepTimeMin + cookTimeMin + restTimeMin;
+
+    next();
+}
+
 exports.getAllRecipes = factory.getAll(Recipe);
 exports.getRecipe = factory.getOne(Recipe, [
     {
