@@ -17,17 +17,20 @@ exports.search = (req, res, next) => {
 
 exports.computeTotalCookTime = (req, res, next) => {
     const {
-        prepTimeMin: prepRaw = 0,
-        cookTimeMin: cookRaw = 0,
-        restTimeMin: restRaw = 0,
+        prepTimeMin,
+        cookTimeMin,
+        restTimeMin,
     } = req.body;
 
-    // Coerce to numbers
-    const prepTimeMin = Number(prepRaw) || 0;
-    const cookTimeMin = Number(cookRaw) || 0;
-    const restTimeMin = Number(restRaw) || 0;
+    let totalTimeMin = null;
+    if (prepTimeMin || cookTimeMin || restTimeMin) {
+        totalTimeMin = 0;
+        if (prepTimeMin) totalTimeMin += prepTimeMin;
+        if (cookTimeMin) totalTimeMin += cookTimeMin;
+        if (restTimeMin) totalTimeMin += restTimeMin;
+    }
 
-    req.body.totalTimeMin = prepTimeMin + cookTimeMin + restTimeMin;
+    req.body.totalTimeMin = totalTimeMin;
 
     next();
 }

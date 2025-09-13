@@ -59,7 +59,14 @@ const recipeSchema = new mongoose.Schema({
         text: String,
         isSection: Boolean
     }],
-    tags: [String],
+    tags: {
+        facets: {
+            type: Map,
+            of: [String],
+            default: {}
+        },
+        custom: [String]
+    },
     difficulty: {
         type: String,
         enum: ["easy", "medium", "hard"]

@@ -1,0 +1,192 @@
+{
+    "facets": {
+        "meal": {
+            "id": "meal",
+            "label": "Meal",
+            "multi": false,
+            "requirement": {
+                "min": 1, 
+                "max": 1 
+            },
+            "options": [
+                { "id": "meal-breakfast", "label": "Breakfast", "isActive": true, "sort": 10 },
+                { "id": "meal-lunch",     "label": "Lunch",     "isActive": true, "sort": 20 },
+                { "id": "meal-dinner",    "label": "Dinner",    "isActive": true, "sort": 30 },
+                { "id": "meal-snack",     "label": "Snack",     "isActive": true, "sort": 40 },
+                { "id": "meal-brunch",    "label": "Brunch",    "isActive": true, "sort": 50 },
+                { "id": "meal-late-night","label": "Late night","isActive": true, "sort": 60 }
+            ]
+        },
+        "course": {
+            "id": "course",
+            "label": "Course",
+            "multi": false,
+            "requirement": {
+                "min": 1, 
+                "max": 1 
+            },
+            "options": [
+                { "id": "course-appetizer", "label": "Appetizer",  "isActive": true, "sort": 10 },
+                { "id": "course-main",      "label": "Main",       "isActive": true, "sort": 20 },
+                { "id": "course-side",      "label": "Side",       "isActive": true, "sort": 30 },
+                { "id": "course-dessert",   "label": "Dessert",    "isActive": true, "sort": 40 }
+            ]
+        },
+        "dishType": {
+            "id": "dishType",
+            "label": "Dish type",
+            "multi": true,
+            "requirement": {
+                "min": 0, 
+                "max": 3 
+            },
+            "options": [
+                { "id": "dishType-soup",     "label": "Soup",     "isActive": true, "sort": 10 },
+                { "id": "dishType-salad",    "label": "Salad",    "isActive": true, "sort": 20 },
+                { "id": "dishType-pasta",    "label": "Pasta",    "isActive": true, "sort": 30 },
+                { "id": "dishType-bowl",     "label": "Bowl",     "isActive": true, "sort": 40 },
+                { "id": "dishType-sandwich", "label": "Sandwich", "isActive": true, "sort": 50 },
+                { "id": "dishType-casserole","label": "Casserole","isActive": true, "sort": 60 },
+                { "id": "dishType-one-pot",  "label": "One-pot",  "isActive": true, "sort": 70 },
+                { "id": "dishType-sheet-pan","label": "Sheet-pan","isActive": true, "sort": 80 }
+            ]
+        },
+        "diet": {
+            "id": "diet",
+            "label": "Diet",
+            "multi": true,
+            "requirement": {
+                "min": 0
+            },
+            "options": [
+                { "id": "diet-vegetarian", "label": "Vegetarian", "isActive": true, "sort": 10 },
+                { "id": "diet-vegan", "label": "Vegan", "isActive": true, "sort": 20 },
+                { "id": "diet-gluten-free", "label": "Gluten-free", "isActive": true, "sort": 30 },
+                { "id": "diet-dairy-free", "label": "Dairy-free", "isActive": true, "sort": 40 },
+                { "id": "diet-nut-free", "label": "Nut-free", "isActive": true, "sort": 50 },
+                { "id": "diet-low-carb", "label": "Low-carb / Keto", "isActive": true, "sort": 60 },
+                { "id": "diet-paleo", "label": "Paleo", "isActive": true, "sort": 70 },
+                { "id": "diet-mediterranean", "label": "Mediterranean", "isActive": true, "sort": 80 }
+            ]
+        },
+        "method": {
+            "id": "method",
+            "label": "Method",
+            "multi": true,
+            "requirement": {
+                "min": 0
+            },
+            "options": [
+                { "id": "method-bake", "label": "Bake", "isActive": true, "sort": 10 },
+                { "id": "method-grill", "label": "Grill", "isActive": true, "sort": 20 },
+                { "id": "method-roast", "label": "Roast", "isActive": true, "sort": 30 },
+                { "id": "method-saute", "label": "Sauté / Pan-fry", "isActive": true, "sort": 40 },
+                { "id": "method-simmer", "label": "Simmer / Stew", "isActive": true, "sort": 50 },
+                { "id": "method-airfry", "label": "Air fry", "isActive": true, "sort": 60 },
+                { "id": "method-pressure", "label": "Pressure cook / Instant Pot", "isActive": true, "sort": 70 },
+                { "id": "method-slowcook", "label": "Slow cook", "isActive": true, "sort": 80 },
+                { "id": "method-raw", "label": "No cook", "isActive": true, "sort": 90 }
+            ]
+        },
+        "cuisine": {
+            "id": "cuisine",
+            "label": "Cuisine",
+            "multi": true,
+            "requirement": {
+                "min": 0, 
+                "max": 3 
+            },
+            "options": [
+                { "id": "cuisine-italian", "label": "Italian", "isActive": true, "sort": 10 },
+                { "id": "cuisine-mexican", "label": "Mexican", "isActive": true, "sort": 20 },
+                { "id": "cuisine-indian", "label": "Indian", "isActive": true, "sort": 30 },
+                { "id": "cuisine-chinese", "label": "Chinese", "isActive": true, "sort": 40 },
+                { "id": "cuisine-japanese", "label": "Japanese", "isActive": true, "sort": 50 },
+                { "id": "cuisine-thai", "label": "Thai", "isActive": true, "sort": 60 },
+                { "id": "cuisine-korean", "label": "Korean", "isActive": true, "sort": 60 },
+                { "id": "cuisine-mediterranean", "label": "Mediterranean", "isActive": true, "sort": 70 },
+                { "id": "cuisine-american", "label": "American", "isActive": true, "sort": 80 },
+                { "id": "cuisine-french", "label": "French", "isActive": true, "sort": 90 },
+                { "id": "cuisine-middle-eastern", "label": "Middle Eastern", "isActive": true, "sort": 100 }
+            ]
+        },
+        "season": {
+            "id": "season",
+            "label": "Season",
+            "multi": true,
+            "requirement": {
+                "min": 0, 
+                "max": 2 
+            },
+            "options": [
+                { "id": "season-spring", "label": "Spring", "isActive": true, "sort": 10 },
+                { "id": "season-summer", "label": "Summer", "isActive": true, "sort": 20 },
+                { "id": "season-fall", "label": "Fall", "isActive": true, "sort": 30 },
+                { "id": "season-winter", "label": "Winter", "isActive": true, "sort": 40 }
+            ]
+        },
+        "occasion": {
+            "id": "occasion",
+            "label": "Occasion",
+            "multi": true,
+            "requirement": {
+                "min": 0, 
+                "max": 3 
+            },
+            "options": [
+                { "id": "occasion-holiday", "label": "Holiday", "isActive": true, "sort": 10 },
+                { "id": "occasion-party", "label": "Party", "isActive": true, "sort": 20 },
+                { "id": "occasion-family", "label": "Family meal", "isActive": true, "sort": 30 },
+                { "id": "occasion-romantic", "label": "Date night", "isActive": true, "sort": 40 },
+                { "id": "occasion-weeknight", "label": "Quick weeknight", "isActive": true, "sort": 50 }
+            ]
+        },
+        "difficulty": {
+            "id": "difficulty",
+            "label": "Difficulty",
+            "multi": false,
+            "requirement": {
+                "min": 0, 
+                "max": 1 
+            },
+            "options": [
+                { "id": "difficulty-easy", "label": "Easy", "isActive": true, "sort": 10 },
+                { "id": "difficulty-medium", "label": "Medium", "isActive": true, "sort": 20 },
+                { "id": "difficulty-hard", "label": "Hard", "isActive": true, "sort": 30 }
+            ]
+        },
+        "appliance": {
+            "id": "appliance",
+            "label": "Appliance",
+            "multi": true,
+            "requirement": {
+                "min": 0
+            },
+            "options": [
+                { "id": "appliance-oven", "label": "Oven", "isActive": true, "sort": 10 },
+                { "id": "appliance-stovetop", "label": "Stovetop", "isActive": true, "sort": 20 },
+                { "id": "appliance-instantpot", "label": "Instant Pot / Pressure cooker", "isActive": true, "sort": 30 },
+                { "id": "appliance-slowcooker", "label": "Slow cooker", "isActive": true, "sort": 40 },
+                { "id": "appliance-airfryer", "label": "Air fryer", "isActive": true, "sort": 50 },
+                { "id": "appliance-grill", "label": "Grill", "isActive": true, "sort": 60 }
+            ]
+        },
+        "flavor": {
+            "id": "flavor",
+            "label": "Flavor",
+            "multi": true,
+            "requirement": {
+                "min": 0, 
+                "max": 3
+            },
+            "options": [
+                { "id": "flavor-savory", "label": "Savory", "isActive": true, "sort": 10 },
+                { "id": "flavor-spicy", "label": "Spicy", "isActive": true, "sort": 20 },
+                { "id": "flavor-sweet", "label": "Sweet", "isActive": true, "sort": 30 },
+                { "id": "flavor-tangy", "label": "Tangy", "isActive": true, "sort": 40 },
+                { "id": "flavor-umami", "label": "Umami", "isActive": true, "sort": 50 },
+                { "id": "flavor-fresh", "label": "Fresh / Light", "isActive": true, "sort": 60 }
+            ]
+        }
+        }
+}

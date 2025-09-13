@@ -16,22 +16,25 @@ let cachedCategories = null;
 // Indexed for fast look ups by slug on server side (ex. category controller)
 let cachedIndexedCategories = null;
 // Formatted category data to easily be used client side (ex. For a browse page)
-let cachedCategoryData = null
+let cachedCategoryData = null;
+let cachedTags = null;
 
 const ingredientsPath = path.join(__dirname, '..', 'data', 'ingredients.json');
 const measurementUnitsPath = path.join(__dirname, '..', 'data', 'measurementUnits.json');
 const ingredientFormsAndPreparationsPath = path.join(__dirname, '..', 'data', 'ingredient_forms_and_preparations.json');
 const categoriesPath = path.join(__dirname, '..', 'data', 'categories.json');
+const tagsPath = path.join(__dirname, '..', 'data', 'tags.json');
 
 exports.getFiles = catchAsync(async (req, res, next) => {
     if (!cachedIngredients || !cachedMeasurementUnits || !cachedFormattedIngredients || !cachedFormattedMeasurementUnits
         || !cachedIngredientNameLookupTable || !cachedMeasurementUnitsNameLookupTable || !cachedIngredientForms 
-        || !cachedIngredientPreparations || !cachedCategories || !cachedIndexedCategories
+        || !cachedIngredientPreparations || !cachedCategories || !cachedIndexedCategories || !cachedTags
     ) {
-        const [ingredientsData, measurementUnitsData, ingredientFormsAndPreparationsData] = await Promise.all([
+        const [ingredientsData, measurementUnitsData, ingredientFormsAndPreparationsData, tagsData] = await Promise.all([
                 fs.readFile(ingredientsPath, 'utf-8'),
                 fs.readFile(measurementUnitsPath, 'utf-8'),
-                fs.readFile(ingredientFormsAndPreparationsPath, 'utf-8')
+                fs.readFile(ingredientFormsAndPreparationsPath, 'utf-8'),
+                fs.readFile(tagsPath, 'utf-8')
         ]);
 
         // Cache the original form of the data
@@ -53,6 +56,9 @@ exports.getFiles = catchAsync(async (req, res, next) => {
 
         // Pre-mapped categories
         await loadCategoryData();
+
+        // Tags
+        cachedTags = JSON.parse(tagsData);
     } 
 
     res.status(200).json({
@@ -65,7 +71,8 @@ exports.getFiles = catchAsync(async (req, res, next) => {
             stardardIngredientsGroupedByCategory: cachedIngredients,
             ingredientForms: cachedIngredientForms,
             ingredientPreparations: cachedIngredientPreparations,
-            categories: cachedCategoryData
+            categories: cachedCategoryData,
+            tags: cachedTags,
         }
     });  
 });
