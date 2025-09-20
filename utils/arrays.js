@@ -1,0 +1,1 @@
+exports.normalizeVals = v => (Array.isArray(v) ? v : [v]).filter(x => x != null && String(x).trim() !== '');

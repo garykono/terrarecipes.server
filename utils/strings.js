@@ -1,0 +1,1 @@
+exports.escapeRx = s => String(s ?? '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

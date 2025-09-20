@@ -11,47 +11,23 @@ class APIFeatures {
         this.query = query;
         this.queryString = queryString;
         this.baseFilter = {};
-        this.totalPages = 1;
+        this._filter = {};          // track the filter we apply
+        this._countPromise = null;  // store pending count
     }
 
     /**
      * 
-     * @returns A query that is filtered by all given query fields except the features handled manually in this class (ex. sort)
+     * @returns Query with the $match filter applied
      */
-    addQueryFilters () {
-        const queryObj = {...this.queryString};
-        const excludedFields = ['page', 'sort', 'limit', 'fields', 'search', 'searchFields'];
-        excludedFields.forEach(el => delete queryObj[el]);
-
-        let queryStr = JSON.stringify(queryObj);
+    addFilters(filter) {
         // Just putting $ in front of these expressions so we can query. We used regular expressions here but they're complicated.
         // Can just write my own logic to do that.
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
-        
-        this.baseFilter = { ...this.baseFilter, ...JSON.parse(queryStr) };
-
-        return this;
-    }
-
-    /**
-     * Add filters that are more directly applied to the query like "$or".
-     * @param {*} customFilter 
-     * @returns 
-     */
-    addCustomFilters(customFilter) {
-        if (customFilter && typeof customFilter === 'object') {
-            // Merge custom filter like $or with existing baseFilter
-            this.baseFilter = { ...this.baseFilter, ...customFilter };
+        // queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+        if (filter && Object.keys(filter).length) {
+            this._filter = { ...this._filter, ...filter };
+            this.query = this.query.find(filter);
         }
-        return this;
-    }
 
-    /**
-     * Actually submit the query with all accumulated filters
-     * @returns 
-     */
-    applyFilters() {
-        this.query = this.query.find(this.baseFilter);
         return this;
     }
 
@@ -60,13 +36,7 @@ class APIFeatures {
      * @returns Query with values sorted in ascending order if sort=(insert field here) or descending if sort=-(insert field here)
      */
     sort(sort) {
-        if(sort) {
-            const sortBy = buildSortFilter(sort);
-            this.query = this.query.sort(sortBy);
-        } else {
-            // this.query = this.query.sort('-createdAt')
-            this.query = this.query.sort('-name')
-        }
+        this.query = this.query.sort(sort);
 
         return this;
     }
@@ -76,28 +46,32 @@ class APIFeatures {
      * @returns Query that narrows down result to the specified fields of each document (ex. fields=name will only return an array
      * of names and _id)
      */
-    limitFields() {
-        if(this.queryString.fields) {
-            const fields = this.queryString.fields.split(',').join(' ');
-            this.query = this.query.select(fields);
-        } else {
-            // The minus means "exclude". This takes that variable __v (__v is something mongoose usees internally) out of the results
-            this.query = this.query.select('-__v');
+    limitFields(project) {
+        if(project) {
+            this.query = this.query.select(project);
         }
 
         return this;
     }
+
+    // Start the count using the current filter (no skip/limit)
+  startCount() {
+    // Either use the tracked filter...
+    const filterOnly = this._filter;
+
+    // ...or derive from the built query (also fine):
+    // const filterOnly = this.query.getFilter();
+
+    this._countPromise = this.query.model.countDocuments(filterOnly).exec();
+    return this;
+  }
 
     /**
      * 
      * @returns Query with subset of the filtered results that are based on location specified (calculated by limit and page fields)
      * ex. if limit=5&page=2, then results 6-10 of the filtered results would be given
      */
-    paginate() {
-        const page = this.queryString.page * 1 || 1;
-        const limit = this.queryString.limit * 1 || 100;
-        const skip = (page - 1) * limit;
-
+    paginate(page, limit, skip) {
         this.query = this.query.skip(skip).limit(limit);
 
         return this;
@@ -107,6 +81,16 @@ class APIFeatures {
         this.query = this.query.countDocuments();
 
         return this;
+    }
+
+    // Count docs before actual execution
+    async exec() {
+        const docsPromise = this.query.lean().exec();
+        const totalPromise = this._countPromise ??
+        this.query.model.countDocuments(this._filter).exec();
+
+        const [results, total] = await Promise.all([docsPromise, totalPromise]);
+        return { results, total };
     }
 }
 

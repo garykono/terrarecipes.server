@@ -1,6 +1,7 @@
 const express = require('express');
 const recipeController = require('../controllers/recipeController');
 const authController = require('../controllers/authController');
+const { parseRecipeQuery, parseRecipeAdvancedBody } = require('../middleware/recipes.parse');
 
 const router = express.Router();
 
@@ -13,6 +14,7 @@ router.route('/myRecipes/')
         authController.protect,
         authController.assignAuthor,
         recipeController.computeTotalCookTime,
+        recipeController.normalizeTags,
         recipeController.createRecipe)
 
 router.route('/myRecipes/:id')
@@ -20,6 +22,7 @@ router.route('/myRecipes/:id')
         authController.protect,
         authController.verifyAuthor, 
         recipeController.computeTotalCookTime,
+        recipeController.normalizeTags,
         recipeController.updateRecipe)
     .delete(
         authController.protect,
@@ -32,19 +35,29 @@ router.route('/myRecipes/:id')
 
 router.route('/')
     .get(
+        parseRecipeQuery("getAll"),
         recipeController.search,
         recipeController.getAllRecipes)
     .post(
         authController.protect,
         recipeController.computeTotalCookTime,
+        recipeController.normalizeTags,
         recipeController.createRecipe)
 
 router.route('/:id')
     .get(recipeController.getRecipe)
     .patch(
         recipeController.computeTotalCookTime,
+        recipeController.normalizeTags,
         recipeController.updateRecipe)
     .delete(
         recipeController.deleteRecipe)
+
+router.route('/search')
+    .post(
+        parseRecipeAdvancedBody("getAll"),
+        recipeController.search,
+        recipeController.getAllRecipes
+    )
 
 module.exports = router;

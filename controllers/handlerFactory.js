@@ -5,8 +5,7 @@ const { searchDocuments } = require('../utils/searchUtils/searchExecution');
 exports.getAll = (Model) => catchAsync(async (req, res, next) => {
     const { results, totalCount, totalPages } = await searchDocuments(
         Model,
-        req.options,
-        req.query
+        req.options
     );
 
     res.status(200).json({

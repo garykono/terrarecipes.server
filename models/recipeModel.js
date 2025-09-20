@@ -28,6 +28,7 @@ const recipeSchema = new mongoose.Schema({
         type: [{
             text: String,
             isSection: Boolean,
+            // parsed is in an array because more than 1 ingredient can be parsed from an ingredient input
             parsed: [{
                 quantity: Number,
                 unit: String,
@@ -67,9 +68,9 @@ const recipeSchema = new mongoose.Schema({
         },
         custom: [String]
     },
-    difficulty: {
-        type: String,
-        enum: ["easy", "medium", "hard"]
+    tagsFlat: { 
+        type: [String], 
+        index: true
     },
     credit: String,
     author: {

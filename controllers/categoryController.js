@@ -2,9 +2,9 @@ const { getIndexedCategories } = require("./staticController");
 const catchAsync = require("../utils/catchAsync");
 const Recipe = require('../models/recipeModel')
 const { ERROR_NAME, AppError } = require("../utils/appError");
-const { buildRecipeSearchOptions } = require("../utils/searchUtils/searchBuilders");
 const { searchDocuments } = require("../utils/searchUtils/searchExecution");
-const { sanitizeQuery } = require("../utils/filtering/sanitizeQuery")
+const { sanitizeQuery } = require("../utils/filtering/sanitizeQuery");
+const { buildRecipeSearchOptions } = require("../utils/searchUtils/builders/searchBuilders");
 
 exports.getCategory = catchAsync(async (req, res, next) => {
     const { group, slug } = req.query;
