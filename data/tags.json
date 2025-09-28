@@ -10,10 +10,10 @@
             },
             "options": [
                 { "id": "meal-breakfast", "label": "Breakfast", "isActive": true, "sort": 10 },
-                { "id": "meal-lunch",     "label": "Lunch",     "isActive": true, "sort": 20 },
-                { "id": "meal-dinner",    "label": "Dinner",    "isActive": true, "sort": 30 },
-                { "id": "meal-snack",     "label": "Snack",     "isActive": true, "sort": 40 },
-                { "id": "meal-brunch",    "label": "Brunch",    "isActive": true, "sort": 50 },
+                { "id": "meal-brunch",    "label": "Brunch",    "isActive": true, "sort": 20 },
+                { "id": "meal-lunch",     "label": "Lunch",     "isActive": true, "sort": 30 },
+                { "id": "meal-dinner",    "label": "Dinner",    "isActive": true, "sort": 40 },
+                { "id": "meal-snack",     "label": "Snack",     "isActive": true, "sort": 50 },
                 { "id": "meal-late-night","label": "Late night","isActive": true, "sort": 60 }
             ]
         },
@@ -29,7 +29,25 @@
                 { "id": "course-appetizer", "label": "Appetizer",  "isActive": true, "sort": 10 },
                 { "id": "course-main",      "label": "Main",       "isActive": true, "sort": 20 },
                 { "id": "course-side",      "label": "Side",       "isActive": true, "sort": 30 },
-                { "id": "course-dessert",   "label": "Dessert",    "isActive": true, "sort": 40 }
+                { "id": "course-dessert",   "label": "Dessert",    "isActive": true, "sort": 40 },
+                { "id": "course-drink",     "label": "Drink",      "isActive": true, "sort": 50 }
+            ]
+        },
+        "theme": {
+            "id": "theme",
+            "label": "Theme / Style",
+            "multi": true,
+            "requirement": { "min": 0, "max": 4 },
+            "options": [
+                { "id": "theme-healthy", "label": "Healthy", "isActive": true, "sort": 10 },
+                { "id": "theme-comfort", "label": "Comfort", "isActive": true, "sort": 20 },
+                { "id": "theme-family", "label": "Family", "isActive": true, "sort": 30 },
+                { "id": "theme-meal-prep", "label": "Meal Prep", "isActive": true, "sort": 60 },
+                { "id": "theme-make-ahead", "label": "Make Ahead", "isActive": true, "sort": 70 },
+                { "id": "theme-hearty", "label": "Hearty", "isActive": true, "sort": 80 },
+                { "id": "theme-light", "label": "Light", "isActive": true, "sort": 90 },
+                { "id": "theme-balanced", "label": "Balanced", "isActive": true, "sort": 100 },
+                { "id": "theme-festive", "label": "Festive", "isActive": true, "sort": 110 }
             ]
         },
         "dishType": {
@@ -48,7 +66,48 @@
                 { "id": "dishType-sandwich", "label": "Sandwich", "isActive": true, "sort": 50 },
                 { "id": "dishType-casserole","label": "Casserole","isActive": true, "sort": 60 },
                 { "id": "dishType-one-pot",  "label": "One-pot",  "isActive": true, "sort": 70 },
-                { "id": "dishType-sheet-pan","label": "Sheet-pan","isActive": true, "sort": 80 }
+                { "id": "dishType-sheet-pan","label": "Sheet-pan","isActive": true, "sort": 80 },
+                { "id": "dishType-stew",     "label": "Stew",     "isActive": true, "sort": 85 },
+                { "id": "dishType-wrap",     "label": "Wrap / Taco", "isActive": true, "sort": 90 },
+                { "id": "dishType-smoothie",   "label": "Smoothie",          "isActive": true, "sort": 90 },
+                { "id": "dishType-milkshake",  "label": "Milkshake",         "isActive": true, "sort": 95 },
+                { "id": "dishType-juice",      "label": "Juice",             "isActive": true, "sort": 100 },
+                { "id": "dishType-cocktail",   "label": "Cocktail",          "isActive": true, "sort": 110 },
+                { "id": "dishType-coffee",      "label": "Coffee",          "isActive": true, "sort": 120 },
+                { "id": "dishType-tea",         "label": "Tea",             "isActive": true, "sort": 130 }
+            ]
+        },
+        "ingredientGroup": {
+            "id": "ingredientGroup",
+            "label": "Main Ingredient Group",
+            "multi": true,
+            "requirement": { "min": 0, "max": 3 },
+            "options": [
+                { "id": "ingredientGroup-poultry", "label": "Poultry", "isActive": true, "sort": 10 },
+                { "id": "ingredientGroup-beef", "label": "Beef", "isActive": true, "sort": 20 },
+                { "id": "ingredientGroup-pork", "label": "Pork", "isActive": true, "sort": 30 },
+                { "id": "ingredientGroup-seafood", "label": "Seafood", "isActive": true, "sort": 40 },
+                { "id": "ingredientGroup-vegetable", "label": "Vegetable", "isActive": true, "sort": 50 },
+                { "id": "ingredientGroup-green", "label": "Leafy Green", "isActive": true, "sort": 60 },
+                { "id": "ingredientGroup-fruit", "label": "Fruit", "isActive": true, "sort": 70 },
+                { "id": "ingredientGroup-grain", "label": "Grain", "isActive": true, "sort": 80 },
+                { "id": "ingredientGroup-legume", "label": "Legume / Bean", "isActive": true, "sort": 90 },
+                { "id": "ingredientGroup-root-vegetable", "label": "Root Veg", "isActive": true, "sort": 100 },
+                { "id": "ingredientGroup-root-nut", "label": "Nut", "isActive": true, "sort": 110 }
+            ]
+        },
+        "difficulty": {
+            "id": "difficulty",
+            "label": "Difficulty",
+            "multi": false,
+            "requirement": {
+                "min": 0, 
+                "max": 1 
+            },
+            "options": [
+                { "id": "difficulty-easy", "label": "Easy", "isActive": true, "sort": 10 },
+                { "id": "difficulty-medium", "label": "Medium", "isActive": true, "sort": 20 },
+                { "id": "difficulty-hard", "label": "Hard", "isActive": true, "sort": 30 }
             ]
         },
         "diet": {
@@ -65,27 +124,32 @@
                 { "id": "diet-dairy-free", "label": "Dairy-free", "isActive": true, "sort": 40 },
                 { "id": "diet-nut-free", "label": "Nut-free", "isActive": true, "sort": 50 },
                 { "id": "diet-low-carb", "label": "Low-carb / Keto", "isActive": true, "sort": 60 },
-                { "id": "diet-paleo", "label": "Paleo", "isActive": true, "sort": 70 },
-                { "id": "diet-mediterranean", "label": "Mediterranean", "isActive": true, "sort": 80 }
+                { "id": "diet-low-fat", "label": "Low Fat", "isActive": true, "sort": 64 },
+                { "id": "diet-high-protein", "label": "High Protein", "isActive": true, "sort": 65 },
+                { "id": "diet-paleo", "label": "Paleo", "isActive": true, "sort": 70 }
             ]
         },
-        "method": {
-            "id": "method",
-            "label": "Method",
+        "occasion": {
+            "id": "occasion",
+            "label": "Occasion",
             "multi": true,
             "requirement": {
-                "min": 0
+                "min": 0, 
+                "max": 3 
             },
             "options": [
-                { "id": "method-bake", "label": "Bake", "isActive": true, "sort": 10 },
-                { "id": "method-grill", "label": "Grill", "isActive": true, "sort": 20 },
-                { "id": "method-roast", "label": "Roast", "isActive": true, "sort": 30 },
-                { "id": "method-saute", "label": "Sauté / Pan-fry", "isActive": true, "sort": 40 },
-                { "id": "method-simmer", "label": "Simmer / Stew", "isActive": true, "sort": 50 },
-                { "id": "method-airfry", "label": "Air fry", "isActive": true, "sort": 60 },
-                { "id": "method-pressure", "label": "Pressure cook / Instant Pot", "isActive": true, "sort": 70 },
-                { "id": "method-slowcook", "label": "Slow cook", "isActive": true, "sort": 80 },
-                { "id": "method-raw", "label": "No cook", "isActive": true, "sort": 90 }
+                { "id": "occasion-holiday", "label": "Holiday", "isActive": true, "sort": 10 },
+                { "id": "occasion-thanksgiving", "label": "Thanksgiving", "isActive": true, "sort": 12 },
+                { "id": "occasion-christmas",    "label": "Christmas",    "isActive": true, "sort": 13 },
+                { "id": "occasion-hanukkah",     "label": "Hanukkah",     "isActive": true, "sort": 14 },
+                { "id": "occasion-easter",       "label": "Easter",       "isActive": true, "sort": 15 },
+                { "id": "occasion-new-year",     "label": "New Year",     "isActive": true, "sort": 16 },
+                { "id": "occasion-super-bowl",   "label": "Super Bowl",   "isActive": true, "sort": 17 },
+                { "id": "occasion-party", "label": "Party", "isActive": true, "sort": 20 },
+                { "id": "occasion-romantic", "label": "Date night", "isActive": true, "sort": 40 },
+                { "id": "occasion-weeknight", "label": "Quick weeknight", "isActive": true, "sort": 50 },
+                { "id": "occasion-potluck", "label": "Potluck", "isActive": true, "sort": 60 },
+                { "id": "occasion-picnic", "label": "Picnic / Outdoor", "isActive": true, "sort": 70 }
             ]
         },
         "cuisine": {
@@ -103,11 +167,12 @@
                 { "id": "cuisine-chinese", "label": "Chinese", "isActive": true, "sort": 40 },
                 { "id": "cuisine-japanese", "label": "Japanese", "isActive": true, "sort": 50 },
                 { "id": "cuisine-thai", "label": "Thai", "isActive": true, "sort": 60 },
-                { "id": "cuisine-korean", "label": "Korean", "isActive": true, "sort": 60 },
+                { "id": "cuisine-korean", "label": "Korean", "isActive": true, "sort": 65 },
                 { "id": "cuisine-mediterranean", "label": "Mediterranean", "isActive": true, "sort": 70 },
                 { "id": "cuisine-american", "label": "American", "isActive": true, "sort": 80 },
                 { "id": "cuisine-french", "label": "French", "isActive": true, "sort": 90 },
-                { "id": "cuisine-middle-eastern", "label": "Middle Eastern", "isActive": true, "sort": 100 }
+                { "id": "cuisine-middle-eastern", "label": "Middle Eastern", "isActive": true, "sort": 100 },
+                { "id": "cuisine-latin-america", "label": "Latin American", "isActive": true, "sort": 110 }
             ]
         },
         "season": {
@@ -125,34 +190,36 @@
                 { "id": "season-winter", "label": "Winter", "isActive": true, "sort": 40 }
             ]
         },
-        "occasion": {
-            "id": "occasion",
-            "label": "Occasion",
+        "temperature": {
+            "id": "temperature",
+            "label": "Temperature / Serving",
             "multi": true,
-            "requirement": {
-                "min": 0, 
-                "max": 3 
-            },
+            "requirement": { "min": 0, "max": 2 },
             "options": [
-                { "id": "occasion-holiday", "label": "Holiday", "isActive": true, "sort": 10 },
-                { "id": "occasion-party", "label": "Party", "isActive": true, "sort": 20 },
-                { "id": "occasion-family", "label": "Family meal", "isActive": true, "sort": 30 },
-                { "id": "occasion-romantic", "label": "Date night", "isActive": true, "sort": 40 },
-                { "id": "occasion-weeknight", "label": "Quick weeknight", "isActive": true, "sort": 50 }
+                { "id": "temperature-hot", "label": "Hot", "isActive": true, "sort": 10 },
+                { "id": "temperature-cold", "label": "Cold", "isActive": true, "sort": 20 },
+                { "id": "temperature-frozen", "label": "Frozen", "isActive": true, "sort": 30 }
             ]
         },
-        "difficulty": {
-            "id": "difficulty",
-            "label": "Difficulty",
-            "multi": false,
+        "method": {
+            "id": "method",
+            "label": "Method",
+            "multi": true,
             "requirement": {
-                "min": 0, 
-                "max": 1 
+                "min": 0
             },
             "options": [
-                { "id": "difficulty-easy", "label": "Easy", "isActive": true, "sort": 10 },
-                { "id": "difficulty-medium", "label": "Medium", "isActive": true, "sort": 20 },
-                { "id": "difficulty-hard", "label": "Hard", "isActive": true, "sort": 30 }
+                { "id": "method-bake", "label": "Bake", "isActive": true, "sort": 10 },
+                { "id": "method-grill", "label": "Grill", "isActive": true, "sort": 20 },
+                { "id": "method-roast", "label": "Roast", "isActive": true, "sort": 30 },
+                { "id": "method-boil", "label": "Boil", "isActive": true, "sort": 35 },
+                { "id": "method-steam", "label": "Steam", "isActive": true, "sort": 36 },
+                { "id": "method-saute", "label": "Sauté / Pan-fry", "isActive": true, "sort": 40 },
+                { "id": "method-simmer", "label": "Simmer / Stew", "isActive": true, "sort": 50 },
+                { "id": "method-airfry", "label": "Air fry", "isActive": true, "sort": 60 },
+                { "id": "method-pressure", "label": "Pressure cook / Instant Pot", "isActive": true, "sort": 70 },
+                { "id": "method-slowcook", "label": "Slow cook", "isActive": true, "sort": 80 },
+                { "id": "method-raw", "label": "No cook", "isActive": true, "sort": 90 }
             ]
         },
         "appliance": {
@@ -168,7 +235,11 @@
                 { "id": "appliance-instantpot", "label": "Instant Pot / Pressure cooker", "isActive": true, "sort": 30 },
                 { "id": "appliance-slowcooker", "label": "Slow cooker", "isActive": true, "sort": 40 },
                 { "id": "appliance-airfryer", "label": "Air fryer", "isActive": true, "sort": 50 },
-                { "id": "appliance-grill", "label": "Grill", "isActive": true, "sort": 60 }
+                { "id": "appliance-grill", "label": "Grill", "isActive": true, "sort": 60 },
+                { "id": "appliance-microwave", "label": "Microwave", "isActive": true, "sort": 70 },
+                { "id": "appliance-blender", "label": "Blender", "isActive": true, "sort": 80 },
+                { "id": "appliance-juicer",  "label": "Juicer",  "isActive": true, "sort": 90 },
+                { "id": "appliance-coffeemaker", "label": "Coffee maker / Espresso", "isActive": true, "sort": 100 }
             ]
         },
         "flavor": {
@@ -185,8 +256,10 @@
                 { "id": "flavor-sweet", "label": "Sweet", "isActive": true, "sort": 30 },
                 { "id": "flavor-tangy", "label": "Tangy", "isActive": true, "sort": 40 },
                 { "id": "flavor-umami", "label": "Umami", "isActive": true, "sort": 50 },
-                { "id": "flavor-fresh", "label": "Fresh / Light", "isActive": true, "sort": 60 }
+                { "id": "flavor-fresh", "label": "Fresh / Light", "isActive": true, "sort": 60 },
+                { "id": "flavor-smoky", "label": "Smoky", "isActive": true, "sort": 70 },
+                { "id": "flavor-rich", "label": "Rich / Creamy", "isActive": true, "sort": 80 }
             ]
         }
-        }
+    }
 }

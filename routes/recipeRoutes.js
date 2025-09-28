@@ -1,7 +1,6 @@
 const express = require('express');
 const recipeController = require('../controllers/recipeController');
 const authController = require('../controllers/authController');
-const { parseRecipeQuery, parseRecipeAdvancedBody } = require('../middleware/recipes.parse');
 
 const router = express.Router();
 
@@ -35,8 +34,8 @@ router.route('/myRecipes/:id')
 
 router.route('/')
     .get(
-        parseRecipeQuery("getAll"),
-        recipeController.search,
+        recipeController.parseRecipeSearchQuery("getAll"),
+        recipeController.buildRecipeSearch,
         recipeController.getAllRecipes)
     .post(
         authController.protect,
@@ -55,8 +54,8 @@ router.route('/:id')
 
 router.route('/search')
     .post(
-        parseRecipeAdvancedBody("getAll"),
-        recipeController.search,
+        recipeController.parseRecipeSearchQuery("getAll"),
+        recipeController.buildRecipeSearch,
         recipeController.getAllRecipes
     )
 

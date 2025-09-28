@@ -1,4 +1,4 @@
-/* HAVEN'T FULLY IMPLEMENTED THIS FILE. JUST PLACING SOME CONSTANTS HERE TO BEGIN USING */
+/* HAVEN'T FULLY IMPLEMENTED THIS FILE, ONLY RECIPE_PROFILES.GETALL */
 
 exports.RECIPE_FILTER_MAP = {
     name:        { path: "name",        type: "string", allowedOps: ["contains","eq","in","exact"], defaultOp: "contains" },
@@ -33,6 +33,7 @@ RECIPE_PAGE_LIMITS = { min: 1,  max: 100,  defaultPerPage: 20 };
 exports.RECIPES_PROFILES = {
     getAll: {
         allowedSearchFields: ["name",  "tags",  "ingredients"],        // search 'fields=' whitelist
+        defaultSearchFields: ["name",  "tags",  "ingredients"], 
         allowedFilters: [
             "name", 
             "description", 

@@ -2,6 +2,8 @@ const Recipe = require('../models/recipeModel')
 const factory = require('./handlerFactory')
 const { flattenTags } = require('../utils/tags');
 const { compileRecipeSearch } = require('../utils/searchUtils/builders/recipeBuilders');
+const { normalizeSearchRequest } = require('../utils/searchUtils/parsers/normalizeSearchRequest');
+const { RECIPES_PROFILES } = require('../policy/recipes.policy');
 
 // exports.aliasNewRecipes = (req, res, next) => {
 //     req.query.limit = '5';
@@ -10,7 +12,23 @@ const { compileRecipeSearch } = require('../utils/searchUtils/builders/recipeBui
 //     next();
 // }
 
-exports.search = (req, res, next) => {
+exports.parseRecipeSearchQuery = (profileKey = "getAll") => (req, res, next) => {  
+    const profile = RECIPES_PROFILES[profileKey];
+    if (!profile) throw new Error(`Unknown recipes profile: ${profileKey}`);
+
+    const payload = req.method === 'GET' ? (req.query || {}) : (req.body || {});
+
+    const normalized = normalizeSearchRequest(payload, profile);
+
+    req.parsed = {
+        profileKey,
+        ...normalized            // search, searchMode, searchFields, filters, sort, page, limit
+    };
+
+    next();
+}
+
+exports.buildRecipeSearch = (req, res, next) => {
     req.options = compileRecipeSearch(req.parsed);
 
     next();

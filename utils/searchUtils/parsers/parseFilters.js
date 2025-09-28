@@ -1,4 +1,4 @@
-const { isPlainObject } = require("../helpers");
+const { isPlainObject } = require("../../helpers");
 
 const KNOWN_OPS = new Set([
     'eq','ne','gt','gte','lt','lte','between','in','all','nin','contains','exact','exists'
@@ -10,11 +10,23 @@ const splitCSV = v => {
 
 const toVals = v => Array.isArray(v) ? v.flatMap(splitCSV) : splitCSV(v);
 
-exports.normalizeFiltersFromQuery = (query) => {
+/**
+ * Parses known operations out of each individual query.
+ * 
+ * @param {*} query An object of records where keys are the query name and values can be a value or a value and an operation
+ * ex. { totalTimeMin: { lte: '15' }, hasTag: 'meal-lunch', search: 'beef' }
+ * @returns An object representing a query, but with any known operations parsed out.
+ * ex. {
+    totalTimeMin: { op: 'lte', vals: [ '15' ] },
+    hasTag: [ 'meal-lunch' ],
+    search: [ 'beef' ]
+    }
+ */
+exports.normalizeAndSanitizeFilters = (query, allowedFilters = {}) => {
     const out = {};
 
     for (const [field, rawVal] of Object.entries(query)) {
-        if (isPlainObject(rawVal)) {
+        if (allowedFilters.has(field) && isPlainObject(rawVal)) {
             const ops = Object.keys(rawVal).filter(k => KNOWN_OPS.has(k));
             if (ops.length === 1) {
                 const op = ops[0];

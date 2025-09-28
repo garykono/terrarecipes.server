@@ -1,6 +1,6 @@
 const { RECIPE_FILTER_MAP } = require("../../policy/recipes.policy");
 const { normalizeVals } = require("../arrays");
-const { castValue } = require("../cast")
+const { castValue, castMany } = require("../cast")
 const { escapeRx } = require("../strings")
 
 /**
@@ -81,10 +81,14 @@ const buildCondition = (path, op, vals, type) => {
     }
 }
 
-// --- your function (upgraded) ---
-// Accepts "normalized" filters where each entry is either:
-//   key: ['a','b']
-//   key: { op:'gte', vals:[30] }
+
+/**
+ * Normalize custom filters to traverse tags more accurately, handle known operations, and then convert all filters into mongoose match 
+ * conditions.
+ * 
+ * @param {*} filters 
+ * @returns 
+ */
 exports.filtersToMongo = (filters = {}) => {
     const and = [];
 

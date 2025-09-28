@@ -2,9 +2,10 @@ const { RECIPES_PROFILES, FIELD_MAP } = require('../../../policy/recipes.policy.
 const { toRegex } = require('../searchHelpers.js');
 
 /**
+ * Build an array of match conditions from an individual search term/phrase.
  * 
- * @param {*} search 
- * @param {*} fields 
+ * @param {*} search The search term/phrase to be matched.
+ * @param {*} fields The search fields to match the search term with
  * @returns 
  */
 exports.buildRecipeSearchFilter = (
@@ -21,6 +22,12 @@ exports.buildRecipeSearchFilter = (
     return paths.map(p => ({ [p]: search }));
 };
 
+/**
+ * Build scoring conditions that will help sort results of an aggregation based on relevance.
+ * 
+ * @param {*} search 
+ * @returns 
+ */
 exports.buildMatchScoreField = (search) => {
     return {
         $add: [
@@ -82,6 +89,12 @@ exports.buildMatchScoreField = (search) => {
     };
 }
 
+/**
+ * Normalize and santitize sort params into sort conditions used by mongoose.
+ * 
+ * @param {*} sort An array of strings that indicate sort params.
+ * @returns 
+ */
 exports.buildSortFilter = (sort) => {
     const ALLOWED_SORT_FIELDS = ['name', 'createdAt', 'author', 'matchScore'];
 
@@ -98,7 +111,7 @@ exports.buildSortFilter = (sort) => {
 }
 
 /**
- * Handles pagination based on query.
+ * Build pagination conditions to get pagination values out of an aggregation pipeline.
  */
 exports.buildPaginationPipeline = (page, limit, skip) => {
     const pipeline = [];
