@@ -37,7 +37,7 @@ exports.getOne = (Model, popOptions = []) => catchAsync(async (req, res, next) =
 });
 
 exports.createOne = Model => catchAsync(async (req, res, next) => {
-    const doc = await Model.create(req.body);
+    const doc = await Model.create(req.parsed);
 
     res.status(201).json({
         status: 'success',
@@ -49,7 +49,7 @@ exports.createOne = Model => catchAsync(async (req, res, next) => {
 
 exports.updateOne = Model => catchAsync(async (req, res, next) => {
     // This updates the document. If we used "PUT", then we would replace the whole doc with our new object
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    const doc = await Model.findByIdAndUpdate(req.params.id, req.parsed, {
         new: true,
         runValidators: true
     })

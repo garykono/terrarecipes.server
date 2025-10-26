@@ -1,5 +1,3 @@
-
-const { RECIPES_PROFILES } = require("../../../policy/recipes.policy.js");
 const { toRegex, filtersToMongo } = require("../searchHelpers.js");
 const { buildSortFilter, buildRecipeSearchFilter, buildMatchScoreField } = require("./searchBuilders.js");
 
@@ -10,7 +8,7 @@ const { buildSortFilter, buildRecipeSearchFilter, buildMatchScoreField } = requi
  * @returns 
  */
 exports.compileRecipeSearch = ({ 
-    profileKey, 
+    profile, 
     searchClauses,
     andFilters, 
     orFilters,
@@ -18,7 +16,9 @@ exports.compileRecipeSearch = ({
     page, 
     limit  
 } = options) => {
-    const profile = RECIPES_PROFILES[profileKey] || {};
+    if (!profile) {
+        throw new Error("No profile was given, and one is required to compile searches.");
+    }
 
     // Default fields (used when a clause doesn't specify searchFields)
     const defaultSearchFields = 
@@ -49,7 +49,7 @@ exports.compileRecipeSearch = ({
                     : defaultSearchFields;
 
             // OR across the mapped field paths for this clause
-            const orBlock = { $or: buildRecipeSearchFilter(regex, fieldsForClause, profileKey) };
+            const orBlock = { $or: buildRecipeSearchFilter(regex, fieldsForClause, profile) };
 
             // Scoring: add a piece even if this clause is score-only
             if ((c.searchMode || "contains") === "contains") {
@@ -92,13 +92,20 @@ exports.compileRecipeSearch = ({
 
     // Add in structured filters
     // 1) AND node: compile the whole object; AND its clauses
-    const andClauses = andFilters ? filtersToMongo(andFilters).filter(Boolean) : [];
+   const andNodes = (andFilters || [])
+        .map(block => {
+            const clauses = filtersToMongo(block).filter(Boolean);
+            if (clauses.length === 0) return null;
+            return clauses.length === 1 ? clauses[0] : { $and: clauses };
+        })
+        .filter(Boolean);
+
     const andNode =
-        andClauses.length === 0
+        andNodes.length === 0
             ? null
-            : andClauses.length === 1
-                ? andClauses[0]
-                : { $and: andClauses };
+            : andNodes.length === 1
+                ? andNodes[0]
+                : { $and: andNodes };
 
     // 2) OR node: each field in orFilters becomes one OR alternative.
     //    We compile each field as its own block, then (if multiple clauses) AND them inside that alternative.

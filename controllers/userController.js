@@ -1,7 +1,6 @@
 const User = require('../models/userModel')
 const catchAsync = require('../utils/catchAsync')
 const { AppError, ERROR_NAME } = require('../utils/appError')
-const filterObj = require('../utils/filterObject')
 const factory = require('./handlerFactory');
 
 exports.getMe = catchAsync(async(req, res, next) => {
@@ -15,19 +14,9 @@ exports.updateMe = catchAsync(async (req, res, next) => {
         return next(new AppError(403, ERROR_NAME.FORBIDDEN, 'This route is not for password updates. Please use /updateMyPassword'));
     }
 
-    // 2) Filtered out unwanted field names that are not allowed to be updated
-    const filteredBody = filterObj(req.body, 'username', 'email');
-
-    // 3) Update the user document
-    const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
-        new: true, 
-        runValidators: true
-    });
-
-    res.status(200).json({
-        status: 'success',
-        user: updatedUser
-    });
+    req.params.id = req.user.id;
+    
+    next();
 });
 
 /**

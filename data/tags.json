@@ -43,7 +43,6 @@
                 { "id": "theme-comfort", "label": "Comfort", "isActive": true, "sort": 20 },
                 { "id": "theme-family", "label": "Family", "isActive": true, "sort": 30 },
                 { "id": "theme-meal-prep", "label": "Meal Prep", "isActive": true, "sort": 60 },
-                { "id": "theme-make-ahead", "label": "Make Ahead", "isActive": true, "sort": 70 },
                 { "id": "theme-hearty", "label": "Hearty", "isActive": true, "sort": 80 },
                 { "id": "theme-light", "label": "Light", "isActive": true, "sort": 90 },
                 { "id": "theme-balanced", "label": "Balanced", "isActive": true, "sort": 100 },
@@ -66,6 +65,7 @@
                 { "id": "dishType-sandwich", "label": "Sandwich", "isActive": true, "sort": 50 },
                 { "id": "dishType-casserole","label": "Casserole","isActive": true, "sort": 60 },
                 { "id": "dishType-one-pot",  "label": "One-pot",  "isActive": true, "sort": 70 },
+                { "id": "dishType-bread",     "label": "Bread",     "isActive": true, "sort": 75 },
                 { "id": "dishType-sheet-pan","label": "Sheet-pan","isActive": true, "sort": 80 },
                 { "id": "dishType-stew",     "label": "Stew",     "isActive": true, "sort": 85 },
                 { "id": "dishType-wrap",     "label": "Wrap / Taco", "isActive": true, "sort": 90 },
@@ -134,8 +134,7 @@
             "label": "Occasion",
             "multi": true,
             "requirement": {
-                "min": 0, 
-                "max": 3 
+                "min": 0
             },
             "options": [
                 { "id": "occasion-holiday", "label": "Holiday", "isActive": true, "sort": 10 },

@@ -5,7 +5,10 @@ const { ERROR_NAME, AppError } = require("../utils/appError");
 const { searchDocuments } = require("../utils/searchUtils/searchExecution");
 const { compileRecipeSearch } = require("../utils/searchUtils/builders/recipeBuilders");
 const { RECIPES_PROFILES } = require("../policy/recipes.policy");
-const { normalizeSearchRequest } = require("../utils/searchUtils/parsers/normalizeSearchRequest");
+const { normalizeSearchRequest } = require("../normalizers/normalizeSearchRequest");
+const { parseInput } = require("../middleware/parseInput");
+
+const DEBUG = false;
 
 exports.getCategory = catchAsync(async (req, res, next) => {
     const { group, slug } = req.query;
@@ -29,72 +32,72 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     if (!categoryInfo) {
         return next(new AppError(404, ERROR_NAME.RESOURCE_NOT_FOUND, `There is no category in ${group} with that slug.`));
     }
-
-    console.log("category info: ", categoryInfo)
-
-    const mainCategorySearchCriteria = categoryInfo.searchCriteria;
     
     // Go through the searching process for each subcategory. Maybe refactor in the future (similar process to getRecipes endpoint,
     // but without middleware)
-    const tasks = Object.entries(categoryInfo.subCategories).map(
-        async ([subCategoryName, subCategoryInfo]) => {
-            const subCategorySearchCriteria = subCategoryInfo.searchCriteria;
-
-            // 1) Build the payload
-            const subCategoryPayload = {
-                ...mainCategorySearchCriteria,
-                ...subCategorySearchCriteria,
-                limit: 10,
-            };
-            console.log("subCategoryPayload for ", subCategoryName, ": ", subCategoryPayload)
-
-            // 2) Normalize and sanitize search params
-            const parsedSearchOptions = {
-                profileKey,
-                ...normalizeSearchRequest(subCategoryPayload, profile),
-            };
-
-            console.dir(
-                { [`parsedSearchOptions for ${subCategoryName}`]: parsedSearchOptions },
-                { depth: null }
-            );
-
-            // 3) Build all necessary query info to be used for mongoose
-            const searchOptions = compileRecipeSearch(parsedSearchOptions);
-            console.log(`searchOptions for ${subCategoryName}:`)
-            console.dir({ matchFilters: searchOptions.matchFilters }, { depth: null, maxArrayLength: null, colors: true });
-
-            // 4) Execute the search
-            const { results, totalCount, totalPages } = await searchDocuments(Recipe, searchOptions);
-
-            return { subCategoryName, results, totalCount, totalPages };
-        }
-    );
+    let tasks;
+    if (group === "core") {
+        tasks = Object.entries(categoryInfo.subCategories).map(([categoryName, categoryInfo]) => {
+            return searchCategory(categoryName, categoryInfo, profileKey, profile);
+        });
+    } else {
+        tasks = [searchCategory(categoryInfo.slug, categoryInfo, profileKey, profile)];
+    }
 
     const settled = await Promise.allSettled(tasks);
 
-    const subCategoryResults = {};
+    const categoryResults = {};
     for (const s of settled) {
-        const { subCategoryName, results, totalCount, totalPages } = s.value;
+        const { categoryName, results, totalCount, totalPages } = s.value;
         if (s.status === "fulfilled") {
-            subCategoryResults[subCategoryName] = {
+            categoryResults[categoryName] = {
                 results, 
                 totalCount, 
                 totalPages
             };
         } else {
-            console.error("Subcategory failed:", s.reason);
-            subCategoryResults[subCategoryName] = [];
+            console.error("category failed:", s.reason);
+            categoryResults[categoryName] = [];
         }
     }
-
 
     res.status(200).json({
         status: 'success',
         data: {
             categoryInfo,
-            subCategoryRecipes: subCategoryResults
+            recipes: categoryResults
         }
     });
 });
 
+const searchCategory = async (categoryName, categoryInfo, profileKey, profile) => {
+    const categorySearchCriteria = categoryInfo.searchCriteria;
+
+    // 1) Build the payload
+    const categoryPayload = {
+        ...categorySearchCriteria,
+        limit: 10,
+    };
+    if (DEBUG) console.debug("categoryPayload for ", categoryName, ": ", categoryPayload)
+
+    // 2) Normalize and sanitize search params
+    const parsedSearchOptions = {
+        profile,
+        ...normalizeSearchRequest(categoryPayload, profile).clean,
+    };
+
+    if (DEBUG) console.dir(
+        { [`parsedSearchOptions for ${categoryName}`]: parsedSearchOptions },
+        { depth: null }
+    );
+
+    // 3) Build all necessary query info to be used for mongoose
+    const searchOptions = compileRecipeSearch(parsedSearchOptions);
+    if (DEBUG) console.debug(`searchOptions for ${categoryName}:`)
+    if (DEBUG) console.dir(searchOptions, { depth: null, maxArrayLength: null, colors: true });
+
+    // 4) Execute the search
+    const { results, totalCount, totalPages } = await searchDocuments(Recipe, searchOptions);
+    
+    return { categoryName, results, totalCount, totalPages };
+}

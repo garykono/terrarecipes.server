@@ -13,6 +13,7 @@
                     "title": "Quick Breakfasts",
                     "description": "Ready in under 15 minutes",
                     "searchCriteria": {
+                        "meal": "breakfast",
                         "totalTimeMin": { "lte": 30 }
                     }
                 },
@@ -20,6 +21,7 @@
                     "title": "Healthy Breakfasts",
                     "description": "Light and nutritious",
                     "searchCriteria": {
+                        "meal": "breakfast",
                         "hasTag": ["theme-healthy"]
                     }
                 },
@@ -27,6 +29,7 @@
                     "title": "Sweet Breakfasts",
                     "description": "Pancakes, waffles, muffins",
                     "searchCriteria": {
+                        "meal": "breakfast",
                         "hasTag": ["flavor-sweet"]
                     }
                 },
@@ -34,6 +37,7 @@
                     "title": "Savory Breakfasts",
                     "description": "Egg dishes, breakfast burritos",
                     "searchCriteria": {
+                        "meal": "breakfast",
                         "hasTag": ["flavor-savory"]
                     }
                 },
@@ -41,6 +45,7 @@
                     "title": "Make-Ahead Breakfasts",
                     "description": "Overnight oats, casseroles",
                     "searchCriteria": {
+                        "meal": "breakfast",
                         "hasTag": ["theme-meal-prep", "theme-make-ahead"]
                     }
                 }
@@ -60,6 +65,7 @@
                     "title": "Light Lunches",
                     "description": "Wraps, grain bowls, salads",
                     "searchCriteria": {
+                        "meal": "lunch",
                         "hasTag": ["theme-light"]
                     }
                 },
@@ -67,6 +73,7 @@
                     "title": "Meal Prep Lunches",
                     "description": "Packable for work or school",
                     "searchCriteria": {
+                        "meal": "lunch",
                         "hasTag": ["theme-meal-prep", "theme-make-ahead"]
                     }
                 },
@@ -74,6 +81,7 @@
                     "title": "Quick Lunches",
                     "description": "20 minutes or less",
                     "searchCriteria": {
+                        "meal": "lunch",
                         "totalTimeMin": { "lte": 30 }
                     }
                 },
@@ -81,6 +89,7 @@
                     "title": "Comfort Lunches",
                     "description": "Melts, pastas, hearty soups",
                     "searchCriteria": {
+                        "meal": "lunch",
                         "hasTag": ["theme-comfort"]
                     }
                 },
@@ -88,6 +97,7 @@
                     "title": "Vegetarian Lunches",
                     "description": "Meat-free and filling",
                     "searchCriteria": {
+                        "meal": "lunch",
                         "hasTag": ["diet-vegetarian"]
                     }
                 }
@@ -101,46 +111,48 @@
             "searchCriteria": {
                 "meal": "dinner"
             },
-            "description": "Delicious dinners to bring the day to a close—comforting, fresh, and flavorful.",
+            "description": "Delicious dinners to bring the day to a close — comforting, fresh, and flavorful.",
             "subCategories": {
-                "familyDinners": {
-                    "title": "Family Dinners",
-                    "description": "Kid-friendly and crowd-pleasing",
-                    "searchCriteria": {
-                        "andFilters": {
-                            "hasTag": ["theme-family"]
-                        }
-                    }
-                },
                 "quickWeeknightDinners": {
                     "title": "Quick Weeknight Dinners",
                     "description": "30 minutes or less",
                     "searchCriteria": {
+                        "meal": "dinner",
                         "hasTag": ["occasion-weeknight"],
                         "totalTimeMin": { "lte": 30 }
+                    }
+                },
+                "familyDinners": {
+                    "title": "Family Dinners",
+                    "description": "Kid-friendly and crowd-pleasing",
+                    "searchCriteria": {
+                        "meal": "dinner",
+                        "hasTag": ["theme-family"]
                     }
                 },
                 "healthyDinners": {
                     "title": "Healthy Dinners",
                     "description": "Balanced and nutritious",
                     "searchCriteria": {
+                        "meal": "dinner",
                         "hasTag": ["theme-healthy"]
-                    }
-                },
-                "comfortDinners": {
-                    "title": "Comfort Dinners",
-                    "description": "Stews, casseroles, pasta",
-                    "searchCriteria": {
-                        "hasTag": ["theme-comfort"]
                     }
                 },
                 "specialOccasionDinners": {
                     "title": "Special Occasion Dinners",
                     "description": "Date night, celebrations",
                     "searchCriteria": {
+                        "meal": "dinner",
                         "hasTag": ["occasion-party", "occasion-romantic"]
                     }
-                    
+                },
+                "comfortDinners": {
+                    "title": "Comfort Dinners",
+                    "description": "Stews, casseroles, pasta",
+                    "searchCriteria": {
+                        "meal": "dinner",
+                        "hasTag": ["theme-comfort"]
+                    }
                 }
             },
             "relatedCategories": ["sides", "desserts", "drinks"]
@@ -158,6 +170,7 @@
                     "title": "Healthy Snacks",
                     "description": "Energy bites, fruit dips, roasted nuts",
                     "searchCriteria": {
+                        "meal": "snack",
                         "hasTag": ["theme-healthy"]
                     }
                 },
@@ -165,6 +178,7 @@
                     "title": "Sweet Snacks",
                     "description": "Cookies, bars, no-bake treats",
                     "searchCriteria": {
+                        "meal": "snack",
                         "hasTag": ["flavor-sweet"]
                     }
                 },
@@ -172,6 +186,7 @@
                     "title": "Savory Snacks",
                     "description": "Dips, popcorn, spiced crackers",
                     "searchCriteria": {
+                        "meal": "snack",
                         "hasTag": ["flavor-savory"]
                     }
                 },
@@ -179,6 +194,7 @@
                     "title": "High-Protein Snacks",
                     "description": "Yogurt bowls, protein bars",
                     "searchCriteria": {
+                        "meal": "snack",
                         "hasTag": ["diet-high-protein"]
                     }
                 },
@@ -186,6 +202,7 @@
                     "title": "Party Snacks",
                     "description": "Appetizer-style small bites",
                     "searchCriteria": {
+                        "meal": "snack",
                         "hasTag": ["occasion-party"]
                     }
                 }
@@ -212,6 +229,7 @@
                     "title": "Cold Appetizers",
                     "description": "Charcuterie, bruschetta, deviled eggs",
                     "searchCriteria": {
+                        "course": "appetizer",
                         "hasTag": ["temperature-cold"]
                     }
                 },
@@ -219,6 +237,7 @@
                     "title": "Vegetarian Appetizers",
                     "description": "Veggie-forward bites",
                     "searchCriteria": {
+                        "course": "appetizer",
                         "hasTag": ["diet-vegetarian"]
                     }
                 },
@@ -226,6 +245,7 @@
                     "title": "Seafood Appetizers",
                     "description": "Shrimp cocktail, smoked salmon",
                     "searchCriteria": {
+                        "course": "appetizer",
                         "hasTag": ["ingredientGroup-seafood"]
                     }
                 },
@@ -233,6 +253,7 @@
                     "title": "Party Platters",
                     "description": "Boards and grazing tables",
                     "searchCriteria": {
+                        "course": "appetizer",
                         "hasTag": ["occasion-party"]
                     }
                 }
@@ -252,6 +273,7 @@
                     "title": "Vegetable Sides",
                     "description": "Roasted, grilled, and sautéed vegetables",
                     "searchCriteria": {
+                        "course": "side",
                         "hasTag": ["ingredientGroup-vegetable"]
                     }
                 },
@@ -259,6 +281,7 @@
                     "title": "Potato Sides",
                     "description": "Fries, mashed, gratin, and more",
                     "searchCriteria": {
+                        "course": "side",
                         "hasTag": ["ingredientGroup-potato"]
                     }
                 },
@@ -266,6 +289,7 @@
                     "title": "Grain Sides",
                     "description": "Rice, quinoa, couscous dishes",
                     "searchCriteria": {
+                        "course": "side",
                         "hasTag": ["ingredientGroup-grain"]
                     }
                 },
@@ -273,6 +297,7 @@
                     "title": "Salad Sides",
                     "description": "Fresh side salads for any meal",
                     "searchCriteria": {
+                        "course": "side",
                         "hasTag": ["dishType-salad"]
                     }
                 },
@@ -280,6 +305,7 @@
                     "title": "Holiday Sides",
                     "description": "Festive, crowd-pleasing accompaniments",
                     "searchCriteria": {
+                        "course": "side",
                         "hasTag": ["occasion-holiday"]
                     }
                 }
@@ -299,6 +325,7 @@
                     "title": "Chocolate Desserts",
                     "description": "Brownies, cakes, mousse",
                     "searchCriteria": {
+                        "course": "dessert",
                         "search": "chocolate"
                     }
                 },
@@ -306,6 +333,7 @@
                     "title": "Fruit Desserts",
                     "description": "Pies, crisps, tarts",
                     "searchCriteria": {
+                        "course": "dessert",
                         "hasTag": ["ingredientGroup-fruit"]
                     }
                 },
@@ -313,6 +341,7 @@
                     "title": "No-Bake Desserts",
                     "description": "Cheesecake bars, mousse cups",
                     "searchCriteria": {
+                        "course": "dessert",
                         "hasTag": ["method-raw"]
                     }
                 },
@@ -320,6 +349,7 @@
                     "title": "Frozen Desserts",
                     "description": "Ice cream, popsicles",
                     "searchCriteria": {
+                        "course": "dessert",
                         "hasTag": ["temperature-frozen"]
                     }
                 },
@@ -327,6 +357,7 @@
                     "title": "Quick Desserts",
                     "description": "Mug cakes, skillet cookies",
                     "searchCriteria": {
+                        "course": "dessert",
                         "totalTimeMin": { "lte": 30 }
                     }
                 }
@@ -346,35 +377,35 @@
                     "title": "Hearty Soups",
                     "description": "Stews, chowders, chili",
                     "searchCriteria": {
-                        "hasTag": ["theme-hearty"]
+                        "hasAllTags": ["dishType-soup", "theme-hearty"]
                     }
                 },
                 "lightSoups": {
                     "title": "Light Soups",
                     "description": "Broths, miso, vegetable soups",
                     "searchCriteria": {
-                        "hasTag": ["theme-light"]
+                        "hasAllTags": ["dishType-soup", "theme-light"]
                     }
                 },
                 "creamySoups": {
                     "title": "Creamy Soups",
                     "description": "Bisques, cream-based soups",
                     "searchCriteria": {
-                        "hasTag": ["flavor-rich"]
+                        "hasAllTags": ["dishType-soup", "flavor-rich"]
                     }
                 },
                 "vegetarianSoups": {
                     "title": "Vegetarian Soups",
                     "description": "Lentil, minestrone, and other meat-free soups",
                     "searchCriteria": {
-                        "hasTag": ["diet-vegetarian"]
+                        "hasAllTags": ["dishType-soup", "diet-vegetarian"]
                     }
                 },
                 "coldSoups": {
                     "title": "Cold Soups",
                     "description": "Gazpacho, chilled cucumber soup",
                     "searchCriteria": {
-                        "hasTag": ["temperature-cold"]
+                        "hasAllTags": ["dishType-soup", "temperature-cold"]
                     }
                 }
             },
@@ -393,37 +424,36 @@
                     "title": "Green Salads",
                     "description": "Leafy greens with light dressings",
                     "searchCriteria": {
-                        "hasTag": ["ingredientGroup-green"]
+                        "hasAllTags": ["dishType-salad", "ingredientGroup-green"]
                     }
                 },
                 "grainSalads": {
                     "title": "Grain Salads",
                     "description": "Quinoa, farro, bulgur",
                     "searchCriteria": {
-                        "hasTag": ["ingredientGroup-grain"]
+                        "hasAllTags": ["dishType-salad", "ingredientGroup-grain"]
                     }
                 },
                 "proteinSalads": {
                     "title": "Protein Salads",
                     "description": "Chicken, tuna, egg salads",
                     "searchCriteria": {
-                        "orFilters": {
-                            "hasTag": ["diet-high-protein", "ingredientGroup-poultry", "ingredientGroup-seafood", "ingredientGroup-legume"]
-                        }
+                        "hasAllTags": "dishType-salad",
+                        "hasTag": ["diet-high-protein", "ingredientGroup-poultry", "ingredientGroup-seafood", "ingredientGroup-legume"]
                     }
                 },
                 "fruitSalads": {
                     "title": "Fruit Salads",
                     "description": "Summer and tropical mixes",
                     "searchCriteria": {
-                        "hasTag": ["ingredientGroup-fruit"]
+                        "hasAllTags": ["dishType-salad", "ingredientGroup-fruit"]
                     }
                 },
                 "mealSalads": {
                     "title": "Meal Salads",
                     "description": "Hearty salads that stand alone as a meal",
                     "searchCriteria": {
-                        "hasTag": ["theme-hearty"]
+                        "hasAllTags": ["dishType-salad", "theme-hearty"]
                     }
                 }
             },
@@ -439,11 +469,8 @@
                     "description": "Celebrate the flavors of fall with hearty dishes featuring squash, pumpkin, and other seasonal vegetables.",
                     "slug": "autumn-harvest",
                     "searchCriteria": {
-                        "hasTag": "season-fall",
-                        "orFilters": {
-                            "hasTag": ["ingredientGroup-vegetable", "ingredientGroup-potato", "theme-hearty"]
-                            
-                        }
+                        "hasAllTags": "season-fall",
+                        "hasTag": ["ingredientGroup-vegetable", "ingredientGroup-potato", "theme-hearty"]
                     }
                 },
                 "apple and pear recipes": {
@@ -452,7 +479,8 @@
                     "description": "Sweet and savory recipes highlighting the best autumn fruits like apples and pears.",
                     "slug": "apple-pear-recipes",
                     "searchCriteria": {
-                        "hasTag": "season-fall",
+                        "hasIngredient": ["apple", "pear"],
+                        "hasAllTags": "season-fall",
                         "searchClauses": [
                             {
                                 "term": "apple",
@@ -473,7 +501,7 @@
                     "description": "From lattes to pies, enjoy all your favorite pumpkin treats this fall.",
                     "slug": "pumpkin-everything",
                     "searchCriteria": {
-                        "hasTag": "season-fall",
+                        "hasAllTags": "season-fall",
                         "search": "pumpkin"
                     }
                 },
@@ -483,16 +511,14 @@
                     "description": "Hearty soups, stews, and casseroles to warm you up on crisp autumn evenings.",
                     "slug": "comforting-fall-meals",
                     "searchCriteria": {
-                        "hasTag": "season-fall",
-                        "orFilters": {
-                            "hasTag": [
-                                "theme-hearty", 
-                                "theme-comfort",
-                                "dishType-casserole", 
-                                "dishType-one-pot", 
-                                "dishType-soup"
-                            ]
-                        }
+                        "hasAllTags": "season-fall",
+                        "hasTag": [
+                            "theme-hearty", 
+                            "theme-comfort",
+                            "dishType-casserole", 
+                            "dishType-one-pot", 
+                            "dishType-soup"
+                        ]
                     }
                 },
                 "root veggie delights": {
@@ -501,7 +527,7 @@
                     "description": "Creative recipes featuring carrots, beets, sweet potatoes, and other root vegetables.",
                     "slug": "root-veggie-delights",
                     "searchCriteria": {
-                        "hasTag": ["season-fall", "ingredientGroup-root-vegetable"]
+                        "hasAllTags": ["season-fall", "ingredientGroup-root-vegetable"]
                     }
                 },
                 "nutty treats": {
@@ -510,7 +536,7 @@
                     "description": "Delicious recipes using walnuts, pecans, chestnuts, and other autumn nuts.",
                     "slug": "nutty-treats",
                     "searchCriteria": {
-                        "hasTag": [ "season-fall", "ingredientGroup-nut" ]
+                        "hasAllTags": [ "season-fall", "ingredientGroup-nut" ]
                     }
                 },
                 "cozy chocolate and spice": {
@@ -519,7 +545,7 @@
                     "description": "Warm up with chocolatey and spiced recipes perfect for crisp fall days.",
                     "slug": "cozy-chocolate-spice",
                     "searchCriteria": {
-                        "hasTag": ["season-fall", "temperature-hot"],
+                        "hasAllTags": ["season-fall", "temperature-hot"],
                         "search": "chocolate",
                         "searchClauses": [
                             {
@@ -538,11 +564,8 @@
                 "description": "Fun, spooky, and kid-friendly recipes perfect for Halloween celebrations.",
                 "slug": "halloween-treats",
                 "searchCriteria": {
-                    "hasTag": "occasion-halloween",
-                    "orFilters": {
-                        "hasTag": ["meal-snack", "course-dessert", "occasion-party"]
-                        
-                    }
+                    "hasAllTags": "occasion-halloween",
+                    "hasTag": ["meal-snack", "course-dessert", "occasion-party"]
                 }
             },
             "thanksgiving classics": {
@@ -551,12 +574,9 @@
                 "description": "Traditional mains, sides, and pies to make your Thanksgiving feast memorable.",
                 "slug": "thanksgiving-classics",
                 "searchCriteria": {
-                    "hasTag": "occasion-thanksgiving",
-                    "orFilters": {
-                        "hasTag": ["meal-dinner", "course-main", "course-side", "course-dessert"]
-                        
-                    }
-                    }
+                    "hasAllTags": "occasion-thanksgiving",
+                    "hasTag": ["meal-dinner", "course-main", "course-side", "course-dessert"]
+                }
             },
             "autumn entertaining": {
                 "title": "Autumn Entertaining",
@@ -564,11 +584,8 @@
                 "description": "Delicious appetizers and drinks perfect for fall parties and gatherings.",
                 "slug": "autumn-entertaining",
                 "searchCriteria": {
-                    "hasTag": "season-fall",
-                    "orFilters": {
-                        "hasTag": ["occasion-party", "course-appetizer", "course-drink"]
-                        
-                    }
+                    "hasAllTags": "season-fall",
+                    "hasTag": ["occasion-party", "course-appetizer", "course-drink"]
                 }
             },
             "fall dinner parties": {
@@ -577,11 +594,8 @@
                 "description": "Elevated dishes and recipes for hosting cozy autumn dinner parties.",
                 "slug": "fall-dinner-parties",
                 "searchCriteria": {
-                    "hasTag": "season-fall",
-                    "orFilters": {
-                        "hasTag": ["occasion-party", "course-dinner", "course-drink"]
-                        
-                    }
+                    "hasAllTags": "season-fall",
+                    "hasTag": ["occasion-party", "course-dinner", "course-drink"]
                 }
             }
         },
@@ -592,7 +606,7 @@
                 "description": "Easy, minimal-cleanup recipes perfect for busy nights or simple cooking.",
                 "slug": "one-pot-wonders",
                 "searchCriteria": {
-                    "hasTag": "dishType-one-pot"
+                    "hasAllTags": "dishType-one-pot"
                 }
             },
             "quick weeknight dinners": {
@@ -601,7 +615,7 @@
                 "description": "Delicious recipes ready in 30 minutes or less for hectic weekdays.",
                 "slug": "quick-weeknight-dinners",
                 "searchCriteria": {
-                    "hasTag": "meal-dinner",
+                    "hasAllTags": "meal-dinner",
                     "totalTimeMin": { "lte": 30 }
                 }
             },
@@ -611,7 +625,7 @@
                 "description": "Nutritious recipes focused on fresh, seasonal ingredients for fall.",
                 "slug": "healthy-and-seasonal",
                 "searchCriteria": {
-                    "hasTag": [ "theme-healthy", "season-fall" ]
+                    "hasAllTags": [ "theme-healthy", "season-fall" ]
                 }
             },
             "global fall flavors": {
@@ -620,7 +634,7 @@
                 "description": "Explore autumn-inspired recipes from around the world.",
                 "slug": "global-fall-flavors",
                 "searchCriteria": {
-                    "hasTag": "season-fall",
+                    "hasAllTags": "season-fall",
                     "searchClauses": [
                         {
                             "term": "cuisine",
@@ -636,11 +650,8 @@
                 "description": "Warm, hearty, and comforting sandwiches perfect for chilly days.",
                 "slug": "cozy-sandwiches-wraps",
                 "searchCriteria": {
-                    "hasTag": ["dishType-sandwich"],
-                    "orFilters": {
-                        "hasTag": ["season-fall", "season-winter"]
-                        
-                    }
+                    "hasAllTags": ["dishType-sandwich"],
+                    "hasTag": ["season-fall", "season-winter"]
                 }
             },
             "baking adventure": {
@@ -649,7 +660,7 @@
                 "description": "Fall-inspired breads, muffins, and crisps for bakers of all skill levels.",
                 "slug": "baking-adventure",
                 "searchCriteria": {
-                    "hasTag": "method-bake"
+                    "hasAllTags": "method-bake"
                 }
             }
         }

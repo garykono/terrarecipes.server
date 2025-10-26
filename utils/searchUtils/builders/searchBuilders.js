@@ -11,11 +11,11 @@ const { toRegex } = require('../searchHelpers.js');
 exports.buildRecipeSearchFilter = (
     search, 
     fields,
-    profileKey
+    profile
 ) => {
     if (!search) return [];
 
-    const keys = (fields && fields.length ? fields : RECIPES_PROFILES[profileKey].allowedSearchFields);
+    const keys = (!!fields && fields.length ? fields : profile.allowedSearchFields);
     // Unknown keys ignored
     const paths = keys.flatMap((key) => FIELD_MAP[key] ?? []);
     // Produce the filters (an OR array)
@@ -106,6 +106,8 @@ exports.buildSortFilter = (sort) => {
         }
         return acc;
     }, {});
+
+    sortFields._id = 1; // Allows continuity for results if all other sort values are equal between certain results
 
     return sortFields;
 }

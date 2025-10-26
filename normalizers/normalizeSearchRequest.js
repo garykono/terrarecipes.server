@@ -1,6 +1,6 @@
-const { normalizeSearchClauses } = require("./normalizeSearchClauses");
-const { parseSearchString } = require("./textSearchParser");
-const { normalizeAndSanitizeFilters } = require("./parseFilters");
+const { normalizeSearchClauses } = require("../utils/searchUtils/parsers/normalizeSearchClauses");
+const { parseSearchString } = require("../utils/searchUtils/parsers/textSearchParser");
+const { normalizeAndSanitizeFilters } = require("../utils/searchUtils/parsers/parseFilters");
 
 /**
  * Takes a search request payload and then parses out and sanitizes accepted search criteria.
@@ -11,7 +11,7 @@ const { normalizeAndSanitizeFilters } = require("./parseFilters");
  */
 exports.normalizeSearchRequest = (
     payload = {}, 
-    profile 
+    profile = {}
 ) => {
     // Extract known fields from GET or POST
     const rawSearch   = payload.search;
@@ -21,6 +21,9 @@ exports.normalizeSearchRequest = (
     const rawSort     = payload.sort;
     const rawPage     = payload.page;
     const rawLimit    = payload.limit;
+
+    const clean = {};
+    const rejected = {};
 
     // Whitelist by profile
     const allowedSearchFields  = new Set(profile.allowedSearchFields || []);
@@ -40,29 +43,29 @@ exports.normalizeSearchRequest = (
         : [];
 
     // combine all search clauses
-    const searchClauses = [...clausesFromBody, ...clausesFromSearch];
+    clean.searchClauses = [...clausesFromBody, ...clausesFromSearch];
 
     // normalize and sanitize custom filters
     // Supports: field=value, field=a,b, field[op]=..., field.op=...
-    const normalizedAll = normalizeAndSanitizeFilters(payload, allowedFilters);
+    const andFilterBlocks = [];
+
+    const payloadAsAnd = normalizeAndSanitizeFilters(payload, allowedFilters);
+    if (payloadAsAnd && Object.keys(payloadAsAnd).length) andFilterBlocks.push(payloadAsAnd);
 
     // For advanced search, also check if explicit "$and" or "$or" filters were given
-    let andFilters = rawAndFilters 
-        ? normalizeAndSanitizeFilters(rawAndFilters, allowedFilters)
-        : {}
+    if (rawAndFilters) {
+        const a = normalizeAndSanitizeFilters(rawAndFilters, allowedFilters);
+        if (a && Object.keys(a).length) andFilterBlocks.push(a);
+    }
 
-    const orFilters = rawOrFilters 
+    clean.andFilters = andFilterBlocks;
+
+    clean.orFilters = rawOrFilters 
         ? normalizeAndSanitizeFilters(rawOrFilters, allowedFilters)
         : {}
 
-    // combine payload filters (assumed they are $and) and andFilters
-    if (normalizedAll && Object.keys(normalizedAll).length) andFilters = {
-        ...andFilters,
-        ...normalizedAll
-    };
-
     // sort (sanitize tokens)
-    const sort =
+    clean.sort =
         typeof rawSort === "string"
             ? rawSort
                 .split(",")
@@ -72,16 +75,16 @@ exports.normalizeSearchRequest = (
                     return allowedSort.has(k);
                 })
                 .join(",")
-            : profile.defaultSort || undefined;
+            : undefined;
 
     // pagination
-    const page = rawPage ? Math.max(1, parseInt(rawPage, 10) || 1) : 1;
-    const limit = rawLimit
+    clean.page = rawPage ? Math.max(1, parseInt(rawPage, 10) || 1) : 1;
+    clean.limit = rawLimit
         ? Math.min(
                 pageLimits.max,
                 Math.max(pageLimits.min, parseInt(rawLimit, 10) || pageLimits.defaultPerPage)
             )
         : pageLimits.defaultPerPage;
 
-    return { searchClauses, andFilters, orFilters, sort, page, limit };
+    return { clean, rejected };
 }

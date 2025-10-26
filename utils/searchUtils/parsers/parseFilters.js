@@ -26,29 +26,31 @@ exports.normalizeAndSanitizeFilters = (query, allowedFilters = {}) => {
     const out = {};
 
     for (const [field, rawVal] of Object.entries(query)) {
-        if (allowedFilters.has(field) && isPlainObject(rawVal)) {
-            const ops = Object.keys(rawVal).filter(k => KNOWN_OPS.has(k));
-            if (ops.length === 1) {
-                const op = ops[0];
-                out[field] = { op, vals: toVals(rawVal[op]) };
+        if (allowedFilters.has(field)) {
+            if (isPlainObject(rawVal)) {
+                const ops = Object.keys(rawVal).filter(k => KNOWN_OPS.has(k));
+                if (ops.length === 1) {
+                    const op = ops[0];
+                    out[field] = { op, vals: toVals(rawVal[op]) };
+                    continue;
+                }
+                if (ops.includes('gte') && ops.includes('lte')) {
+                    out[field] = { op: 'between', vals: [rawVal.gte, rawVal.lte].flatMap(toVals) };
+                    continue;
+                }
+                if (ops.includes('gt') && ops.includes('lt')) {
+                    out[field] = { op: 'between', vals: [rawVal.gt, rawVal.lt].flatMap(toVals) };
+                    continue;
+                }
+                // object but no known op keys → fall back to equality-ish
+                out[field] = toVals(rawVal);
                 continue;
             }
-            if (ops.includes('gte') && ops.includes('lte')) {
-                out[field] = { op: 'between', vals: [rawVal.gte, rawVal.lte].flatMap(toVals) };
-                continue;
-            }
-            if (ops.includes('gt') && ops.includes('lt')) {
-                out[field] = { op: 'between', vals: [rawVal.gt, rawVal.lt].flatMap(toVals) };
-                continue;
-            }
-            // object but no known op keys → fall back to equality-ish
-            out[field] = toVals(rawVal);
-            continue;
-        }
 
-        // plain value(s)
-        const vals = toVals(rawVal);
-        if (vals.length) out[field] = vals;
+            // plain value(s)
+            const vals = toVals(rawVal);
+            if (vals.length) out[field] = vals;
+        }
     }
 
     return out;

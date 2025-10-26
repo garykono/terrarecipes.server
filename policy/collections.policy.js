@@ -1,6 +1,6 @@
-/* HAVEN'T FULLY IMPLEMENTED THIS FILE, ONLY RECIPE_PROFILES.GETALL */
+/* HAVEN'T FULLY IMPLEMENTED THIS FILE */
 
-exports.RECIPE_FILTER_MAP = {
+exports.COLLECTIONS_FILTER_MAP = {
     name:        { path: "name",        type: "string", allowedOps: ["contains","eq","in","exact"], defaultOp: "contains" },
     description: { path: "description", type: "string", allowedOps: ["contains","eq","in","exact"], defaultOp: "contains" },
 
@@ -23,14 +23,14 @@ exports.FIELD_MAP = {
     tags: ["tagsFlat"]
 }
 
-RECIPE_SORT_KEYS = ["name", "createdAt", "author", "matchScore"];
+COLLECTIONS_SORT_KEYS = ["name", "createdAt", "author", "matchScore"];
 
-exports.RECIPE_DEFAULT_SORT_KEY = "-createdAt";
+exports.COLLECTIONS_DEFAULT_SORT_KEY = "-createdAt";
 
-RECIPE_PAGE_LIMITS = { min: 1,  max: 100,  defaultPerPage: 20 };
+COLLECTIONS_PAGE_LIMITS = { min: 1,  max: 100,  defaultPerPage: 20 };
 
 // Endpoint profiles (subsets of the above)
-exports.RECIPES_PROFILES = {
+exports.COLLECTIONS_PROFILES = {
     getAll: {
         allowedSearchFields: ["name",  "tags",  "ingredients"],        // search 'fields=' whitelist
         defaultSearchFields: ["name",  "tags",  "ingredients"], 
@@ -46,9 +46,9 @@ exports.RECIPES_PROFILES = {
             "hasTag", 
             "hasAllTags", 
             "excludeTag"], 
-        allowedSort: RECIPE_SORT_KEYS, 
-        defaultSort: this.RECIPE_DEFAULT_SORT_KEY, 
-        pageLimits: RECIPE_PAGE_LIMITS, 
+        allowedSort: COLLECTIONS_SORT_KEYS, 
+        defaultSort: this.COLLECTIONS_DEFAULT_SORT_KEY, 
+        pageLimits: COLLECTIONS_PAGE_LIMITS, 
         // optional: projection for public responses
         projection: ["_id", "name", "slug", "image", "servings", "totalTimeMin", "createdAt", "author", "tags"],
         strictWhiteListing: false
@@ -57,24 +57,29 @@ exports.RECIPES_PROFILES = {
     searchAdvanced: { // POST /recipes/search
         allowedSearchFields: ["name", "tags", "ingredients"], 
         allowedFilters: ["meal", "course", "difficulty", "hasTag", "hasAllTags", "excludeTag"], 
-        allowedSort: RECIPE_SORT_KEYS, 
-        pageLimits: RECIPE_PAGE_LIMITS,
+        allowedSort: COLLECTIONS_SORT_KEYS, 
+        pageLimits: COLLECTIONS_PAGE_LIMITS,
         strictWhiteListing: false
     }, 
 
     create: {
         // Body whitelist (for middleware/schema validation)
         allowedBody: [
-            "name", "description", "image", "servings", "prepTimeMin", "cookTimeMin", "restTimeMin",
-            "ingredients", "directions", "tags", "credit", "createdAt"
+            "name", "description", "createdAt"
         ], 
-        strictWhiteListing: true 
+        strictWhiteListing: true
     }, 
 
     update: {
         allowedBody: [
-            "name", "description", "image", "servings", "prepTimeMin", "cookTimeMin", "restTimeMin",
-            "ingredients", "directions", "tags", "credit", "createdAt"
+            "name", "description", "recipes", "createdAt"
+        ],
+        strictWhiteListing: true  
+    }, 
+
+    updateMe: {
+        allowedBody: [
+            "name", "description", "recipes", "createdAt"
         ],
         strictWhiteListing: true  
     }, 

@@ -50,34 +50,35 @@ exports.indexStandardizedList = standardList => {
     return indexedList;
 }
 
+function indexCategoriesBySlug(data, indexedList, categoryGroupName) {
+    Object.entries(data).forEach(([categoryName, categoryInfo]) => {
+        // Use slugs as keys for lookups
+        const slug = categoryInfo.slug;
+        indexedList[categoryGroupName][slug] = categoryInfo;
+    })
+}
+
 exports.indexCategories = (categories) => {
     const indexedList = {};
     // Core and Featured
     Object.keys(categories).forEach(categoryGroupName => {
         if (categoryGroupName === 'core') {
-            indexedList[categoryGroupName] = {
-                ...categories[categoryGroupName]
-            };
+            indexedList[categoryGroupName] = {};
+            indexCategoriesBySlug(categories[categoryGroupName], indexedList, categoryGroupName);
         } else if (categoryGroupName === 'featured') {
             indexedList[categoryGroupName] = {};
             // Seasonal
             const seasons = categories[categoryGroupName].seasonal;
             Object.keys(seasons).forEach(seasonName => {
                 const categoriesForCurrentSeason = seasons[seasonName];
-                Object.keys(categoriesForCurrentSeason).forEach(category => {
-                    indexedList[categoryGroupName][category] = categoriesForCurrentSeason[category];
-                })
+                indexCategoriesBySlug(categoriesForCurrentSeason, indexedList, categoryGroupName);
             })
             // Holiday and Event
             const holidayAndEventCategories = categories[categoryGroupName].holidayAndEvent;
-            Object.keys(holidayAndEventCategories).forEach(category => {
-                indexedList[categoryGroupName][category] = holidayAndEventCategories[category];
-            })
+            indexCategoriesBySlug(holidayAndEventCategories, indexedList, categoryGroupName);
             // Discovery
             const discoveryCategories = categories[categoryGroupName].discovery;
-            Object.keys(discoveryCategories).forEach(category => {
-                indexedList[categoryGroupName][category] = discoveryCategories[category];
-            })
+            indexCategoriesBySlug(discoveryCategories, indexedList, categoryGroupName);
         }
     })
     return indexedList;
@@ -92,26 +93,26 @@ exports.prepareCategoryData = (indexedCategories) => {
             const coreIndexedCategories = indexedCategories[categoryGroupName];
             Object.keys(coreIndexedCategories).forEach(coreCategoryName => {
                 categoryData[categoryGroupName].push({
-                    ...coreIndexedCategories[coreCategoryName],
-                    key: coreCategoryName
+                    ...coreIndexedCategories[coreCategoryName]
                 })
             })
         } else if (categoryGroupName === 'featured') {
+            // The featured categories that will be given to the front end at this time
             const featuredRecipeKeys = [
-                "autumn harvest", 
-                "pumpkin everything", 
-                "apple and pear recipes",
-                "thanksgiving classics", 
-                "halloween treats",
-                "one pot wonders",
-                "healthy and seasonal",
-                "global fall flavors"
+                "autumn-harvest", 
+                "pumpkin-everything", 
+                "apple-pear-recipes",
+                "thanksgiving-classics", 
+                "halloween-treats",
+                "one-pot-wonders",
+                "healthy-and-seasonal",
+                "global-fall-flavors"
             ];
             const featuredIndexedCategories = indexedCategories[categoryGroupName];
+            // Only send info for the allowed featured recipe categories
             featuredRecipeKeys.forEach(featuredRecipeKey => {
                 categoryData[categoryGroupName].push({
-                    ...featuredIndexedCategories[featuredRecipeKey],
-                    key: featuredRecipeKey
+                    ...featuredIndexedCategories[featuredRecipeKey]
                 })
             })
         }

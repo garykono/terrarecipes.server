@@ -1,6 +1,10 @@
 const express = require('express');
 const recipeController = require('../controllers/recipeController');
 const authController = require('../controllers/authController');
+const { parseInput } = require('../middleware/parseInput');
+const { normalizeSearchRequest } = require('../normalizers/normalizeSearchRequest');
+const { normalizeRecipeWriteRequest } = require('../normalizers/normalizeRecipeWriteRequest');
+const { RECIPES_PROFILES } = require('../policy/recipes.policy');
 
 const router = express.Router();
 
@@ -11,17 +15,15 @@ router.use(authController.setDataType('recipe'));
 router.route('/myRecipes/')
     .post(
         authController.protect,
+        parseInput({ profile: RECIPES_PROFILES["create"], normalizer: normalizeRecipeWriteRequest }),
         authController.assignAuthor,
-        recipeController.computeTotalCookTime,
-        recipeController.normalizeTags,
         recipeController.createRecipe)
 
 router.route('/myRecipes/:id')
     .patch(
         authController.protect,
         authController.verifyAuthor, 
-        recipeController.computeTotalCookTime,
-        recipeController.normalizeTags,
+        parseInput({ profile: RECIPES_PROFILES["update"], normalizer: normalizeRecipeWriteRequest }),
         recipeController.updateRecipe)
     .delete(
         authController.protect,
@@ -34,27 +36,26 @@ router.route('/myRecipes/:id')
 
 router.route('/')
     .get(
-        recipeController.parseRecipeSearchQuery("getAll"),
+        parseInput({ profile: RECIPES_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
         recipeController.buildRecipeSearch,
         recipeController.getAllRecipes)
     .post(
         authController.protect,
-        recipeController.computeTotalCookTime,
-        recipeController.normalizeTags,
+        parseInput({ profile: RECIPES_PROFILES["create"], normalizer: normalizeRecipeWriteRequest }),
+        authController.assignAuthor,
         recipeController.createRecipe)
 
 router.route('/:id')
     .get(recipeController.getRecipe)
     .patch(
-        recipeController.computeTotalCookTime,
-        recipeController.normalizeTags,
+        parseInput({ profile: RECIPES_PROFILES["update"], normalizer: normalizeRecipeWriteRequest }),
         recipeController.updateRecipe)
     .delete(
         recipeController.deleteRecipe)
 
 router.route('/search')
     .post(
-        recipeController.parseRecipeSearchQuery("getAll"),
+        parseInput({ profile: RECIPES_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
         recipeController.buildRecipeSearch,
         recipeController.getAllRecipes
     )
