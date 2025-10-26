@@ -39,6 +39,7 @@ router.get('/me',
 
 router.patch('/updateMyPassword', 
     authController.protect,
+    parseInput({ profile: USERS_PROFILES["updatePassword"], normalizer: normalizeRequest }),
     authController.updatePassword
 );
 
