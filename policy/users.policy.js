@@ -1,14 +1,17 @@
-exports.USER_FILTER_MAP = {
-    username:    { path: "username",    type: "string", allowedOps: ["contains","eq","in","exact"], defaultOp: "contains" },
-    createdAt:   { path: "createdAt",   type: "date",   allowedOps: ["eq","ne","gt","gte","lt","lte","between"] },
-    role:     { path: "role", type: "string", allowedOps: ["in","all","nin"], defaultOp: "in" },
-};
-
-exports.FIELD_MAP = {
-    username: ["username"],
+exports.USER_PROFILE_MAPS = {
+    filterMap: {
+        username:    { path: "username",    type: "string", allowedOps: ["contains","eq","in","exact"], defaultOp: "contains" },
+        createdAt:   { path: "createdAt",   type: "date",   allowedOps: ["eq","ne","gt","gte","lt","lte","between"] },
+        role:     { path: "role", type: "string", allowedOps: ["in","all","nin"], defaultOp: "in" },
+    },
+    fieldMap : {
+        username: ["username"],
+        createdAt: ["createdAt"],
+        role: ["role"]
+    }
 }
 
-USER_SORT_KEYS = ["name", "createdAt"];
+USER_SORT_KEYS = ["username", "createdAt", "role"];
 
 exports.USER_DEFAULT_SORT_KEY = "-createdAt";
 
@@ -16,6 +19,14 @@ USER_PAGE_LIMITS = { min: 1,  max: 100,  defaultPerPage: 20 };
 
 // Endpoint profiles (subsets of the above)
 exports.USERS_PROFILES = {
+    resendVerification: {
+        // Body whitelist (for middleware/schema validation)
+        allowedBody: [
+            "email"
+        ],
+        strictWhiteListing: true
+    },
+
     logIn: {
         // Body whitelist (for middleware/schema validation)
         allowedBody: [
@@ -41,16 +52,21 @@ exports.USERS_PROFILES = {
     }, 
 
     getAll: {
-        allowedSearchFields: [],        // search 'fields=' whitelist
-        defaultSearchFields: [], 
-        allowedFilters: [], 
+        allowTextSearch: false,
+        allowedSearchFields: ["username"],        // search 'fields=' whitelist
+        defaultSearchFields: ["username"], 
+        allowedFilters: [
+            "username",
+            "createdAt",
+            "role"
+        ], 
         allowedSort: USER_SORT_KEYS, 
         defaultSort: this.USER_DEFAULT_SORT_KEY, 
         pageLimits: USER_PAGE_LIMITS, 
         // optional: projection for public responses
-        projection: [],
+        projection: ["_id", "username", "createdAt", "role"],
         strictWhiteListing: false
-    },
+    }, 
 
     create: {
         // Body whitelist (for middleware/schema validation)

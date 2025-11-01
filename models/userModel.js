@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
-//const Recipe = require('./recipeModel')
+const { generateToken } = require('../utils/hashedTokens');
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -44,6 +44,18 @@ const userSchema = new mongoose.Schema({
             validator: validator.isEmail, 
             message: props => `${props.value} is not a valid email address.`
         }
+    },
+    verifiedAt: {
+        type: Date,
+        select: true,
+    },
+    verifyEmailToken: {
+        type: String,
+        select: false
+    },
+    verifyEmailTokenExpires: {
+        type: Date,
+        select: false
     },
     passwordChangedAt: {
         type: Date,
@@ -136,17 +148,23 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
 }
 
 userSchema.methods.createPasswordResetToken = function() {
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const minutesUntilExpire = 10;
+    const { rawToken, hashedToken, expiresAt } = generateToken({ minutes: minutesUntilExpire })
 
-    this.passwordResetToken = crypto
-        .createHash('sha256')
-        .update(resetToken)
-        .digest('hex');
+    this.passwordResetToken = hashedToken;
+    this.passwordResetExpires = expiresAt;
 
-    // 10 mins
-    this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+    return { rawToken, minutesUntilExpire };
+}
 
-    return resetToken;
+userSchema.methods.createEmailVerificationToken = function() {
+    const minutesUntilExpire = 45;
+    const { rawToken, hashedToken, expiresAt } = generateToken({ minutes: minutesUntilExpire })
+
+    this.verifyEmailToken = hashedToken;
+    this.verifyEmailTokenExpires = expiresAt;
+
+    return { rawToken, minutesUntilExpire };
 }
 
 const User = mongoose.model('User', userSchema);

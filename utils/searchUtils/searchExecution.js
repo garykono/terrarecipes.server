@@ -1,6 +1,6 @@
 const { RECIPE_DEFAULT_SORT_KEY, RECIPE_PAGE_LIMITS } = require('../../policy/recipes.policy');
 const APIFeatures = require('../apiFeatures');
-const { buildPaginationPipeline } = require('./builders/searchBuilders');
+const { buildPaginationPipeline } = require('./builders/searchBuilderHelpers');
 
 /**
  * Executes a search query for any Mongoose Model

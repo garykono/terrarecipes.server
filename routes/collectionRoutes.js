@@ -3,7 +3,9 @@ const collectionController = require('../controllers/collectionController');
 const authController = require('../controllers/authController');
 const { parseInput } = require('../middleware/parseInput');
 const { normalizeRequest } = require('../normalizers/normalizeRequest');
-const { COLLECTIONS_PROFILES } = require('../policy/collections.policy');
+const { normalizeSearchRequest } = require('../normalizers/normalizeSearchRequest');
+const { COLLECTIONS_PROFILES, COLLECTIONS_PROFILE_MAPS } = require('../policy/collections.policy');
+const { compileSearch } = require('../middleware/compileSearch');
 
 const router = express.Router();
 
@@ -33,7 +35,8 @@ router.route('/myCollections/:id')
 
 router.route('/')
     .get( 
-        parseInput({ profile: COLLECTIONS_PROFILES["getAll"], normalizer: normalizeRequest }),
+        parseInput({ profile: COLLECTIONS_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
+        compileSearch(COLLECTIONS_PROFILE_MAPS),
         collectionController.getAllCollections
     )
     .post(

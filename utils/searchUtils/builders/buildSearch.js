@@ -1,5 +1,7 @@
 const { toRegex, filtersToMongo } = require("../searchHelpers.js");
-const { buildSortFilter, buildRecipeSearchFilter, buildMatchScoreField } = require("./searchBuilders.js");
+const { buildSortFilter, buildMatchScoreField, buildSearchFilter } = require("./searchBuilderHelpers.js");
+
+const DEBUG = false;
 
 /**
  * Builds all requirements needed for a mongoose search from normalized search parameters.
@@ -7,8 +9,9 @@ const { buildSortFilter, buildRecipeSearchFilter, buildMatchScoreField } = requi
  * @param {*} options Normalized and sanitized search criteria from a request.
  * @returns 
  */
-exports.compileRecipeSearch = ({ 
+exports.buildSearch = ({ 
     profile, 
+    profileMaps,
     searchClauses,
     andFilters, 
     orFilters,
@@ -17,8 +20,17 @@ exports.compileRecipeSearch = ({
     limit  
 } = options) => {
     if (!profile) {
-        throw new Error("No profile was given, and one is required to compile searches.");
+        throw new Error("No profile was given, and one is required to build searches.");
     }
+    if (!profileMaps) {
+        throw new Error("No profile maps were given, and are required to build searches.");
+    } else if (!profileMaps.filterMap) {
+        throw new Error("No profile filter map was given, and is required to build searches.");
+    } else if (!profileMaps.fieldMap) {
+        throw new Error("No profile field map was given, and are required to build searches.");
+    }
+
+    const { filterMap, fieldMap } = profileMaps;
 
     // Default fields (used when a clause doesn't specify searchFields)
     const defaultSearchFields = 
@@ -34,7 +46,7 @@ exports.compileRecipeSearch = ({
     const clauseNodes = [];   // built filters per clause (respecting negate/scoreOnly)
     const clauseJoins = [];   // "$and" | "$or" for each clause (ignored for the first)
 
-    if (Array.isArray(searchClauses) && searchClauses.length) {
+    if (profile.allowTextSearch && Array.isArray(searchClauses) && searchClauses.length) {
         searchClauses.forEach((c, idx) => {
             const regex = toRegex(c.term, {
                 mode: c.searchMode || "contains",
@@ -49,7 +61,7 @@ exports.compileRecipeSearch = ({
                     : defaultSearchFields;
 
             // OR across the mapped field paths for this clause
-            const orBlock = { $or: buildRecipeSearchFilter(regex, fieldsForClause, profile) };
+            const orBlock = { $or: buildSearchFilter(regex, fieldsForClause, profile, fieldMap) };
 
             // Scoring: add a piece even if this clause is score-only
             if ((c.searchMode || "contains") === "contains") {
@@ -94,7 +106,7 @@ exports.compileRecipeSearch = ({
     // 1) AND node: compile the whole object; AND its clauses
    const andNodes = (andFilters || [])
         .map(block => {
-            const clauses = filtersToMongo(block).filter(Boolean);
+            const clauses = filtersToMongo(block, filterMap).filter(Boolean);
             if (clauses.length === 0) return null;
             return clauses.length === 1 ? clauses[0] : { $and: clauses };
         })
@@ -113,7 +125,7 @@ exports.compileRecipeSearch = ({
     if (orFilters && Object.keys(orFilters).length) {
         const orClauses = [];
             for (const [key, spec] of Object.entries(orFilters)) {
-                const clauses = filtersToMongo({ [key]: spec }).filter(Boolean);
+                const clauses = filtersToMongo({ [key]: spec }, filterMap).filter(Boolean);
                 if (clauses.length === 0) continue;
                 const alt = clauses.length === 1 ? clauses[0] : { $and: clauses };
                 orClauses.push(alt);
@@ -137,13 +149,23 @@ exports.compileRecipeSearch = ({
     const addFields = addScorePieces.length ? { matchScore: { $add: addScorePieces } } : undefined;
 
     // --- sort/projection/pagination/collation ---
-    const sortObj = buildSortFilter(sort || profile.defaultSort || "");
+    const sortObj = buildSortFilter(sort || profile.defaultSort || "", profile.allowedSort || "");
     const project = Array.isArray(profile.projection)
         ? profile.projection.reduce((acc, k) => ((acc[k] = 1), acc), {})
         : undefined;
 
     // We must aggregate if we have derived fields or we sort by them.
     const needsAggregate = Boolean(addFields) || (sortObj && Object.prototype.hasOwnProperty.call(sortObj, "matchScore"));
+
+    if (DEBUG) {
+        console.debug("matchFilters: ", matchFilters)
+        console.debug("addFields: ", addFields)
+        console.debug("sortObj: ", sortObj)
+        console.debug("project: ", project)
+        console.debug("page: ", page)
+        console.debug("limit: ", limit)
+        console.debug("useAggregate: ", needsAggregate)
+    }
 
     return {
         matchFilters,

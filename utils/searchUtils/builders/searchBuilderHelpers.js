@@ -1,6 +1,3 @@
-const { RECIPES_PROFILES, FIELD_MAP } = require('../../../policy/recipes.policy.js');
-const { toRegex } = require('../searchHelpers.js');
-
 /**
  * Build an array of match conditions from an individual search term/phrase.
  * 
@@ -8,16 +5,17 @@ const { toRegex } = require('../searchHelpers.js');
  * @param {*} fields The search fields to match the search term with
  * @returns 
  */
-exports.buildRecipeSearchFilter = (
+exports.buildSearchFilter = (
     search, 
     fields,
-    profile
+    profile,
+    fieldMap
 ) => {
     if (!search) return [];
 
     const keys = (!!fields && fields.length ? fields : profile.allowedSearchFields);
     // Unknown keys ignored
-    const paths = keys.flatMap((key) => FIELD_MAP[key] ?? []);
+    const paths = keys.flatMap((key) => fieldMap[key] ?? []);
     // Produce the filters (an OR array)
     return paths.map(p => ({ [p]: search }));
 };
@@ -95,13 +93,11 @@ exports.buildMatchScoreField = (search) => {
  * @param {*} sort An array of strings that indicate sort params.
  * @returns 
  */
-exports.buildSortFilter = (sort) => {
-    const ALLOWED_SORT_FIELDS = ['name', 'createdAt', 'author', 'matchScore'];
-
+exports.buildSortFilter = (sort, allowedSortFields) => {
     const sortFields = sort.split(',').reduce((acc, field) => {
         const trimmed = field.trim();
         const key = trimmed.startsWith('-') ? trimmed.slice(1) : trimmed;
-        if (ALLOWED_SORT_FIELDS.includes(key)) {
+        if (allowedSortFields.includes(key)) {
             acc[key] = trimmed.startsWith('-') ? -1 : 1;
         }
         return acc;

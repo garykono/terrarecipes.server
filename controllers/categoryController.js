@@ -3,10 +3,9 @@ const catchAsync = require("../utils/catchAsync");
 const Recipe = require('../models/recipeModel')
 const { ERROR_NAME, AppError } = require("../utils/appError");
 const { searchDocuments } = require("../utils/searchUtils/searchExecution");
-const { compileRecipeSearch } = require("../utils/searchUtils/builders/recipeBuilders");
 const { RECIPES_PROFILES } = require("../policy/recipes.policy");
 const { normalizeSearchRequest } = require("../normalizers/normalizeSearchRequest");
-const { parseInput } = require("../middleware/parseInput");
+const { buildSearch } = require("../utils/searchUtils/builders/buildSearch");
 
 const DEBUG = false;
 
@@ -92,7 +91,7 @@ const searchCategory = async (categoryName, categoryInfo, profileKey, profile) =
     );
 
     // 3) Build all necessary query info to be used for mongoose
-    const searchOptions = compileRecipeSearch(parsedSearchOptions);
+    const searchOptions = buildSearch(parsedSearchOptions);
     if (DEBUG) console.debug(`searchOptions for ${categoryName}:`)
     if (DEBUG) console.dir(searchOptions, { depth: null, maxArrayLength: null, colors: true });
 

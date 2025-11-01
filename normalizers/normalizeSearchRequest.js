@@ -22,9 +22,6 @@ exports.normalizeSearchRequest = (
     const rawPage     = payload.page;
     const rawLimit    = payload.limit;
 
-    const clean = {};
-    const rejected = {};
-
     // Whitelist by profile
     const allowedSearchFields  = new Set(profile.allowedSearchFields || []);
     const allowedFilters = new Set(profile.allowedFilters || []);
@@ -43,7 +40,7 @@ exports.normalizeSearchRequest = (
         : [];
 
     // combine all search clauses
-    clean.searchClauses = [...clausesFromBody, ...clausesFromSearch];
+    const searchClauses = [...clausesFromBody, ...clausesFromSearch];
 
     // normalize and sanitize custom filters
     // Supports: field=value, field=a,b, field[op]=..., field.op=...
@@ -58,14 +55,14 @@ exports.normalizeSearchRequest = (
         if (a && Object.keys(a).length) andFilterBlocks.push(a);
     }
 
-    clean.andFilters = andFilterBlocks;
+    const andFilters = andFilterBlocks;
 
-    clean.orFilters = rawOrFilters 
+    const orFilters = rawOrFilters 
         ? normalizeAndSanitizeFilters(rawOrFilters, allowedFilters)
         : {}
 
     // sort (sanitize tokens)
-    clean.sort =
+    const sort =
         typeof rawSort === "string"
             ? rawSort
                 .split(",")
@@ -78,13 +75,23 @@ exports.normalizeSearchRequest = (
             : undefined;
 
     // pagination
-    clean.page = rawPage ? Math.max(1, parseInt(rawPage, 10) || 1) : 1;
-    clean.limit = rawLimit
+    const page = rawPage ? Math.max(1, parseInt(rawPage, 10) || 1) : 1;
+    const limit = rawLimit
         ? Math.min(
                 pageLimits.max,
                 Math.max(pageLimits.min, parseInt(rawLimit, 10) || pageLimits.defaultPerPage)
             )
         : pageLimits.defaultPerPage;
 
-    return { clean, rejected };
+    return { 
+        clean: {
+            searchClauses,
+            andFilters,
+            orFilters,
+            sort,
+            page,
+            limit
+        },
+        rejected: {}    // Not yet implemented
+    };
 }

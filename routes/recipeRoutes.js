@@ -4,7 +4,8 @@ const authController = require('../controllers/authController');
 const { parseInput } = require('../middleware/parseInput');
 const { normalizeSearchRequest } = require('../normalizers/normalizeSearchRequest');
 const { normalizeRecipeWriteRequest } = require('../normalizers/normalizeRecipeWriteRequest');
-const { RECIPES_PROFILES } = require('../policy/recipes.policy');
+const { RECIPES_PROFILES, RECIPE_PROFILE_MAPS } = require('../policy/recipes.policy');
+const { compileSearch } = require('../middleware/compileSearch');
 
 const router = express.Router();
 
@@ -37,7 +38,7 @@ router.route('/myRecipes/:id')
 router.route('/')
     .get(
         parseInput({ profile: RECIPES_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
-        recipeController.buildRecipeSearch,
+        compileSearch(RECIPE_PROFILE_MAPS),
         recipeController.getAllRecipes)
     .post(
         authController.protect,
@@ -56,7 +57,7 @@ router.route('/:id')
 router.route('/search')
     .post(
         parseInput({ profile: RECIPES_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
-        recipeController.buildRecipeSearch,
+        compileSearch(RECIPE_PROFILE_MAPS),
         recipeController.getAllRecipes
     )
 

@@ -1,4 +1,4 @@
-export const parseInput = ({
+exports.parseInput = ({
     payload,
     profile, 
     normalizer
@@ -14,7 +14,6 @@ export const parseInput = ({
             profile,
             ...clean
         };
-        
         next();
     } catch (err) {
         next(err);

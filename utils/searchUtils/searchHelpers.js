@@ -1,4 +1,3 @@
-const { RECIPE_FILTER_MAP } = require("../../policy/recipes.policy");
 const { normalizeVals } = require("../arrays");
 const { castValue, castMany } = require("../cast")
 const { escapeRx } = require("../strings")
@@ -89,11 +88,11 @@ const buildCondition = (path, op, vals, type) => {
  * @param {*} filters 
  * @returns 
  */
-exports.filtersToMongo = (filters = {}) => {
+exports.filtersToMongo = (filters = {}, filterMap) => {
     const and = [];
 
     for (const [key, payload] of Object.entries(filters)) {
-        const spec = RECIPE_FILTER_MAP[key];
+        const spec = filterMap[key];
         if (!spec) continue;
 
         const valsRaw = normalizeVals(payload?.vals ?? payload);
