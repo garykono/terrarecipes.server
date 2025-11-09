@@ -95,5 +95,12 @@ exports.USERS_PROFILES = {
             "passwordCurrent", "password", "passwordConfirm"
         ],
         strictWhiteListing: true
+    },
+
+    updateEmail: {
+        allowedBody: [
+            "newEmail", "password"
+        ],
+        strictWhiteListing: true
     }
 };

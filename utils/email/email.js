@@ -5,10 +5,12 @@ const { Welcome } = require('./templates/Welcome');
 const { AccountVerification } = require('./templates/AccountVerification');
 const { PasswordReset } = require('./templates/PasswordReset');
 const { PasswordChanged } = require('./templates/PasswordChanged');
+const { EmailChanged } = require('./templates/EmailChanged');
 
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.EMAIL_FROM;
+const SUPPORT_EMAIL_ADDRESS = process.env.SUPPORT_EMAIL_ADDRESS;
 
 exports.sendVerificationEmail = async({
     email,
@@ -23,28 +25,23 @@ exports.sendVerificationEmail = async({
         html: html
     });
 
-    console.log("data: ", data, "\nerror: ", error)
-
-    if (error) throw error;
-
-    return data;
+    return { data, error };
 }
 
 exports.sendWelcomeEmail = async ({
     username,
-    email
+    email,
+    homeUrl
 }) => {
-    const html = await render(React.createElement(Welcome, { name: username }));
+    const html = await render(React.createElement(Welcome, { name: username, homeUrl }));
     const { data, error } = await resend.emails.send({
         from: FROM,
         to: email,
-        subject: "Welcome!",
+        subject: "Welcome to Terrarecipes 👩‍🍳 — your kitchen companion",
         html: html
     });
 
-    if (error) throw error;
-
-    return data;
+    return { data, error };
 }
 
 exports.sendPasswordResetEmail = async ({
@@ -56,27 +53,39 @@ exports.sendPasswordResetEmail = async ({
     const { data, error } = await resend.emails.send({
         from: FROM,
         to: email,
-        subject: "Reset your password",
+        subject: "Reset your Terrarecipes password",
         html: html
     });
     
-    if (error) throw error;
-
-    return data;
+    return { data, error };
 }
 
 exports.sendPasswordChangedEmail = async ({
-    email
+    email,
+    changePasswordUrl
 }) => {
-    const html = await render(React.createElement(PasswordChanged));
+    const html = await render(React.createElement(PasswordChanged, { changePasswordUrl }));
     const { data, error } = await resend.emails.send({
         from: FROM,
         to: email,
         subject: "Your password was recently changed",
         html: html
     });
-    
-    if (error) throw error;
 
-    return data;
+    return { data, error };
+}
+
+exports.sendEmailChangedEmail = async ({
+    email,
+    changePasswordUrl
+}) => {
+    const html = await render(React.createElement(EmailChanged, { supportEmail: SUPPORT_EMAIL_ADDRESS }));
+    const { data, error } = await resend.emails.send({
+        from: FROM,
+        to: email,
+        subject: "Your email address was recently changed",
+        html: html
+    });
+
+    return { data, error };
 }

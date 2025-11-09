@@ -54,6 +54,12 @@ router.patch('/updateMyPassword',
     authController.updatePassword
 );
 
+router.post('/updateMyEmail', 
+    authController.protect,
+    parseInput({ profile: USERS_PROFILES["updateEmail"], normalizer: normalizeRequest }),
+    authController.updateEmail
+);
+
 router.patch('/updateMe', 
     authController.protect,
     // Send custom error if attempting to change password here

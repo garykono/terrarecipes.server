@@ -4,7 +4,7 @@ const { promisify } = require('util');
 
 const catchAsync = require('../utils/catchAsync');
 const { AppError, ERROR_NAME } = require('../utils/appError')
-const { sendWelcomeEmail, sendPasswordResetEmail, sendVerificationEmail, sendPasswordChangedEmail } = require('../utils/email/email')
+const { sendWelcomeEmail, sendPasswordResetEmail, sendVerificationEmail, sendPasswordChangedEmail, sendEmailChangedEmail } = require('../utils/email/email')
 const User = require('../models/userModel');
 const Recipe = require('../models/recipeModel')
 const Collection = require('../models/collectionModel');
@@ -50,26 +50,20 @@ const createAndSendToken = (user, statusCode, res) => {
 }
 
 const issueAndSendVerifyEmail = async (user) => {
-    if (user.verifiedAt) {
-        return new AppError(409, ERROR_NAME.ALREADY_VERIFIED, 'This email address has already been verified.');
-    };
-
     // Generate the random token
-    const { rawToken, minutesUntilExpire } = user.createEmailVerificationToken();
+    const { rawToken, minutesUntilExpire } = await user.createSignupEmailVerificationToken();
     await user.save({ validateBeforeSave: false });
     
     // Send it to user's email
     const verificationUrl = buildFrontendUrl(`/verifyEmail/${rawToken}`);
 
-    try {
-        const { data } = await sendVerificationEmail({
-            email: user.email,
-            verificationUrl,
-            minutesUntilExpire
-        });
-    } catch(err) {
-        console.debug(err)
-    }
+    const { data, error } = await sendVerificationEmail({
+        email: user.email,
+        verificationUrl,
+        minutesUntilExpire
+    });
+
+    return { data, error };
 }
 
 exports.signup = catchAsync(async(req, res, next) => {
@@ -83,13 +77,12 @@ exports.signup = catchAsync(async(req, res, next) => {
     })
 
     // Send an email, no need to wait for the email to send
-    try {
-        issueAndSendVerifyEmail(newUser);
-    } catch (e) {
-        console.debug(e);
+    const { data, error } = await issueAndSendVerifyEmail(newUser);
+
+    if (error) {
+        console.debug(`Email verification failed to be sent to email "${newUser.email}": ${error}`)
     }
     
-
     res.status(201).json({
         status: 'success',
         data: {
@@ -106,20 +99,17 @@ exports.resendVerificationEmail = catchAsync(async (req, res, next) => {
     }
     
     // 2) Send it to user's email
-    try {
-        await issueAndSendVerifyEmail(user);
-    } catch(err) {
-        user.verifyEmailToken = undefined;
-        user.verifyEmailTokenExpires = undefined;
+    if (user.verifiedAt) {
+        return next(new AppError(409, ERROR_NAME.ALREADY_VERIFIED, 'This email address has already been verified.'));
+    };
+    const { data, error } = await issueAndSendVerifyEmail(user);
+    
+    if (error) {
+        user.signupEmailTokenHash = undefined;
+        user.signupEmailTokenExpires = undefined;
         await user.save({ validateBeforeSave: false });
 
-        console.debug(err)
-
-        if (err.name === 'ALREADY_VERIFIED') {
-            return next(err);
-        } else {
-            return next(new AppError(500, ERROR_NAME.EMAIL_SEND_ERROR, 'There was an error sending the email. Try again later!'));
-        }
+        return next(new AppError(500, ERROR_NAME.EMAIL_SEND_ERROR, 'There was an error sending the email. Try again later!'));
     }
     
     res.status(200).json({
@@ -129,40 +119,80 @@ exports.resendVerificationEmail = catchAsync(async (req, res, next) => {
 });
 
 exports.verifyEmail = catchAsync(async (req, res, next) => {
-    // 1) Get user based on the token
     const hashedToken = hashToken(req.params.token);
 
-    const user = await User.findOne({ 
-        verifyEmailToken: hashedToken, 
-        verifyEmailTokenExpires: {$gt: Date.now()} 
+    // 1) Try to look up user by signup email token
+    let user = await User.findOne({ 
+        signupEmailTokenHash: hashedToken, 
+        signupEmailTokenExpires: {$gt: Date.now()} 
     });
 
-    // 2) If the token has not expired, and there is user, set verifiedAt and clear verify token
+    if (user) {
+        user.signupEmailTokenHash = undefined;
+        user.signupEmailTokenExpires = undefined;
+
+        if (!user.verifiedAt) {
+            user.verifiedAt = Date.now();
+        } 
+        await user.save();
+
+        // 3) Send welcome email
+        const { data, error } = await sendWelcomeEmail({
+            username: user.username,
+            email: user.email,
+            homeUrl: buildFrontendUrl(``)
+        });
+
+        if (error) {
+            console.debug(`Welcome email failed to be sent to email "${user.email}": ${error}`)
+        }
+        
+        // 4) Send jwt to sign user in
+        createAndSendToken(user, 200, res);
+    }
+
+    // 2) Try to look up by pending email token
+    user = await User.findOne({ 
+        pendingEmailTokenHash: hashedToken, 
+        pendingEmailTokenExpires: {$gt: Date.now()} 
+    });
+
+    if (user) {
+        const oldEmail = user.email;
+        const accountWasPreviouslyVerified = await user.updateEmailAddressWithPending();
+
+        // 3) Send email changed email to old email address if the account has been verified before
+        if (accountWasPreviouslyVerified) {
+            const { data, error } = await sendEmailChangedEmail({
+                email: oldEmail,
+                changePasswordUrl: buildFrontendUrl(`/changePassword`)
+            });
+
+            if (error) {
+                console.debug(`Email changed email failed to be sent to email "${oldEmail}": ${error}`)
+            }
+        } else {
+            // Otherwise, this is the first time they've been verified so send a welcome email
+            const { data, error } = await sendWelcomeEmail({
+                username: user.username,
+                email: user.email,
+                homeUrl: buildFrontendUrl(``)
+            });
+
+            if (error) {
+                console.debug(`Welcome email failed to be sent to email "${user.email}": ${error}`)
+            }
+        }
+        
+        // 4) Send jwt to sign user in
+        createAndSendToken(user, 200, res);
+    }
+
+
+    // 3) Token didn't match any existing verification tokens
     if (!user) {
         return (next(new AppError(400, ERROR_NAME.INVALID_TOKEN, 'Token is invalid or has expired.')))
-    } else if (user.verifiedAt) {
-        user.verifyEmailToken = undefined;
-        user.verifyEmailTokenExpires = undefined;
-        return (next(new AppError(409, ERROR_NAME.ALREADY_VERIFIED, 'This email address has already been verified.')))
     }
-
-    user.verifiedAt = Date.now();
-    user.verifyEmailToken = undefined;
-    user.verifyEmailTokenExpires = undefined;
-    await user.save();
-
-    // 3) Send welcome email
-    try {
-        const { data } = await sendWelcomeEmail({
-            username: newUser.username,
-            email: newUser.email,
-        });
-    } catch(err) {
-        console.debug(err)
-    }
-    
-    // 4) Send jwt to sign user in
-    createAndSendToken(user, 200, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -306,18 +336,18 @@ exports.forgotPassword = catchAsync(async(req, res, next) => {
     
     // 3) Send it to user's email
     const resetUrl = buildFrontendUrl(`/resetPassword/${rawToken}`);
-    try {
-        const data = await sendPasswordResetEmail({
-            email: user.email,
-            resetUrl,
-            minutesUntilExpire
-        });
-    } catch(err) {
-        user.passwordResetToken = undefined;
+    const { data, error } = await sendPasswordResetEmail({
+        email: user.email,
+        resetUrl,
+        minutesUntilExpire
+    });
+    
+    if (error) {
+        user.passwordResetTokenHash = undefined;
         user.passwordResetExpires = undefined;
         await user.save({ validateBeforeSave: false });
 
-        console.debug(err)
+        console.debug(`Password Reset email failed to be sent to email "${user.email}": ${error}\nReset token cleared.`)
 
         return next(new AppError(500, ERROR_NAME.EMAIL_SEND_ERROR, 'There was an error sending the email. Try again later!'));
     }
@@ -333,7 +363,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     const hashedToken = hashToken(req.params.token);
 
     const user = await User.findOne({ 
-        passwordResetToken: hashedToken, 
+        passwordResetTokenHash: hashedToken, 
         passwordResetExpires: {$gt: Date.now()} 
     });
 
@@ -343,14 +373,21 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     }
     user.password = req.parsed.password;
     user.passwordConfirm = req.parsed.passwordConfirm;
-    user.passwordResetToken = undefined;
+    user.passwordResetTokenHash = undefined;
     user.passwordResetExpires = undefined;
     await user.save();
 
     // 3) Update changedPasswordAt property for the user (this is done automatically as a middleware function in userModel)
 
     // 4) Send an email that the password changed
-    sendPasswordChangedEmail(user.email);
+    const { data, error } = await sendPasswordChangedEmail({
+        email: user.email,
+        changePasswordUrl: buildFrontendUrl(`/forgotPassword`)
+    });
+
+    if (error) {
+        console.debug(`Password Changed email failed to be sent to email "${user.email}": ${error}`)
+    }
 
     // 5) Password reset successful
     res.status(200).json({
@@ -360,7 +397,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-    // 1) Get user from the collection
+    // 1) Get user
     const user = await User.findById(req.user.id).select('+password');
 
     // 2) Check if POSTed password is correct
@@ -375,8 +412,57 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     // User.findByIdAndUpdate() will not work because it won't get validated AND it won't pass through our middleware
 
     // 4) Send an email that the password changed
-    sendPasswordChangedEmail(user.email);
+    const { data, error } = await sendPasswordChangedEmail({
+        email: user.email,
+        changePasswordUrl: buildFrontendUrl(`/forgotPassword`)
+    });
+
+    if (error) {
+        console.debug(`Password Changed email failed to be sent to email "${user.email}": ${error}`)
+    }
 
     // 5) Log user in, send JWT
     createAndSendToken(user, 200, res);
+});
+
+exports.updateEmail = catchAsync(async (req, res, next) => {
+    const { newEmail, password } = req.parsed;
+
+    // 1) Check if user exists && password is correct
+    const user = await User.findById(req.user.id).select('+password');
+
+    if (!user || !(await user.correctPassword(password, user.password))) {
+        return next(new AppError(401, ERROR_NAME.UNAUTHORIZED, 'Incorrect email or password'));
+    }
+
+    // 2) Check if new email address already exists
+    const normalizedNew = newEmail.trim().toLowerCase();
+    if (normalizedNew === user.email) {
+        return next(new AppError(409, ERROR_NAME.SAME_EMAIL, 'That is already your current email.'));
+    }
+
+    const existing = await User.findOne({ email: normalizedNew }).lean();
+    if (existing) {
+        return next(new AppError(409, ERROR_NAME.ALREADY_TAKEN, 'That email is already in use.'));
+    }
+
+
+    // 3) Generate the random token and set the new email address to pending
+    const { rawToken, minutesUntilExpire } = user.createPendingEmailVerificationToken();
+    user.pendingEmail = newEmail;
+    await user.save({ validateBeforeSave: false });
+    
+    // 4) Send it to user's email
+    const verificationUrl = buildFrontendUrl(`/verifyEmail/${rawToken}`);
+
+    const { data, error } = await sendVerificationEmail({
+        email: newEmail,
+        verificationUrl,
+        minutesUntilExpire
+    });
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Token sent to email!'
+    });
 });

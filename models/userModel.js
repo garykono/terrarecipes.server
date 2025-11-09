@@ -40,6 +40,7 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please provide your email.'],
         unique: true,
         lowercase: true,
+        trim: true,
         validate: {
             validator: validator.isEmail, 
             message: props => `${props.value} is not a valid email address.`
@@ -49,11 +50,28 @@ const userSchema = new mongoose.Schema({
         type: Date,
         select: true,
     },
-    verifyEmailToken: {
+    signupEmailTokenHash: {
         type: String,
         select: false
     },
-    verifyEmailTokenExpires: {
+    signupEmailTokenExpires: {
+        type: Date,
+        select: false
+    },
+    pendingEmail: {
+        type: String,
+        unique: true,
+        lowercase: true,
+        validate: {
+            validator: validator.isEmail, 
+            message: props => `${props.value} is not a valid email address.`
+        }
+    },
+    pendingEmailTokenHash: {
+        type: String,
+        select: false
+    },
+    pendingEmailTokenExpires: {
         type: Date,
         select: false
     },
@@ -61,7 +79,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         select: false
     },
-    passwordResetToken: {
+    passwordResetTokenHash: {
         type: String,
         select: false
     },
@@ -151,20 +169,47 @@ userSchema.methods.createPasswordResetToken = function() {
     const minutesUntilExpire = 10;
     const { rawToken, hashedToken, expiresAt } = generateToken({ minutes: minutesUntilExpire })
 
-    this.passwordResetToken = hashedToken;
+    this.passwordResetTokenHash = hashedToken;
     this.passwordResetExpires = expiresAt;
 
     return { rawToken, minutesUntilExpire };
 }
 
-userSchema.methods.createEmailVerificationToken = function() {
+userSchema.methods.createSignupEmailVerificationToken = function() {
     const minutesUntilExpire = 45;
     const { rawToken, hashedToken, expiresAt } = generateToken({ minutes: minutesUntilExpire })
 
-    this.verifyEmailToken = hashedToken;
-    this.verifyEmailTokenExpires = expiresAt;
+    this.signupEmailTokenHash = hashedToken;
+    this.signupEmailTokenExpires = expiresAt;
 
     return { rawToken, minutesUntilExpire };
+}
+
+userSchema.methods.createPendingEmailVerificationToken = function() {
+    const minutesUntilExpire = 45;
+    const { rawToken, hashedToken, expiresAt } = generateToken({ minutes: minutesUntilExpire })
+
+    this.pendingEmailTokenHash = hashedToken;
+    this.pendingEmailTokenExpires = expiresAt;
+
+    return { rawToken, minutesUntilExpire };
+}
+
+userSchema.methods.updateEmailAddressWithPending = async function() {
+    const accountWasPreviouslyVerified = this.verifiedAt && true;
+
+    this.email = this.pendingEmail;
+    this.pendingEmail = undefined;
+    this.pendingEmailTokenHash = undefined;
+    this.pendingEmailTokenExpires = undefined;
+    this.verifiedAt = Date.now();
+
+    // For the case that a user hasn't initially verified, but is changing their email address now, remove the sign up token
+    this.signupEmailTokenHash = undefined;
+    this.signupEmailTokenExpires = undefined;
+    await this.save();
+
+    return accountWasPreviouslyVerified;
 }
 
 const User = mongoose.model('User', userSchema);

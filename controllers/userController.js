@@ -11,7 +11,9 @@ exports.getMe = catchAsync(async(req, res, next) => {
 exports.updateMe = catchAsync(async (req, res, next) => {
     // 1) Create error if user POSTs password data
     if (req.body.password || req.body.passwordConfirm) {
-        return next(new AppError(403, ERROR_NAME.FORBIDDEN, 'This route is not for password updates. Please use /updateMyPassword'));
+        return next(new AppError(403, ERROR_NAME.FORBIDDEN, 'This route is not for password updates. Please use /updateMyPassword.'));
+    } else if (req.body.email) {
+        return next(new AppError(403, ERROR_NAME.FORBIDDEN, 'This route is not for email address updates. Please use /updateMyEmail.'));
     }
 
     req.params.id = req.user.id;

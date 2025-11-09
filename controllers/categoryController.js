@@ -3,7 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 const Recipe = require('../models/recipeModel')
 const { ERROR_NAME, AppError } = require("../utils/appError");
 const { searchDocuments } = require("../utils/searchUtils/searchExecution");
-const { RECIPES_PROFILES } = require("../policy/recipes.policy");
+const { RECIPES_PROFILES, RECIPE_PROFILE_MAPS } = require("../policy/recipes.policy");
 const { normalizeSearchRequest } = require("../normalizers/normalizeSearchRequest");
 const { buildSearch } = require("../utils/searchUtils/builders/buildSearch");
 
@@ -37,10 +37,10 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     let tasks;
     if (group === "core") {
         tasks = Object.entries(categoryInfo.subCategories).map(([categoryName, categoryInfo]) => {
-            return searchCategory(categoryName, categoryInfo, profileKey, profile);
+            return searchCategory(categoryName, categoryInfo, profile, RECIPE_PROFILE_MAPS);
         });
     } else {
-        tasks = [searchCategory(categoryInfo.slug, categoryInfo, profileKey, profile)];
+        tasks = [searchCategory(categoryInfo.slug, categoryInfo, profile, RECIPE_PROFILE_MAPS)];
     }
 
     const settled = await Promise.allSettled(tasks);
@@ -69,7 +69,7 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     });
 });
 
-const searchCategory = async (categoryName, categoryInfo, profileKey, profile) => {
+const searchCategory = async (categoryName, categoryInfo, profile, profileMaps) => {
     const categorySearchCriteria = categoryInfo.searchCriteria;
 
     // 1) Build the payload
@@ -91,7 +91,10 @@ const searchCategory = async (categoryName, categoryInfo, profileKey, profile) =
     );
 
     // 3) Build all necessary query info to be used for mongoose
-    const searchOptions = buildSearch(parsedSearchOptions);
+    const searchOptions = buildSearch({
+            profileMaps,
+            ...parsedSearchOptions
+    });
     if (DEBUG) console.debug(`searchOptions for ${categoryName}:`)
     if (DEBUG) console.dir(searchOptions, { depth: null, maxArrayLength: null, colors: true });
 
