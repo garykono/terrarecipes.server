@@ -7,8 +7,6 @@ const { RECIPES_PROFILES, RECIPE_PROFILE_MAPS } = require("../policy/recipes.pol
 const { normalizeSearchRequest } = require("../normalizers/normalizeSearchRequest");
 const { buildSearch } = require("../utils/searchUtils/builders/buildSearch");
 
-const DEBUG = false;
-
 exports.getCategory = catchAsync(async (req, res, next) => {
     const { group, slug } = req.query;
     // This is essentially just using the getAll recipes pipeline, so use its profile
@@ -37,13 +35,14 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     let tasks;
     if (group === "core") {
         tasks = Object.entries(categoryInfo.subCategories).map(([categoryName, categoryInfo]) => {
-            return searchCategory(categoryName, categoryInfo, profile, RECIPE_PROFILE_MAPS);
+            return searchCategory(req, categoryName, categoryInfo, profile, RECIPE_PROFILE_MAPS);
         });
     } else {
-        tasks = [searchCategory(categoryInfo.slug, categoryInfo, profile, RECIPE_PROFILE_MAPS)];
+        tasks = [searchCategory(req, categoryInfo.slug, categoryInfo, profile, RECIPE_PROFILE_MAPS)];
     }
 
     const settled = await Promise.allSettled(tasks);
+    console.log("settled: ", settled)
 
     const categoryResults = {};
     for (const s of settled) {
@@ -55,7 +54,7 @@ exports.getCategory = catchAsync(async (req, res, next) => {
                 totalPages
             };
         } else {
-            console.error("category failed:", s.reason);
+            req.log.warn({ settledPromise: s }, "Sub Category load failed")
             categoryResults[categoryName] = [];
         }
     }
@@ -69,7 +68,7 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     });
 });
 
-const searchCategory = async (categoryName, categoryInfo, profile, profileMaps) => {
+const searchCategory = async (req, categoryName, categoryInfo, profile, profileMaps) => {
     const categorySearchCriteria = categoryInfo.searchCriteria;
 
     // 1) Build the payload
@@ -77,7 +76,6 @@ const searchCategory = async (categoryName, categoryInfo, profile, profileMaps) 
         ...categorySearchCriteria,
         limit: 10,
     };
-    if (DEBUG) console.debug("categoryPayload for ", categoryName, ": ", categoryPayload)
 
     // 2) Normalize and sanitize search params
     const parsedSearchOptions = {
@@ -85,21 +83,17 @@ const searchCategory = async (categoryName, categoryInfo, profile, profileMaps) 
         ...normalizeSearchRequest(categoryPayload, profile).clean,
     };
 
-    if (DEBUG) console.dir(
-        { [`parsedSearchOptions for ${categoryName}`]: parsedSearchOptions },
-        { depth: null }
-    );
-
     // 3) Build all necessary query info to be used for mongoose
-    const searchOptions = buildSearch({
+    const searchBuild = buildSearch({
             profileMaps,
             ...parsedSearchOptions
     });
-    if (DEBUG) console.debug(`searchOptions for ${categoryName}:`)
-    if (DEBUG) console.dir(searchOptions, { depth: null, maxArrayLength: null, colors: true });
+
+    
+    req.log.debug({ categoryName, categoryPayload, parsedSearchOptions, searchBuild }, "Search Category build");
 
     // 4) Execute the search
-    const { results, totalCount, totalPages } = await searchDocuments(Recipe, searchOptions);
+    const { results, totalCount, totalPages } = await searchDocuments(Recipe, searchBuild);
     
     return { categoryName, results, totalCount, totalPages };
 }

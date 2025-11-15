@@ -4,12 +4,15 @@ const { promisify } = require('util');
 
 const catchAsync = require('../utils/catchAsync');
 const { AppError, ERROR_NAME } = require('../utils/appError')
+const { logger } = require('../utils/logger');
 const { sendWelcomeEmail, sendPasswordResetEmail, sendVerificationEmail, sendPasswordChangedEmail, sendEmailChangedEmail } = require('../utils/email/email')
 const User = require('../models/userModel');
 const Recipe = require('../models/recipeModel')
 const Collection = require('../models/collectionModel');
 const { buildFrontendUrl } = require('../utils/url');
 const { hashToken } = require('../utils/hashedTokens');
+const { USER_EMAIL_THROTTLING } = require('../policy/users.policy');
+
 
 const signToken = id => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -73,15 +76,13 @@ exports.signup = catchAsync(async(req, res, next) => {
         passwordConfirm: req.parsed.passwordConfirm,
         email: req.parsed.email,
         //passwordChangedAt: req.parsed.passwordChangedAt,
-        role: req.parsed.role
+        role: "user"
     })
 
     // Send an email, no need to wait for the email to send
     const { data, error } = await issueAndSendVerifyEmail(newUser);
 
-    if (error) {
-        console.debug(`Email verification failed to be sent to email "${newUser.email}": ${error}`)
-    }
+    if (error) req.log.warn({ email: newUser.email, err: error }, "Email Verification email failed to send")
     
     res.status(201).json({
         status: 'success',
@@ -93,15 +94,59 @@ exports.signup = catchAsync(async(req, res, next) => {
 
 exports.resendVerificationEmail = catchAsync(async (req, res, next) => {
     // 1) Get user based on POSTed email
-    const user = await User.findOne({ email: req.parsed.email });
+    const user = await User.findOne({ email: req.parsed.email }).select(
+        "+signupEmailLastSentAt +signupEmailSendCount24h"
+    );
     if(!user) {
         return next(new AppError(404, ERROR_NAME.RESOURCE_NOT_FOUND, 'There is no user with that email address.'));
     }
     
-    // 2) Send it to user's email
+    // 2) Check if already verified
     if (user.verifiedAt) {
         return next(new AppError(409, ERROR_NAME.ALREADY_VERIFIED, 'This email address has already been verified.'));
     };
+    
+    // 3) Enforce minimum gap
+    const now = Date.now();
+    const cfg = USER_EMAIL_THROTTLING.signup;
+    
+    if (
+        user.signupEmailLastSentAt &&
+        now - user.signupEmailLastSentAt.getTime() < cfg.minIntervalMs
+    ) {
+        const secondsLeft = Math.ceil((cfg.minIntervalMs - (now - user.signupEmailLastSentAt.getTime())) / 1000);
+
+        return next(
+            new AppError(
+                429, 
+                ERROR_NAME.RESEND_INTERVAL_NOT_ELAPSED, 
+                `You can request another verification email in ${secondsLeft} seconds.`, 
+                { secondsLeft }
+            )
+        );
+    };
+
+    // 4) Enforce daily window cap
+    if (
+        user.signupEmailLastSentAt &&
+        now - user.signupEmailLastSentAt.getTime() > cfg.windowMs
+    ) {
+        // reset daily counter if last email was more than a day ago
+        user.signupEmailSendCount24h = 0;
+    }
+
+    if (user.signupEmailSendCount24h >= cfg.maxInWindow) {
+        return next(
+            new AppError(429, ERROR_NAME.DAILY_EMAIL_LIMIT_EXCEEDED, "Too many verification email requests. Please try again later.")
+        );
+    }
+
+    // 5) Update throttle fields
+    user.signupEmailLastSentAt = now;
+    user.signupEmailSendCount24h += 1;
+    await user.save({ validateBeforeSave: false });
+
+    // 6) Send email
     const { data, error } = await issueAndSendVerifyEmail(user);
     
     if (error) {
@@ -143,10 +188,8 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
             homeUrl: buildFrontendUrl(``)
         });
 
-        if (error) {
-            console.debug(`Welcome email failed to be sent to email "${user.email}": ${error}`)
-        }
-        
+        if (error) req.log.warn({ email: user.email, err: error }, "Welcome email failed to be send")
+            
         // 4) Send jwt to sign user in
         createAndSendToken(user, 200, res);
     }
@@ -168,9 +211,7 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
                 changePasswordUrl: buildFrontendUrl(`/changePassword`)
             });
 
-            if (error) {
-                console.debug(`Email changed email failed to be sent to email "${oldEmail}": ${error}`)
-            }
+            if (error) req.log.warn({ email: oldEmail, err: error }, "Email Changed email failed to send")
         } else {
             // Otherwise, this is the first time they've been verified so send a welcome email
             const { data, error } = await sendWelcomeEmail({
@@ -179,9 +220,7 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
                 homeUrl: buildFrontendUrl(``)
             });
 
-            if (error) {
-                console.debug(`Welcome email failed to be sent to email "${user.email}": ${error}`)
-            }
+            if (error) req.log.warn({ email: user.email, err: error }, "Welcome email failed to send")
         }
         
         // 4) Send jwt to sign user in
@@ -325,16 +364,56 @@ exports.restrictTo = (...roles) => {
 
 exports.forgotPassword = catchAsync(async(req, res, next) => {
     // 1) Get user based on POSTed email
-    const user = await User.findOne({ email: req.parsed.email });
+    const user = await User.findOne({ email: req.parsed.email }).select(
+        "+passwordResetLastSentAt +passwordResetSendCount24h"
+    );;
     if(!user) {
         return next(new AppError(404, ERROR_NAME.RESOURCE_NOT_FOUND, 'There is no user with that email address.'));
     }
 
-    // 2) Generate the random reset token
+    // 2) Enforce minimum gap
+    const now = Date.now();
+    const cfg = USER_EMAIL_THROTTLING.passwordReset;
+    if (
+        user.passwordResetLastSentAt &&
+        now - user.passwordResetLastSentAt.getTime() < cfg.minIntervalMs
+    ) {
+        const secondsLeft = Math.ceil((cfg.minIntervalMs - (now - user.passwordResetLastSentAt.getTime())) / 1000);
+
+        return next(
+            new AppError(
+                429, 
+                ERROR_NAME.RESEND_INTERVAL_NOT_ELAPSED, 
+                `You can request another forgot password email in ${secondsLeft} seconds.`, 
+                { secondsLeft }
+            )
+        )
+    };
+
+    // 3) Enforce daily window cap
+    if (
+        user.passwordResetLastSentAt &&
+        now - user.passwordResetLastSentAt.getTime() > cfg.windowMs
+    ) {
+        // reset daily counter if last email was more than a day ago
+        user.passwordResetSendCount24h = 0;
+    }
+
+    if (user.passwordResetSendCount24h >= cfg.maxInWindow) {
+        return next(
+            new AppError(429, ERROR_NAME.DAILY_EMAIL_LIMIT_EXCEEDED, "Too many reset password email requests. Please try again later.")
+        );
+    }
+
+    // 4) Generate the random reset token
     const { rawToken, minutesUntilExpire } = user.createPasswordResetToken();
+
+    // 5) Update throttle fields
+    user.passwordResetLastSentAt = now;
+    user.passwordResetSendCount24h += 1;
     await user.save({ validateBeforeSave: false });
     
-    // 3) Send it to user's email
+    // 6) Send it to user's email
     const resetUrl = buildFrontendUrl(`/resetPassword/${rawToken}`);
     const { data, error } = await sendPasswordResetEmail({
         email: user.email,
@@ -347,7 +426,7 @@ exports.forgotPassword = catchAsync(async(req, res, next) => {
         user.passwordResetExpires = undefined;
         await user.save({ validateBeforeSave: false });
 
-        console.debug(`Password Reset email failed to be sent to email "${user.email}": ${error}\nReset token cleared.`)
+        req.log.warn({ email: user.email, err: error }, "Password Reset email failed to send. Reset token cleared.")
 
         return next(new AppError(500, ERROR_NAME.EMAIL_SEND_ERROR, 'There was an error sending the email. Try again later!'));
     }
@@ -385,9 +464,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
         changePasswordUrl: buildFrontendUrl(`/forgotPassword`)
     });
 
-    if (error) {
-        console.debug(`Password Changed email failed to be sent to email "${user.email}": ${error}`)
-    }
+    if (error) req.log.warn({ email: user.email, err: error }, "Password Changed email failed to send")
 
     // 5) Password reset successful
     res.status(200).json({
@@ -417,9 +494,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
         changePasswordUrl: buildFrontendUrl(`/forgotPassword`)
     });
 
-    if (error) {
-        console.debug(`Password Changed email failed to be sent to email "${user.email}": ${error}`)
-    }
+    if (error) req.log.warn({ email: user.email, err: error }, "Password Changed email failed to send")
 
     // 5) Log user in, send JWT
     createAndSendToken(user, 200, res);
@@ -429,7 +504,7 @@ exports.updateEmail = catchAsync(async (req, res, next) => {
     const { newEmail, password } = req.parsed;
 
     // 1) Check if user exists && password is correct
-    const user = await User.findById(req.user.id).select('+password');
+    const user = await User.findById(req.user.id).select('+password +changeEmailEmailLastSentAt +changeEmailEmailSendCount24h');
 
     if (!user || !(await user.correctPassword(password, user.password))) {
         return next(new AppError(401, ERROR_NAME.UNAUTHORIZED, 'Incorrect email or password'));
@@ -446,13 +521,51 @@ exports.updateEmail = catchAsync(async (req, res, next) => {
         return next(new AppError(409, ERROR_NAME.ALREADY_TAKEN, 'That email is already in use.'));
     }
 
+    // 3) Enforce minimum gap
+    const now = Date.now();
+    const cfg = USER_EMAIL_THROTTLING.changeEmail;
+    if (
+        user.changeEmailEmailLastSentAt &&
+        now - user.changeEmailEmailLastSentAt.getTime() < cfg.minIntervalMs
+    ) {
+        const secondsLeft = Math.ceil((cfg.minIntervalMs - (now - user.changeEmailEmailLastSentAt.getTime())) / 1000);
 
-    // 3) Generate the random token and set the new email address to pending
+        return next(
+            new AppError(
+                429, 
+                ERROR_NAME.RESEND_INTERVAL_NOT_ELAPSED, 
+                `You can request another forgot password email in ${secondsLeft} seconds.`, 
+                { secondsLeft }
+            )
+        )
+    };
+
+    // 4) Enforce daily window cap
+    if (
+        user.changeEmailEmailLastSentAt &&
+        now - user.changeEmailEmailLastSentAt.getTime() > cfg.windowMs
+    ) {
+        // reset daily counter if last email was more than a day ago
+        user.changeEmailEmailSendCount24h = 0;
+    }
+
+    if (user.changeEmailEmailSendCount24h >= cfg.maxInWindow) {
+        return next(
+            new AppError(429, ERROR_NAME.DAILY_EMAIL_LIMIT_EXCEEDED, "Too many reset password email requests. Please try again later.")
+        );
+    }
+
+    // 5) Update throttle fields
+    user.changeEmailEmailLastSentAt = now;
+    user.changeEmailEmailSendCount24h += 1;
+    await user.save({ validateBeforeSave: false });
+
+    // 6) Generate the random token and set the new email address to pending
     const { rawToken, minutesUntilExpire } = user.createPendingEmailVerificationToken();
     user.pendingEmail = newEmail;
     await user.save({ validateBeforeSave: false });
     
-    // 4) Send it to user's email
+    // 7) Send it to user's email
     const verificationUrl = buildFrontendUrl(`/verifyEmail/${rawToken}`);
 
     const { data, error } = await sendVerificationEmail({

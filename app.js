@@ -1,11 +1,15 @@
 const express = require('express')
-const morgan = require('morgan')
 const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 const hpp = require('hpp');
+
+// Import Logging
+const pinoHttp = require("pino-http");
+const { nanoid } = require("nanoid");
+const { logger } = require("./utils/logger");
 
 const app = express();
 // Import Error Handling
@@ -18,16 +22,54 @@ const userRouter = require('./routes/userRoutes');
 const collectionRouter = require('./routes/collectionRoutes')
 const categoryRouter = require('./routes/categoryRoutes');
 
+// Logging
+app.use(pinoHttp({
+    logger,
+    // ensure every request gets a stable id (or use inbound x-request-id)
+    genReqId: (req) => req.headers["x-request-id"]?.toString() || nanoid(),
+    // Don’t auto-log super-noisy endpoints
+    autoLogging: {
+        ignore: (req) => req.url === "/healthz" || req.url === "/version"
+    },
+
+    // Map status → level
+    customLogLevel: (req, res, err) => {
+        if (err) return "error";
+        if (res.statusCode >= 500) return 'info';  // we logged the real error in the error handler
+        if (res.statusCode >= 400) return "warn";
+        return "info";
+    },
+
+    // Suppress auto-added fields (req, res, responseTime)
+    customAttributeKeys: {
+        req: Symbol("ignore_req"),
+        res: Symbol("ignore_res"),
+    },
+
+    // Single-line messages
+    // These run after the response completes -> responseTime is available
+    customSuccessMessage: (req, res) =>
+      `${req.method} ${req.originalUrl ?? req.url} ${res.statusCode}`,
+
+    customErrorMessage: (req, res, err) =>
+      `${req.method} ${req.originalUrl ?? req.url} ${res.statusCode} - ${err?.message}`,
+
+    // Keep only concise fields
+    // serializers: {
+    //     req: (req) => ({ id: req.id, method: req.method, url: req.url }),
+    //     res: (res) => ({ statusCode: res.statusCode })
+    // },
+
+    // Add your own context on every line
+    customProps: (req, res) => ({
+        reqId: req.id,
+        userId: req.user?.id,
+    })
+}));
 
 // Global Middlewares
 // Set security HTTP headers
 app.use(helmet());
-
-// Development logging
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
-    // Allows http requests between local ports
-}
 
 // Whitelist allowed client websites
 app.use(cors({
@@ -49,7 +91,7 @@ const limiter = rateLimit({
     windowMs: 60 * 60 * 1000,
     // message: 'Too many requests from this IP, please try again in an hour.',
     handler: (req, res) => {
-        console.warn(`Rate limit hit: ${req.ip} ${req.method} ${req.originalUrl}`);
+        logger.warn(`Rate limit hit: ${req.ip} ${req.method} ${req.originalUrl}`);
         res.status(429).json({ message: 'Too many requests from this IP, please try again in an hour.' });
     }
 });
@@ -66,19 +108,25 @@ app.use(xss());
 
 // Prevent paramater pollution. You can allow multiple arguments for the same parameter by whitelisting them. Ones not on this list
 // will not be allowed. Just reference videos if you need to use this.
-app.use(hpp({
-    whitelist: [
-        'duration', 
-        'ratingsQuantity', 
-        'ratingsAverage', 
-        'maxGroupSize', 
-        'difficulty', 
-        'price'
-    ]
-}));
+// app.use(hpp({
+//     whitelist: [
+//         'duration', 
+//         'ratingsQuantity', 
+//         'ratingsAverage', 
+//         'maxGroupSize', 
+//         'difficulty', 
+//         'price'
+//     ]
+// }));
 
 // Serving static files
 app.use(express.static(`${__dirname}/public`));
+
+// Couple general routes
+app.get('/healthz', (req, res) => res.status(200).send("ok"));
+app.get("/version", (req, res) => {
+  res.json({ version: process.env.APP_VERSION || "dev" });
+});
 
 // Mount Routes
 app.use('/static', staticRouter);

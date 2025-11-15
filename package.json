@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon --exec tsx server.js",
-    "start:prod": "SET NODE_ENV=production&&npm run build && node server.js",
+    "start:prod": "SET NODE_ENV=production&&npm run build && node --exec tsx server.js",
     "server": "json-server -p 3001 --watch db.json",
     "dev:email": "tsx utils/email/sender.ts"
   },
@@ -26,9 +26,11 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.0",
-    "morgan": "^1.10.0",
-    "nodemailer": "^6.10.0",
+    "nanoid": "^5.1.6",
     "nodemon": "^3.1.9",
+    "pino": "^10.1.0",
+    "pino-http": "^11.0.0",
+    "pino-pretty": "^13.1.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "resend": "^6.2.2",

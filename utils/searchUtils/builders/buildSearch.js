@@ -1,7 +1,6 @@
 const { toRegex, filtersToMongo } = require("../searchHelpers.js");
 const { buildSortFilter, buildMatchScoreField, buildSearchFilter } = require("./searchBuilderHelpers.js");
-
-const DEBUG = false;
+const { logger } = require("../../logger");
 
 /**
  * Builds all requirements needed for a mongoose search from normalized search parameters.
@@ -157,15 +156,7 @@ exports.buildSearch = ({
     // We must aggregate if we have derived fields or we sort by them.
     const needsAggregate = Boolean(addFields) || (sortObj && Object.prototype.hasOwnProperty.call(sortObj, "matchScore"));
 
-    if (DEBUG) {
-        console.debug("matchFilters: ", matchFilters)
-        console.debug("addFields: ", addFields)
-        console.debug("sortObj: ", sortObj)
-        console.debug("project: ", project)
-        console.debug("page: ", page)
-        console.debug("limit: ", limit)
-        console.debug("useAggregate: ", needsAggregate)
-    }
+    logger.debug({ matchFilters, addFields, sortObj, project, page, limit, needsAggregate}, "build search info");
 
     return {
         matchFilters,

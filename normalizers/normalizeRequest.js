@@ -1,5 +1,6 @@
 const { AppError, ERROR_NAME } = require("../utils/appError");
 const { getMissingFields } = require("../utils/helpers");
+const { logger } = require("../utils/logger");
 
 /**
  * Takes a create or update request payload and then parses out and sanitizes accepted search criteria.
@@ -20,6 +21,7 @@ exports.normalizeRequest = (
     const rejected = {};
 
     for (const [key, value] of Object.entries(payload)) {
+        logger.debug({ key, value, inAllowedFields: allowedFields.has(key) }, "whitelist attempt on a user variable")
         if (allowedFields.has(key)) {
             clean[key] = value;
         } else {

@@ -75,6 +75,26 @@ const userSchema = new mongoose.Schema({
         type: Date,
         select: false
     },
+    // Throttling for signup / verify email
+    signupEmailLastSentAt: {
+        type: Date,
+        select: false,
+    },
+    signupEmailSendCount24h: {
+        type: Number,
+        default: 0,
+        select: false,
+    },
+    // Throttling for change email
+    changeEmailEmailLastSentAt: {
+        type: Date,
+        select: false,
+    },
+    changeEmailEmailSendCount24h: {
+        type: Number,
+        default: 0,
+        select: false,
+    },
     passwordChangedAt: {
         type: Date,
         select: false
@@ -86,6 +106,16 @@ const userSchema = new mongoose.Schema({
     passwordResetExpires: {
         type: Date,
         select: false
+    },
+    // Throttling for password reset
+    passwordResetLastSentAt: {
+        type: Date,
+        select: false,
+    },
+    passwordResetSendCount24h: {
+        type: Number,
+        default: 0,
+        select: false,
     },
     active: {
         type: Boolean,

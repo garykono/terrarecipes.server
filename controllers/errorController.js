@@ -1,4 +1,5 @@
 const { AppError, ERROR_NAME } = require('../utils/appError')
+const { logger } = require('../utils/logger');
 
 const handleCastErrorDB = err => {
     const message = 'There was an error due to a wrong data type given, likely invalid ID or ID formatting.'
@@ -26,38 +27,44 @@ const handleValidationErrorDB = err => {
         errors: Object.values(err.errors).map(el => `${el.path}: ${el.message}`)
     });
 }
+
 const handleJsonWebTokenError = err => {
     const message = 'JSON web token is not valid.';
 
     return new AppError(400, ERROR_NAME.INVALID_JWT, message);
 }
 
-const sendError = (err, res) => {
+const sendError = (err, req, res) => {
     // We set this error as operational (an issue with something like an input from client), so we want the client to know what
     // went wrong
     if (err.isOperational) {
+        // Always sent if error is operational
         let errData = {
             status: err.status,
             message: err.message,
             name: err.name,
             errors: err.errors,
+            additionalInfo: err.additionalInfo
         }
-        if (process.env.NODE_ENV === 'production') {
-            res.status(err.statusCode).json(errData);
-        } else {
-            res.status(err.statusCode).json({
-                ...errData,
-
-                isOperational: err.isOperational,
-                stack: err.stack
-            });
+        // Only give the stack if in development
+        if (process.env.NODE_ENV !== 'production') {
+            errData.isOperational = err.isOperational;
+            errData.stack = err.stack;
         }
-    // The error is something else that we don't want to send too much info to the client about because it's unrelated to the client
+        
+        res.status(err.statusCode).json(errData);
     } else {
-        // 1) Log Error
-        console.error('ERROR 💥', err);
+        req.log.error(
+            {
+                reqId: req.id,
+                userId: req.user?.id,
+                route: `${req.method} ${req.originalUrl ?? req.url}`,
+                err                       // pino will serialize stack safely
+            },
+            "Unhandled server error"
+        );
 
-        // 2) Send generic message
+        // Send generic message because we don't want outsiders see details about an uncaught error
         res.status(500).json({
             status: 'error',
             message: 'Something went wrong!'
@@ -66,16 +73,20 @@ const sendError = (err, res) => {
 }
 
 module.exports = (err, req, res, next) => {
-    err.statusCode = err.statusCode || 500;
-    err.status = err.status || 'error';
-    err.name = err.name || 'SERVER_ERROR';
+    // 1) Normalize
+    let normalized = err;
+    normalized.statusCode = normalized.statusCode || 500;
+    // normalized.status = normalized.status || 'error';
+    normalized.name = normalized.name || 'SERVER_ERROR';
 
-    // These errors are only in production because we would rather see more info directly from the error when in dev mode
-    if (err.name === 'CastError') err = handleCastErrorDB(err);
-    if (err.code === 11000) err = handleDuplicateFieldsDB(err);
-    if (err.name === 'ValidationError') err = handleValidationErrorDB(err);
-    if (err.name === 'JsonWebTokenError') err = handleJsonWebTokenError(err);
-    sendError(err, res);
+    // 2) Map common library errors -> AppError types (only used in production, dev mode instead gives the whole error stack)
+    if (normalized.name === 'CastError') normalized = handleCastErrorDB(err);
+    if (normalized.code === 11000) normalized = handleDuplicateFieldsDB(err);
+    if (normalized.name === 'ValidationError') normalized = handleValidationErrorDB(err);
+    if (normalized.name === 'JsonWebTokenError') normalized= handleJsonWebTokenError(err);
+
+    // 3) Send error response
+    sendError(normalized, req, res);
 }
     
 

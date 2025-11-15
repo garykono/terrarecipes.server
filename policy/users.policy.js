@@ -11,6 +11,24 @@ exports.USER_PROFILE_MAPS = {
     }
 }
 
+exports.USER_EMAIL_THROTTLING = {
+    signup: {
+        minIntervalMs: 60 * 1000,       // 1 minute between "resend verification" calls
+        windowMs: 24 * 60 * 60 * 1000,  // 24 hours
+        maxInWindow: 5,
+    },
+    passwordReset: {
+        minIntervalMs: 60 * 1000,       // 1 minute
+        windowMs: 24 * 60 * 60 * 1000,
+        maxInWindow: 5,
+    },
+    changeEmail: {
+        minIntervalMs: 60 * 1000,       // 1 minute
+        windowMs: 24 * 60 * 60 * 1000,
+        maxInWindow: 5,
+    },
+};
+
 USER_SORT_KEYS = ["username", "createdAt", "role"];
 
 exports.USER_DEFAULT_SORT_KEY = "-createdAt";
@@ -19,6 +37,15 @@ USER_PAGE_LIMITS = { min: 1,  max: 100,  defaultPerPage: 20 };
 
 // Endpoint profiles (subsets of the above)
 exports.USERS_PROFILES = {
+    signUp: {
+        allowedBody: [
+            "username",
+            "email",
+            "password",
+            "passwordConfirm"
+        ],
+        strictWhiteListing: true
+    },
     resendVerification: {
         // Body whitelist (for middleware/schema validation)
         allowedBody: [

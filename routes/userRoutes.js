@@ -12,7 +12,7 @@ const router = express.Router();
 //router.param('id', userController.checkID);
 
 router.post('/signup', 
-    parseInput({ profile: USERS_PROFILES["create"], normalizer: normalizeRequest }),
+    parseInput({ profile: USERS_PROFILES["signUp"], normalizer: normalizeRequest }),
     authController.signup
 )
 
