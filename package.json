@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon --exec tsx server.js",
-    "start:prod": "SET NODE_ENV=production&&npm run build && node --exec tsx server.js",
+    "start:prod": "NODE_ENV=production node server.js",
     "server": "json-server -p 3001 --watch db.json",
     "dev:email": "tsx utils/email/sender.ts"
   },
