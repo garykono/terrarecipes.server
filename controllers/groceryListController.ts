@@ -20,10 +20,10 @@ export const previewGroceryList = catchAsync(async (req: Request, res: Response,
     // Build the grocery list
 
 
-    res.status(200).json({
-        status: 'success',
-        data: {
-            groceryList
-        }
-    });
+    // res.status(200).json({
+    //     status: 'success',
+    //     data: {
+    //         groceryList
+    //     }
+    // });
 });
