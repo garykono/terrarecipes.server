@@ -10,6 +10,7 @@ import { searchDocuments } from "../utils/searchUtils/searchExecution";
 import { RECIPES_PROFILES, RECIPE_PROFILE_MAPS } from "../policy/recipes.policy";
 import { normalizeSearchRequest } from "../normalizers/normalizeSearchRequest";
 import { buildSearch } from "../utils/searchUtils/builders/buildSearch";
+import { CategorySection } from "../types/standardized";
 
 export const getCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const group = req.query.group as string | undefined;
@@ -24,8 +25,12 @@ export const getCategory = catchAsync(async (req: Request, res: Response, next: 
     }
     
     const indexedCategories = await getIndexedCategories();
+    if (!indexedCategories) {
+        logger.warn({ indexedCategories }, "A required resource failed to load.")
+        return next(new AppError(500, ERROR_NAME.SERVER_ERROR, `An error occurred.`));
+    }
 
-    const groupData: GroupConfig = indexedCategories[group];
+    const groupData: CategorySection = indexedCategories[group];
     if (!groupData) {
         return next(new AppError(404, ERROR_NAME.RESOURCE_NOT_FOUND, `There is no group with that name.`));
     }
@@ -103,7 +108,7 @@ const searchCategory = async (
     req.log.debug({ categoryName, categoryPayload, parsedSearchOptions, searchBuild }, "Search Category build");
 
     // 4) Execute the search
-    const { results, totalCount, totalPages } = await searchDocuments(RecipeModel, searchBuild);
+    const { results, totalCount, totalPages } = await searchDocuments(RecipeModel, searchBuild as any);
     
     return { categoryName, results, totalCount, totalPages };
 }

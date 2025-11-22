@@ -1,4 +1,4 @@
-import { StandardIngredient } from "../../../api/types/standardized";
+import { StandardIngredient } from "../../../types/standardized";
 import { ConversionsMap } from "../types";
 
 export function pickCrossTable(

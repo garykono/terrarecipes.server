@@ -1,9 +1,9 @@
-import { StandardIngredient } from "../../../api/types/standardized";
-import { logRecipe } from "../../logger";
+import { StandardIngredient } from "../../../types/standardized";
 import { StandardUnit } from "../types";
 import { Unit } from "../units";
 import { convertSameType } from "./convert-same-type";
 import { fromStandardCount, pickCrossTable, toStandardCount } from "./ingredient-cross";
+import logger from "../../logger";
 
 export function convertAnyUnit(
     amount: number, 
@@ -15,11 +15,10 @@ export function convertAnyUnit(
         useTrueValues?: boolean;
     }
 ): number {
-    const DEBUG = false;
     const form = options?.form ?? null;
     const useTrueValues = options?.useTrueValues ?? false;
 
-    logRecipe.debug(`converting from ${from.name} (${from.type}) --> ${to.name} (${to.type})`);
+    logger.debug(`converting from ${from.name} (${from.type}) --> ${to.name} (${to.type})`);
     
     if (from.name === to.name && from.type === to.type) return amount;
 

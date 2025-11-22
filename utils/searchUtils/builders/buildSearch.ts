@@ -24,7 +24,7 @@ export interface SearchProfile {
     defaultSort?: string;
     allowedSort?: string[];
     projection?: string[];
-    pageLimits: {
+    pageLimits?: {
         defaultPerPage: number;
     };
 }
@@ -46,6 +46,8 @@ export interface BuildSearchOptions {
     page?: number | string;
     limit?: number | string;
 }
+
+export type SearchDocumentsOptions = BuildSearchResult;
 
 /** Output of buildSearch */
 export interface BuildSearchResult {
@@ -215,6 +217,8 @@ export const buildSearch = ({
         }, {})
         : undefined;
 
+    const defaultPerPage = profile.pageLimits?.defaultPerPage ?? 24; // <- global fallback
+
     // We must aggregate if we have derived fields or we sort by them.
     const needsAggregate = Boolean(addFields) || (sortObj && Object.prototype.hasOwnProperty.call(sortObj, "matchScore"));
 
@@ -226,7 +230,7 @@ export const buildSearch = ({
         sortObj,            // usable by both find() and aggregate
         project,            // optional projection
         page: Number(page || 1),
-        limit: Number(limit || profile.pageLimits.defaultPerPage),
+        limit: Number(limit || defaultPerPage),
         useAggregate: needsAggregate,
     };
 };
