@@ -1,7 +1,7 @@
 import * as React from "react";
 import { baseStyles } from "../BaseStyles";
 
-exports.PasswordChanged = ({ changePasswordUrl }: { changePasswordUrl: string }) => {
+export default function PasswordChanged ({ changePasswordUrl }: { changePasswordUrl: string }) {
     return (
         <div style={baseStyles.container}>
             <div style={baseStyles.hiddenPreview}>

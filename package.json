@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon --exec tsx server.js",
+    "start": "nodemon --exec tsx server.ts",
     "start:prod": "NODE_ENV=production node server.js",
     "server": "json-server -p 3001 --watch db.json",
     "dev:email": "tsx utils/email/sender.ts"
@@ -38,9 +38,16 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
-    "@types/node": "^24.9.1",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/helmet": "^0.0.48",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.10.1",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }

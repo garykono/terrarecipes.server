@@ -1,7 +1,7 @@
 import * as React from "react";
 import { baseStyles } from "../BaseStyles";
 
-exports.Welcome = ({ name, homeUrl }: { name: string, homeUrl: string }) => {
+export default function Welcome ({ name, homeUrl }: { name: string, homeUrl: string }) {
     return (
         <div style={baseStyles.container}>
             <div style={baseStyles.hiddenPreview}>

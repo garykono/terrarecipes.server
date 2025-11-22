@@ -1,0 +1,1 @@
+export const normalizeVals = (v: any) => (Array.isArray(v) ? v : [v]).filter(x => x != null && String(x).trim() !== '');

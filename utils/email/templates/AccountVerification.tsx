@@ -1,7 +1,10 @@
 import * as React from "react";
 import { baseStyles } from "../BaseStyles";
 
-exports.AccountVerification = ({ verificationUrl, minutesUntilExpire }: { verificationUrl: string, minutesUntilExpire: number }) => {
+export default function AccountVerification ({ 
+    verificationUrl, 
+    minutesUntilExpire 
+}: { verificationUrl: string, minutesUntilExpire: number }) {
     return (
         <div style={baseStyles.container}>
             <div style={baseStyles.hiddenPreview}>

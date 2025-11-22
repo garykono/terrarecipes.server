@@ -1,0 +1,1 @@
+export type dataType = "recipe" | "user" | "collection";

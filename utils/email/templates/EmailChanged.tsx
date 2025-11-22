@@ -1,12 +1,11 @@
 import * as React from "react";
 import { baseStyles } from "../BaseStyles";
 
-exports.EmailChanged = ({
+export default function EmailChanged({
     supportEmail,
 }: {
-    changePasswordUrl: string;
     supportEmail: string;
-}) => {
+}) {
     return (
         <div style={baseStyles.container}>
             {/* Hidden preview for inbox snippet */}

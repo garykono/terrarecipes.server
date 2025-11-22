@@ -2,7 +2,10 @@ import * as React from "react";
 import { baseStyles } from "../BaseStyles";
 
 
-exports.PasswordReset = ({ resetUrl, minutesUntilExpire }: { resetUrl: string, minutesUntilExpire: number }) => {
+export default function PasswordReset({ 
+    resetUrl,
+     minutesUntilExpire 
+}: { resetUrl: string, minutesUntilExpire: number }) {
     return (
         <div style={baseStyles.container}>
             <div style={baseStyles.hiddenPreview}>

@@ -1,6 +1,6 @@
 const pino = require('pino');
 
-exports.logger = pino({
+const logger = pino({
     level: process.env.LOG_LEVEL || (process.env.NODE_ENV === "production" ? "info" : "debug"),
     // Pretty in dev, raw JSON in prod
     transport: process.env.NODE_ENV === "production"
@@ -21,3 +21,5 @@ exports.logger = pino({
     }
     // redact: { paths: ["req.headers.authorization", "password", "token"], censor: "[redacted]" }
 });
+
+export default logger;
