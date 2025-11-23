@@ -8,8 +8,7 @@
         "skipLibCheck": true,
         "jsx": "react-jsx",
         
-        "outDir": "./dist",
-        "types": ["node", "express", "cors", "jsonwebtoken"]
+        "outDir": "./dist"
     },
     "include": ["**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules", "dist"]
