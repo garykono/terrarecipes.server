@@ -20,7 +20,9 @@ import { USER_EMAIL_THROTTLING } from '../policy/users.policy';
 import type { JwtPayload } from "jsonwebtoken";
 
 interface AuthPayload extends JwtPayload {
-  id: string;
+    id: string;
+    iat?: number;
+    exp?: number;
 }
 
 
@@ -293,8 +295,8 @@ export const protect = catchAsync(async (req: Request, res: Response, next: Next
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
     } else if (req.headers.cookie) {
-        const parsedCookies = req.headers.cookie.split(';').map(val => val.trim());
-        parsedCookies.forEach((value, index) => {
+        const parsedCookies = req.headers.cookie.split(';').map((val: string) => val.trim());
+        parsedCookies.forEach((value: string, index: number) => {
             if (value.startsWith('jwt=')) {
                 token = parsedCookies[index].slice('jwt='.length);
                 if (foundJWT === true) {

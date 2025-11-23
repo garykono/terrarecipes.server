@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
@@ -33,7 +33,7 @@ app.use(pinoHttp({
     },
 
     // Map status → level
-    customLogLevel: (req, res, err) => {
+    customLogLevel: (req: Request, res: Response, err: any) => {
         if (err) return "error";
         if (res.statusCode >= 500) return 'info';  // we logged the real error in the error handler
         if (res.statusCode >= 400) return "warn";
@@ -48,10 +48,10 @@ app.use(pinoHttp({
 
     // Single-line messages
     // These run after the response completes -> responseTime is available
-    customSuccessMessage: (req, res) =>
+    customSuccessMessage: (req: Request, res: Response) =>
       `${req.method} ${req.originalUrl ?? req.url} ${res.statusCode}`,
 
-    customErrorMessage: (req, res, err) =>
+    customErrorMessage: (req: Request, res: Response, err: Error) =>
       `${req.method} ${req.originalUrl ?? req.url} ${res.statusCode} - ${err?.message}`,
 
     // Keep only concise fields
@@ -61,7 +61,7 @@ app.use(pinoHttp({
     // },
 
     // Add your own context on every line
-    customProps: (req, res) => ({
+    customProps: (req: Request, res: Response) => ({
         reqId: req.id,
         userId: req.user?.id,
         errorName: res.locals?.errorName,
@@ -92,7 +92,7 @@ const limiter = rateLimit({
     // 1 hour to ms
     windowMs: 60 * 60 * 1000,
     // message: 'Too many requests from this IP, please try again in an hour.',
-    handler: (req, res) => {
+    handler: (req: Request, res: Response) => {
         logger.warn(`Rate limit hit: ${req.ip} ${req.method} ${req.originalUrl}`);
         res.status(429).json({ message: 'Too many requests from this IP, please try again in an hour.' });
     }
@@ -125,8 +125,8 @@ app.use(xss());
 app.use(express.static(`${__dirname}/public`));
 
 // Couple general routes
-app.get('/healthz', (req, res) => res.status(200).send("ok"));
-app.get("/version", (req, res) => {
+app.get('/healthz', (req: Request, res: Response) => res.status(200).send("ok"));
+app.get("/version", (req: Request, res: Response) => {
   res.json({ version: process.env.APP_VERSION || "dev" });
 });
 
@@ -137,7 +137,7 @@ app.use('/users', userRouter);
 app.use('/collections', collectionRouter);
 app.use('/category', categoryRouter)
 
-app.all('*', (req, res, next) => {
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
     next(new AppError(404, ERROR_NAME.URL_NOT_FOUND, `Can't find ${req.originalUrl} on this server!`));
 });
 
