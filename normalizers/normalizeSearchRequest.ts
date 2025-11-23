@@ -1,9 +1,9 @@
 import { RECIPE_PAGE_LIMITS } from "../policy/recipes.policy";
 import { BaseProfile } from "../types/policy";
 
-const { normalizeSearchClauses } = require("../utils/searchUtils/parsers/normalizeSearchClauses");
-const { parseSearchString } = require("../utils/searchUtils/parsers/textSearchParser");
-const { normalizeAndSanitizeFilters } = require("../utils/searchUtils/parsers/parseFilters");
+import { normalizeSearchClauses } from "../utils/searchUtils/parsers/normalizeSearchClauses";
+import { parseSearchString } from "../utils/searchUtils/parsers/textSearchParser";
+import { normalizeAndSanitizeFilters } from "../utils/searchUtils/parsers/parseFilters";
 
 /**
  * Takes a search request payload and then parses out and sanitizes accepted search criteria.

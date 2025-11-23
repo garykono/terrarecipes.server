@@ -1,10 +1,12 @@
+import { SearchClause } from "../builders/buildSearch";
+
 /**
  * Parses a search string into tokens/phrases and detects AND/OR groups + phrases in quotes
  * 
  * @param {string} input A complex search string (uses quotes to indicate phrases, uses 'and' and 'or' to indicate how to interpret phrases)
  * @returns An array of search clauses that have not been normalized
  */
-exports.parseSearchString = (input) => {
+export const parseSearchString = (input: unknown) => {
     if (!input || typeof input !== "string") return [];
 
     // Match quoted phrases OR unquoted tokens
@@ -17,8 +19,8 @@ exports.parseSearchString = (input) => {
         rawTokens.push(match[1] || match[2]);
     }
 
-    const clauses = [];
-    let pendingJoin = "$and"; // default join for non-first clauses
+    const clauses: SearchClause[] = [];
+    let pendingJoin: "$and" | "$or" = "$and"; // default join for non-first clauses
 
     rawTokens.forEach((token, idx) => {
         const lower = token.toLowerCase();
@@ -33,7 +35,7 @@ exports.parseSearchString = (input) => {
         }
 
         // Create a clause for this term
-        const clause = {
+        const clause: SearchClause = {
             term: token.trim(),
             ...(idx > 0 ? { join: pendingJoin } : {}), // ignore join on first clause
             searchMode: "contains",
