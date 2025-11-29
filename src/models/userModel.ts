@@ -163,6 +163,12 @@ userSchema.virtual('collections', {
     localField: '_id'
 });
 
+userSchema.pre('save', function (next) {
+    // Do not persist confirm to DB
+    (this as any).passwordConfirm = undefined;
+    next();
+});
+
 userSchema.pre('save', async function(this: any, next) {
     // Only run this function if password was actually modified
     if (!this.isModified('password')) return next();
@@ -183,6 +189,8 @@ userSchema.pre('save', async function(this: any, next) {
 });
 
 userSchema.pre(/^find/, function(this: any, next) {
+    if (this.options?.bypassActiveFilter) return next();
+
     // This points to the current query
     this.find({ active: { $ne: false } });
     next();

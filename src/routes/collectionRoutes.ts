@@ -1,6 +1,6 @@
 import express from 'express';
 import { createCollection, deleteCollection, getAllCollections, getCollection, updateCollection } from '../controllers/collectionController';
-import { assignAuthor, protect, setDataType, verifyAuthor } from '../controllers/authController';
+import { assignAuthor, protect, restrictTo, setDataType, verifyAuthor } from '../controllers/authController';
 import { parseInput } from '../middleware/parseInput';
 import { normalizeRequest } from '../normalizers/normalizeRequest';
 import { normalizeSearchRequest } from '../normalizers/normalizeSearchRequest';
@@ -10,6 +10,14 @@ import { compileSearch } from '../middleware/compileSearch';
 const router = express.Router();
 
 router.use(setDataType('collection'));
+
+// NO AUTH REQUIRED
+
+
+// LOGGED IN REQUIRED
+
+
+// ADMIN ONLY 
 
 router.route('/myCollections/')
     .post(
@@ -30,26 +38,33 @@ router.route('/myCollections/:id')
         deleteCollection)
 
 
-// Implement separate routes for users to do these functions for their own account
-//router.use(restrictTo('admin'));
+// router.use(protect);
+// router.use(restrictTo('admin'));
 
 router.route('/')
     .get( 
+        protect,
+        restrictTo('admin'),
         parseInput({ profile: COLLECTIONS_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
         compileSearch(COLLECTIONS_PROFILE_MAPS),
         getAllCollections
     )
-    .post(
-        protect, 
-        parseInput({ profile: COLLECTIONS_PROFILES["create"], normalizer: normalizeRequest }),
-        createCollection)
+    // only allow a logged in user to make collections for now
+    // .post(
+    //     protect, 
+    //     parseInput({ profile: COLLECTIONS_PROFILES["create"], normalizer: normalizeRequest }),
+    //     createCollection)
 
 router.route('/:id')
     .get(getCollection)
     .patch( 
+        protect,
+        restrictTo('admin'),
         parseInput({ profile: COLLECTIONS_PROFILES["update"], normalizer: normalizeRequest }),
         updateCollection)
     .delete(
+        protect,
+        restrictTo('admin'),
         deleteCollection)
 
 export default router;

@@ -10,7 +10,7 @@ export const GROCERY_LIST_PROFILES: EndpointProfiles = {
     preview: {
         // Body whitelist (for middleware/schema validation)
         allowedBody: [
-            "sources", "options"
+            "recipeId", "collectionId"
         ], 
         strictWhiteListing: true 
     },

@@ -1,9 +1,11 @@
+import { env } from "process";
+
 const pino = require('pino');
 
 const logger = pino({
-    level: process.env.LOG_LEVEL || (process.env.NODE_ENV === "production" ? "info" : "debug"),
+    level: env.LOG_LEVEL || (env.NODE_ENV === "production" ? "info" : "debug"),
     // Pretty in dev, raw JSON in prod
-    transport: process.env.NODE_ENV === "production"
+    transport: env.NODE_ENV === "production"
         ? undefined
         : { target: "pino-pretty", options: { colorize: true, translateTime: "SYS:standard" } },
     base: { service: "terrarecipes-api" }, // constant fields on every line

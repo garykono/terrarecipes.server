@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction, CookieOptions } from 'express';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
-import { promisify } from 'util';
 
 import env from '../utils/env';
 import catchAsync from '../utils/catchAsync';
@@ -46,10 +44,10 @@ const createAndSendToken = (user: UserDoc, statusCode: number, res: Response) =>
 
     // secure === true means cookie will only be sent over encrypted connection (https). So when we use http, the cookie won't be 
     // sent. Therefore, we only run it in production
-    // if (process.env.NODE_ENV === 'production') {
-    //     cookieOptions.domain = process.env.CLIENT_URL_PROD;
+    // if (env.NODE_ENV === 'production') {
+    //     cookieOptions.domain = env.CLIENT_URL_PROD;
     // } else {
-    //     cookieOptions.domain = process.env.CLIENT_URL_DEV;
+    //     cookieOptions.domain = env.CLIENT_URL_DEV;
     // }
     res.cookie('jwt', token, cookieOptions);
 
@@ -102,7 +100,12 @@ export const signup = catchAsync(async(req: Request, res: Response, next: NextFu
     res.status(201).json({
         status: 'success',
         data: {
-            newUser
+            newUser: {
+                _id: newUser._id,
+                username: newUser.username,
+                email: newUser.email,
+                role: newUser.role,
+            }
         }
     });
 });

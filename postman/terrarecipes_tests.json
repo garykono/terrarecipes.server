@@ -1,0 +1,3733 @@
+{
+	"info": {
+		"_postman_id": "3aabca95-ac37-4450-8911-74413a6bc7c2",
+		"name": "----- Test Suites -----",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41755892"
+	},
+	"item": [
+		{
+			"name": "0 - No auth",
+			"item": [
+				{
+					"name": "Server Health Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Server health test: returns 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/healthz",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"healthz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "App Version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"App version: returns 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"App version: version given\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json).to.be.an(\"object\");\r",
+									"    pm.expect(json.version).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/version",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Static Files",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /static: 200 OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET /static: has static array\", () => {\r",
+									"  const json = pm.response.json();\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(json.data).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/static",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"static"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get category: returns 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get category: has success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"// 3) Has user object\r",
+									"pm.test(\"Get category: response contains category info object\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const categoryInfo = json.data.categoryInfo;\r",
+									"    const recipes = json.data.recipes;\r",
+									"\r",
+									"    pm.expect(categoryInfo).to.be.an(\"object\");\r",
+									"    pm.expect(recipes).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/category?slug=dinner&group=core",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"category"
+							],
+							"query": [
+								{
+									"key": "slug",
+									"value": "dinner"
+								},
+								{
+									"key": "group",
+									"value": "core"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Recipes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /recipes: 200 OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET /recipes: has recipes array\", () => {\r",
+									"  const json = pm.response.json();\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(json.data.data).to.be.an(\"array\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes?limit=20&page=1",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "author",
+									"value": "67be82a8fe6f870529847d28",
+									"disabled": true
+								},
+								{
+									"key": "mode",
+									"value": "exact",
+									"disabled": true
+								},
+								{
+									"key": "servings",
+									"value": "8",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "beef",
+									"disabled": true
+								},
+								{
+									"key": "difficulty",
+									"value": "easy",
+									"disabled": true
+								},
+								{
+									"key": "totalTimeMin[lte]",
+									"value": "30",
+									"disabled": true
+								},
+								{
+									"key": "hasTag",
+									"value": "occasion-weeknight",
+									"disabled": true
+								},
+								{
+									"key": "meal",
+									"value": "dinner",
+									"disabled": true
+								},
+								{
+									"key": "hasAllTags",
+									"value": "dishType-soup,theme-light",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "test recipe",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Preview Grocery List (by recipe)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /grocery-list/preview: 200 with grocery-list\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(json.data).to.be.an(\"object\");\r",
+									"  pm.expect(json.data.name).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"recipeId\": \"67a91fd4b41822701102d240\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/grocery-list/preview",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"grocery-list",
+								"preview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Preview Grocery List (by collection)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /grocery-list/preview: 200 with grocery-list\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(json.data).to.be.an(\"object\");\r",
+									"  pm.expect(json.data.name).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"collectionId\": \"68531713ca53b873ec1105e6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/grocery-list/preview",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"grocery-list",
+								"preview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Preview Grocery List (invalid id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /grocery-list/preview: invalid id returns 404\", () => {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"collectionId\": \"{{dummyId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/grocery-list/preview",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"grocery-list",
+								"preview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up User (role set to admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /users/signup: tried creating admin account\", () => {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TESTuser\",\r\n    \"email\": \"{{testUser1Email}}\",\r\n    \"password\": \"{{dummyPassword}}\",\r\n    \"passwordConfirm\": \"{{dummyPassword}}\",\r\n    \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/signup",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// --- Status Code ---\r",
+									"pm.test(\"Returns 201 Created\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// --- Response Structure ---\r",
+									"pm.test(\"Response contains a success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"// --- User Shape ---\r",
+									"pm.test(\"User object contains id and email\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.newUser;\r",
+									"\r",
+									"    pm.expect(user).to.be.an(\"object\");\r",
+									"    pm.expect(user._id).to.exist;\r",
+									"    pm.expect(user.email).to.eql(pm.request.body.raw ? JSON.parse(pm.request.body.raw).email : null);\r",
+									"});\r",
+									"\r",
+									"// --- Security: no password exposure ---\r",
+									"pm.test(\"Password is NOT included in response\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.newUser;\r",
+									"\r",
+									"    pm.expect(user.password).to.be.undefined;\r",
+									"    pm.expect(user.passwordHash).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									"// Save id for later\r",
+									"const json = pm.response.json();\r",
+									"pm.environment.set(\"userId1\", json.data.newUser._id);\r",
+									"// jwt cookie is not sent back anymore, must log in.\r",
+									"// pm.environment.set('jwt', pm.cookies.get('jwt'));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TESTuser\",\r\n    \"email\": \"{{testUser1Email}}\",\r\n    \"password\": \"{{dummyPassword}}\",\r\n    \"passwordConfirm\": \"{{dummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/signup",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up User (email exists)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /users/signup: username exists\", () => {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TESTuser\",\r\n    \"email\": \"{{dummyEmail}}\",\r\n    \"password\": \"{{dummyPassword}}\",\r\n    \"passwordConfirm\": \"{{dummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/signup",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Verification Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Forgot password: returns 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Resend verification email: has success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"    // if you send a message:\r",
+									"    pm.expect(json.message).to.match(/Token sent to email/i);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{testUser1Email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/verification/resend",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"verification",
+								"resend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log In User (wrong password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Login: invalid credentials return 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{testUser1Email}}\",\r\n    \"password\": \"{{wrongPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/login",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log In User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 1) Status 200\r",
+									"pm.test(\"Login: returns 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 2) Has success status\r",
+									"pm.test(\"Login: response status is 'success'\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"// 3) Has user object\r",
+									"pm.test(\"Login: response contains user object\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.user;\r",
+									"\r",
+									"    pm.expect(user).to.be.an(\"object\");\r",
+									"    pm.expect(user._id).to.exist;\r",
+									"    pm.expect(user.email).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// 4) Password not sent back\r",
+									"pm.test(\"Login: password is not exposed\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.user;\r",
+									"\r",
+									"    pm.expect(user.password).to.be.undefined;\r",
+									"    pm.expect(user.passwordHash).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									"// 5) Save auth cookie / token if applicable\r",
+									"pm.environment.set('jwt', pm.cookies.get('jwt'));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{testUser1Email}}\",\r\n    \"password\": \"{{dummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/login",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log Out User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Logout: returns 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Optional: check response message\r",
+									"pm.test(\"Logout: has success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"// Optional: check cookie is cleared\r",
+									"pm.test(\"Logout: auth cookie cleared or invalidated\", () => {\r",
+									"    const jwtCookie = pm.cookies.get(\"jwt\");\r",
+									"\r",
+									"    // We'll just assert it's not a valid-looking JWT:\r",
+									"    if (jwtCookie) {\r",
+									"        pm.expect(jwtCookie).to.not.match(/\\./); // naive: real JWT has 2 dots\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.environment.set('jwt', pm.cookies.get('jwt'));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/logout",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Forgot password: returns 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Forgot password: has success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"    pm.expect(json.message).to.match(/Token sent to email/i);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{testUser1Email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/forgotPassword",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"forgotPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Collections (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /collections/:id: denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/collections",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "67be82a8fe6f870529847d28",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add My Collection (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /collections: denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Collection\",\r\n    \"description\": \"This is only a test collection.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/collections/myCollections",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"myCollections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Collection (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UPDATE /collections/:id: denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Collection with name changed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/collections/{{dummyCollectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"{{dummyCollectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Collection (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /collections/:id: denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/collections/{{dummyCollectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"{{dummyCollectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Collection (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UPDATE /collections/myCollections/:id: denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Collection Test updated by user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/collections/myCollections/{{collectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"myCollections",
+								"{{collectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete My Collection (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /collections/myCollections/:id: denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/collections/myCollections/{{collectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"myCollections",
+								"{{collectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recipe (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH recipes/:recipeId: denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Recipe name updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes/{{dummyRecipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{dummyRecipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recipe (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE recipes/:recipeId: denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/recipes/{{dummyRecipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{dummyRecipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add My Recipe (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST recipes/myRecipes denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Recipe\",\r\n    \"description\": \"This is a test recipe created by a user.\",\r\n    \"ingredients\": [\r\n                {\r\n                    \"text\": \"2 pounds stewing beef trimmed and cubed\",\r\n                    \"isSection\": false,\r\n                    \"parsed\": [\r\n                        {\r\n                            \"quantity\": 2,\r\n                            \"unit\": \"pound\",\r\n                            \"ingredient\": \"stewing beef\",\r\n                            \"forms\": [\r\n                                \"trimmed\"\r\n                            ],\r\n                            \"preparations\": [\r\n                                \"cubed\"\r\n                            ],\r\n                            \"isOptional\": false,\r\n                            \"optionalQuantity\": false,\r\n                            \"isSubstitute\": false,\r\n                            \"raw\": \"2 pounds stewing beef trimmed and cubed\",\r\n                            \"parsedBy\": \"manual\"\r\n                        }\r\n                    ]\r\n                }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes/myRecipes",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"myRecipes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Recipe (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH recipes/myRecipes/:id denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Recipe name updated by author\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes/myRecipes/{{recipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"myRecipes",
+								"{{recipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete My Recipe (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE recipes/myRecipes denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/recipes/myRecipes/{{recipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"myRecipes",
+								"{{recipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET users denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{server_url}}/users",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "gary",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET users/:id denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/{{dummyAccountId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{dummyAccountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UPDATE users/:id denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Test admin update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/{{dummyAccountId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{dummyAccountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE users/:id denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/{{dummyAccountId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{dummyAccountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET users/me denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/me",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Current User Data (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UPDATE users/me denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Test User updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/updateMe",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"updateMe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Current User (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE users/me denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/deleteMe",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"deleteMe"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "1 - User",
+			"item": [
+				{
+					"name": "Log In User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 1) Status 200\r",
+									"pm.test(\"Login: returns 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 2) Has success status\r",
+									"pm.test(\"Login: response status is 'success'\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"// 3) Has user object\r",
+									"pm.test(\"Login: response contains user object\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.user;\r",
+									"\r",
+									"    pm.expect(user).to.be.an(\"object\");\r",
+									"    pm.expect(user._id).to.exist;\r",
+									"    pm.expect(user.email).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// 4) Password not sent back\r",
+									"pm.test(\"Login: password is not exposed\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.user;\r",
+									"\r",
+									"    pm.expect(user.password).to.be.undefined;\r",
+									"    pm.expect(user.passwordHash).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									"// 5) Save auth cookie / token if applicable\r",
+									"pm.environment.set('jwt', pm.cookies.get('jwt'));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{testUser1Email}}\",\r\n    \"password\": \"{{dummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/login",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Password (wrong current password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Update my password with wrong password: status 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"passwordCurrent\": \"{{wrongPassword}}\",\r\n    \"password\": \"{{newDummyPassword}}\",\r\n    \"passwordConfirm\": \"{{newDummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/updateMyPassword",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"updateMyPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Update password: returns 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update password: has success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update password: user returned without password\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.user;\r",
+									"    pm.expect(user).to.be.an(\"object\");\r",
+									"    pm.expect(user.password).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									"pm.environment.set('jwt', pm.cookies.get('jwt'));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"passwordCurrent\": \"{{dummyPassword}}\",\r\n    \"password\": \"{{newDummyPassword}}\",\r\n    \"passwordConfirm\": \"{{newDummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/updateMyPassword",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"updateMyPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Password (change back to original)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Update password: returns 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update password: has success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update password: user returned without password\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.user;\r",
+									"    pm.expect(user).to.be.an(\"object\");\r",
+									"    pm.expect(user.password).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									"pm.environment.set('jwt', pm.cookies.get('jwt'));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"passwordCurrent\": \"{{newDummyPassword}}\",\r\n    \"password\": \"{{dummyPassword}}\",\r\n    \"passwordConfirm\": \"{{dummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/updateMyPassword",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"updateMyPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Email (wrong password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Update my email with wrong password: status 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newEmail\": \"{{testUser2Email}}\",\r\n    \"password\": \"{{wrongPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/updateMyEmail",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"updateMyEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Update email: returns 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update email: has success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"    pm.expect(json.message).to.match(/Token sent to email/i);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newEmail\": \"{{testUser2Email}}\",\r\n    \"password\": \"{{dummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/updateMyEmail",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"updateMyEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Collections (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /collections: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/collections",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "67be82a8fe6f870529847d28",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add My Collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /collections: 201 Created\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST /collections: has created collection\", () => {\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.doc;\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"  pm.expect(col._id).to.exist;\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"// Save id for later\r",
+									"const json = pm.response.json();\r",
+									"pm.environment.set(\"collectionId\", json.data.doc._id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Collection\",\r\n    \"description\": \"This is only a test collection.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/collections/myCollections",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"myCollections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Collection (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /collections:id: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Collection with name changed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/collections/{{dummyCollectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"{{dummyCollectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Collection (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /collections: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/collections/{{dummyCollectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"{{dummyCollectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /collections/:id: 200 with updated collection\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.data;\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Collection Test updated by user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/collections/myCollections/{{collectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"myCollections",
+								"{{collectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete My Collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /collections/:id: returns 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"// Delete id variable locally\r",
+									"pm.environment.set(\"collectionId\", \"\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/collections/myCollections/{{collectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"myCollections",
+								"{{collectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add My Recipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /recipes: 201 Created\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST /recipes: has created recipe\", () => {\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.doc;\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"  pm.expect(col._id).to.exist;\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"// Save id for later\r",
+									"const json = pm.response.json();\r",
+									"pm.environment.set(\"recipeId\", json.data.doc._id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Recipe\",\r\n    \"description\": \"This is a test recipe created by a user.\",\r\n    \"ingredients\": [\r\n                {\r\n                    \"text\": \"2 pounds stewing beef trimmed and cubed\",\r\n                    \"isSection\": false,\r\n                    \"parsed\": [\r\n                        {\r\n                            \"quantity\": 2,\r\n                            \"unit\": \"pound\",\r\n                            \"ingredient\": \"stewing beef\",\r\n                            \"forms\": [\r\n                                \"trimmed\"\r\n                            ],\r\n                            \"preparations\": [\r\n                                \"cubed\"\r\n                            ],\r\n                            \"isOptional\": false,\r\n                            \"optionalQuantity\": false,\r\n                            \"isSubstitute\": false,\r\n                            \"raw\": \"2 pounds stewing beef trimmed and cubed\",\r\n                            \"parsedBy\": \"manual\"\r\n                        }\r\n                    ]\r\n                }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes/myRecipes",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"myRecipes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recipe (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /collections/:id: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Recipe name updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes/{{dummyRecipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{dummyRecipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recipe (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /collections/:id: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/recipes/{{dummyRecipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{dummyRecipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Recipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /recipes/:id: 200 with updated recipe\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.data;\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Recipe name updated by author\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes/myRecipes/{{recipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"myRecipes",
+								"{{recipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete My Recipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /recipes/myRecipes/:id: returns 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/recipes/myRecipes/{{recipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"myRecipes",
+								"{{recipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /users: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{server_url}}/users",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "gary",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /users/:id: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/{{dummyAccountId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{dummyAccountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /users/:id: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Test admin update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/{{dummyAccountId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{dummyAccountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User (not admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /users/:id: denied without admin privileges\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/{{dummyAccountId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{dummyAccountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /users/:id: 200 with user\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(json.data.doc).to.be.an(\"object\");\r",
+									"  pm.expect(json.data.doc._id).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/me",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Current User Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /users/:id: 200 with updated user\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.data;\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Test User updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/updateMe",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"updateMe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Current User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /recipes/:id: returns 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"// Delete id variable locally\r",
+									"pm.environment.set(\"userId\", \"\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/deleteMe",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"deleteMe"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2 - Admin",
+			"item": [
+				{
+					"name": "Log In Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 1) Status 200\r",
+									"pm.test(\"Login: returns 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 2) Has success status\r",
+									"pm.test(\"Login: response status is 'success'\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"// 3) Has user object\r",
+									"pm.test(\"Login: response contains user object\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.user;\r",
+									"\r",
+									"    pm.expect(user).to.be.an(\"object\");\r",
+									"    pm.expect(user._id).to.exist;\r",
+									"    pm.expect(user.email).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// 4) Password not sent back\r",
+									"pm.test(\"Login: password is not exposed\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.user;\r",
+									"\r",
+									"    pm.expect(user.password).to.be.undefined;\r",
+									"    pm.expect(user.passwordHash).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									"// 5) Save auth cookie / token if applicable\r",
+									"pm.environment.set('jwt', pm.cookies.get('jwt'));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"olekinggeary1@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/login",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add My Collection (for testing)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /collections: 201 Created\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST /collections: has created collection\", () => {\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.doc;\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"  pm.expect(col._id).to.exist;\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"// Save id for later\r",
+									"const json = pm.response.json();\r",
+									"pm.environment.set(\"collectionId\", json.data.doc._id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Collection\",\r\n    \"description\": \"This is only a test collection.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/collections/myCollections",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"myCollections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /collections/:id: 200 with updated collection\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.data;\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Collection with name changed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/collections/{{collectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"{{collectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /collections/:id: returns 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/collections/{{collectionId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"collections",
+								"{{collectionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add My Recipe (for testing)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /recipes: 201 Created\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST /recipes: has created recipe\", () => {\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.doc;\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"  pm.expect(col._id).to.exist;\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"// Save id for later\r",
+									"const json = pm.response.json();\r",
+									"pm.environment.set(\"recipeId\", json.data.doc._id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Recipe\",\r\n    \"description\": \"This is a test recipe created by a user.\",\r\n    \"ingredients\": [\r\n                {\r\n                    \"text\": \"2 pounds stewing beef trimmed and cubed\",\r\n                    \"isSection\": false,\r\n                    \"parsed\": [\r\n                        {\r\n                            \"quantity\": 2,\r\n                            \"unit\": \"pound\",\r\n                            \"ingredient\": \"stewing beef\",\r\n                            \"forms\": [\r\n                                \"trimmed\"\r\n                            ],\r\n                            \"preparations\": [\r\n                                \"cubed\"\r\n                            ],\r\n                            \"isOptional\": false,\r\n                            \"optionalQuantity\": false,\r\n                            \"isSubstitute\": false,\r\n                            \"raw\": \"2 pounds stewing beef trimmed and cubed\",\r\n                            \"parsedBy\": \"manual\"\r\n                        }\r\n                    ]\r\n                }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes/myRecipes",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"myRecipes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /recipes/:id: 200 with updated recipe\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.data;\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.name).to.eql(reqBody.name);\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Recipe name updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/recipes/{{recipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{recipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /recipes/:id: returns 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/recipes/{{recipeId}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{recipeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /users: 200 OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET /users: has users array\", () => {\r",
+									"  const json = pm.response.json();\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(json.data.data).to.be.an(\"array\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{server_url}}/users",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "gary",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up User (for testing)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// --- Status Code ---\r",
+									"pm.test(\"Returns 201 Created\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// --- Response Structure ---\r",
+									"pm.test(\"Response contains a success status\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.expect(json.status).to.eql(\"success\");\r",
+									"});\r",
+									"\r",
+									"// --- User Shape ---\r",
+									"pm.test(\"User object contains id and email\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.newUser;\r",
+									"\r",
+									"    pm.expect(user).to.be.an(\"object\");\r",
+									"    pm.expect(user._id).to.exist;\r",
+									"    pm.expect(user.email).to.eql(pm.request.body.raw ? JSON.parse(pm.request.body.raw).email : null);\r",
+									"});\r",
+									"\r",
+									"// --- Security: no password exposure ---\r",
+									"pm.test(\"Password is NOT included in response\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"    const user = json.data.newUser;\r",
+									"\r",
+									"    pm.expect(user.password).to.be.undefined;\r",
+									"    pm.expect(user.passwordHash).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									"// Save id for later\r",
+									"const json = pm.response.json();\r",
+									"pm.environment.set(\"userId2\", json.data.newUser._id);\r",
+									"// jwt cookie is not sent back anymore, must log in.\r",
+									"// pm.environment.set('jwt', pm.cookies.get('jwt'));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TESTuser\",\r\n    \"email\": \"{{testUser2Email}}\",\r\n    \"password\": \"{{dummyPassword}}\",\r\n    \"passwordConfirm\": \"{{dummyPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/signup",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET /users/:id: 200 with user\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  pm.expect(json.status).to.eql(\"success\");\r",
+									"  pm.expect(json.data.doc).to.be.an(\"object\");\r",
+									"  pm.expect(json.data.doc._id).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/{{userId2}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{userId2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PATCH /users/:id: 200 with updated user\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"  const json = pm.response.json();\r",
+									"  const col = json.data.data;\r",
+									"  pm.expect(col).to.be.an(\"object\");\r",
+									"\r",
+									"  const reqBody = JSON.parse(pm.request.body.raw || \"{}\");\r",
+									"  if (reqBody.name) {\r",
+									"    pm.expect(col.username).to.eql(reqBody.username);\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Test admin update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/users/{{userId2}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{userId2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User (test user 2)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /users/:id: returns 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/{{userId2}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{userId2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User (test user 1)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /users/:id: returns 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}/users/{{userId1}}",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"users",
+								"{{userId1}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

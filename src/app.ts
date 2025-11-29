@@ -21,6 +21,8 @@ import recipeRouter from './routes/recipeRoutes';
 import userRouter from './routes/userRoutes';
 import collectionRouter from './routes/collectionRoutes';
 import categoryRouter from './routes/categoryRoutes';
+import groceryListRouter from './routes/groceryListRoutes';
+import env from './utils/env';
 
 // Logging
 app.use(pinoHttp({
@@ -76,7 +78,7 @@ app.use(helmet());
 // Whitelist allowed client websites
 app.use(cors({
     credentials: true,
-    origin: process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL_PROD : process.env.CLIENT_URL_DEV
+    origin: env.NODE_ENV === 'production' ? env.CLIENT_URL_PROD : env.CLIENT_URL_DEV
     // origin: true,
     
     // exposedHeaders: ["Set-Cookie"]
@@ -127,7 +129,7 @@ app.use(express.static(`${__dirname}/public`));
 // Couple general routes
 app.get('/healthz', (req: Request, res: Response) => res.status(200).send("ok"));
 app.get("/version", (req: Request, res: Response) => {
-  res.json({ version: process.env.APP_VERSION || "dev" });
+  res.json({ version: env.APP_VERSION || "dev" });
 });
 
 // Mount Routes
@@ -135,7 +137,8 @@ app.use('/static', staticRouter);
 app.use('/recipes', recipeRouter);
 app.use('/users', userRouter);
 app.use('/collections', collectionRouter);
-app.use('/category', categoryRouter)
+app.use('/category', categoryRouter);
+app.use('/grocery-list', groceryListRouter);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
     next(new AppError(404, ERROR_NAME.URL_NOT_FOUND, `Can't find ${req.originalUrl} on this server!`));

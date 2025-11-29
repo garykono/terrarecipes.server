@@ -4,7 +4,7 @@ import { USERS_PROFILES, USER_PROFILE_MAPS } from '../policy/users.policy';
 import { normalizeRequest } from '../normalizers/normalizeRequest';
 import { normalizeSearchRequest } from '../normalizers/normalizeSearchRequest';
 import { compileSearch } from '../middleware/compileSearch';
-import { forgotPassword, login, logout, protect, resendVerificationEmail, resetPassword, signup, updateEmail, updatePassword, verifyEmail } from '../controllers/authController';
+import { forgotPassword, login, logout, protect, resendVerificationEmail, resetPassword, restrictTo, signup, updateEmail, updatePassword, verifyEmail } from '../controllers/authController';
 import { deleteMe, deleteUser, getAllUsers, getMe, getUser, updateMe, updateUser } from '../controllers/userController';
 
 const router = express.Router();
@@ -73,7 +73,9 @@ router.delete('/deleteMe',
     deleteMe
 );
 
-//router.use(restrictTo('admin'));
+// Admin-only
+router.use(protect);
+router.use(restrictTo('admin'));
 
 router.route('/')
     .get(

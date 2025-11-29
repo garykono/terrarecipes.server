@@ -79,7 +79,9 @@ export const updateOne = <T>(Model: Model<T>) => catchAsync(async (req: Request,
 });
 
 export const deleteOne = <T>(Model: Model<T>) => catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const doc = await Model.findByIdAndDelete(req.params.id);
+    const doc = await Model.findByIdAndDelete(req.params.id).setOptions({
+        bypassActiveFilter: true
+    });
 
     if (!doc) {
         return next(new AppError(404, ERROR_NAME.RESOURCE_NOT_FOUND, 'No resource found with that ID'));

@@ -4,13 +4,14 @@ import { normalizeRequest } from '../normalizers/normalizeRequest';
 
 import { GROCERY_LIST_PROFILES } from '../policy/groceryLists.policy';
 import { getCategory } from '../controllers/categoryController';
+import { previewGroceryList } from '../controllers/groceryListController';
 
 const router = express.Router();
 
 router.route('/preview')
     .post(
         parseInput({ profile: GROCERY_LIST_PROFILES["preview"], normalizer: normalizeRequest }),
-        getCategory
+        previewGroceryList
     )
 
 export default router;

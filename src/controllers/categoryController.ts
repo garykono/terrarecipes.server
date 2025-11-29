@@ -1,4 +1,3 @@
-import { getIndexedCategories } from "./staticController";
 import catchAsync from "../utils/catchAsync";
 import { Request, Response, NextFunction } from 'express';
 import { RecipeModel } from '../models/recipeModel';
@@ -11,6 +10,7 @@ import { RECIPES_PROFILES, RECIPE_PROFILE_MAPS } from "../policy/recipes.policy"
 import { normalizeSearchRequest } from "../normalizers/normalizeSearchRequest";
 import { buildSearch } from "../utils/searchUtils/builders/buildSearch";
 import { CategorySection } from "../types/standardized";
+import { getIndexedCategories } from "../services/standardizedDataService";
 
 export const getCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const group = req.query.group as string | undefined;

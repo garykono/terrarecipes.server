@@ -1,7 +1,7 @@
 import { BaseProfile } from "../types/policy";
 
-const { flattenTags } = require("../utils/tags");
-const { normalizeRequest } = require("./normalizeRequest");
+import { flattenTags } from "../utils/tags";
+import { normalizeRequest } from "./normalizeRequest";
 
 /**
  * Takes a create or update request payload and then parses out and sanitizes accepted search criteria.

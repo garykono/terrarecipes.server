@@ -1,5 +1,5 @@
-const { AppError, ERROR_NAME } = require("../utils/appError");
-const { getMissingFields } = require("../utils/helpers");
+import { AppError, ERROR_NAME } from "../utils/appError";
+import { getMissingFields } from "../utils/helpers";
 import { BaseProfile } from "../types/policy";
 import logger from "../utils/logger";
 

@@ -87,13 +87,13 @@ export default (err: any, req: Request, res: Response, next: NextFunction) => {
     let normalized = err;
     normalized.statusCode = normalized.statusCode || 500;
     // normalized.status = normalized.status || 'error';
-    normalized.name = normalized.name || 'SERVER_ERROR';
+    const errorName = normalized.name || 'SERVER_ERROR';
 
     // 2) Map common library errors -> AppError types (only used in production, dev mode instead gives the whole error stack)
-    if (normalized.name === 'CastError') normalized = handleCastErrorDB(err);
+    if (errorName === 'CastError') normalized = handleCastErrorDB(err);
     if (normalized.code === 11000) normalized = handleDuplicateFieldsDB(err);
-    if (normalized.name === 'ValidationError') normalized = handleValidationErrorDB(err);
-    if (normalized.name === 'JsonWebTokenError') normalized= handleJsonWebTokenError(err);
+    if (errorName === 'ValidationError') normalized = handleValidationErrorDB(err);
+    if (errorName === 'JsonWebTokenError') normalized= handleJsonWebTokenError(err);
 
     // 3) Send error response
     sendError(normalized, req, res);

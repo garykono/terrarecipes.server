@@ -4,14 +4,12 @@ import { normalizeSearchRequest } from '../normalizers/normalizeSearchRequest';
 import { normalizeRecipeWriteRequest } from '../normalizers/normalizeRecipeWriteRequest';
 import { RECIPES_PROFILES, RECIPE_PROFILE_MAPS } from '../policy/recipes.policy';
 import { compileSearch } from '../middleware/compileSearch';
-import { assignAuthor, protect, setDataType, verifyAuthor } from '../controllers/authController';
+import { assignAuthor, protect, restrictTo, setDataType, verifyAuthor } from '../controllers/authController';
 import { createRecipe, deleteRecipe, getAllRecipes, getRecipe, updateRecipe } from '../controllers/recipeController';
 
 const router = express.Router();
 
 router.use(setDataType('recipe'));
-
-//router.param('id', checkID);
 
 router.route('/myRecipes/')
     .post(
@@ -40,25 +38,23 @@ router.route('/')
         parseInput({ profile: RECIPES_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
         compileSearch(RECIPE_PROFILE_MAPS),
         getAllRecipes)
-    .post(
-        protect,
-        parseInput({ profile: RECIPES_PROFILES["create"], normalizer: normalizeRecipeWriteRequest }),
-        assignAuthor,
-        createRecipe)
+    // recipes can only be created by an existing account
+    // .post(
+    //     protect,
+    //     parseInput({ profile: RECIPES_PROFILES["create"], normalizer: normalizeRecipeWriteRequest }),
+    //     assignAuthor,
+    //     createRecipe)
 
 router.route('/:id')
     .get(getRecipe)
     .patch(
+        protect,
+        restrictTo('admin'),
         parseInput({ profile: RECIPES_PROFILES["update"], normalizer: normalizeRecipeWriteRequest }),
         updateRecipe)
     .delete(
+        protect,
+        restrictTo('admin'),
         deleteRecipe)
-
-router.route('/search')
-    .post(
-        parseInput({ profile: RECIPES_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
-        compileSearch(RECIPE_PROFILE_MAPS),
-        getAllRecipes
-    )
 
 export default router;

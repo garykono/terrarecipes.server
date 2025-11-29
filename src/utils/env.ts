@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 // Load config.env relative to this file
 dotenv.config({
-    path: path.resolve(__dirname, "../config.env"), // adjust one ../ if needed
+    path: path.resolve(__dirname, "../../config.env"), // adjust one ../ if needed
 });
 
 function getEnv(name: string): string {

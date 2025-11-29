@@ -1,13 +1,13 @@
 {
   "name": "recipes-server",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon --exec tsx server.ts",
-    "start:prod": "node dist/server.js",
+    "start": "nodemon --exec tsx src/server.ts",
+    "start:prod": "node dist/src/server.js",
     "server": "json-server -p 3001 --watch db.json",
-    "dev:email": "tsx utils/email/sender.ts"
+    "dev:email": "tsx src/utils/email/sender.ts"
   },
   "author": "",
   "license": "ISC",
