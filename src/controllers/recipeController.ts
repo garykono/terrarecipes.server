@@ -1,5 +1,5 @@
 import { RecipeModel } from '../models/recipeModel';
-const factory = require('./handlerFactory')
+import { createOne, deleteOne, getAll, getOne, updateOne } from './handlerFactory';
 
 // export const aliasNewRecipes = (req, res, next) => {
 //     req.query.limit = '5';
@@ -8,13 +8,13 @@ const factory = require('./handlerFactory')
 //     next();
 // }
 
-export const getAllRecipes = factory.getAll(RecipeModel);
-export const getRecipe = factory.getOne(RecipeModel, [
+export const getAllRecipes = getAll(RecipeModel);
+export const getRecipe = getOne(RecipeModel, [
     {
         path: 'author',
         select: 'username'
     }
 ]);
-export const createRecipe = factory.createOne(RecipeModel);
-export const updateRecipe = factory.updateOne(RecipeModel);
-export const deleteRecipe = factory.deleteOne(RecipeModel);
+export const createRecipe = createOne(RecipeModel);
+export const updateRecipe = updateOne(RecipeModel);
+export const deleteRecipe = deleteOne(RecipeModel);

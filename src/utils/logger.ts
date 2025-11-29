@@ -1,6 +1,6 @@
 import { env } from "process";
 
-const pino = require('pino');
+import pino from 'pino';
 
 const logger = pino({
     level: env.LOG_LEVEL || (env.NODE_ENV === "production" ? "info" : "debug"),

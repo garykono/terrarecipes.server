@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 import { render } from '@react-email/render';
-import React = require('react');
+import React from 'react';
 import Welcome from './templates/Welcome';
 import AccountVerification from './templates/AccountVerification';
 import PasswordReset from './templates/PasswordReset';

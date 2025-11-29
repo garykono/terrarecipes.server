@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 export const generateToken = ({ 
     milliseconds = 0,
