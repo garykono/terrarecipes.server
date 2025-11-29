@@ -28,10 +28,10 @@ import env from './utils/env';
 app.use(pinoHttp({
     logger,
     // ensure every request gets a stable id (or use inbound x-request-id)
-    genReqId: (req) => req.headers["x-request-id"]?.toString() || nanoid(),
+    genReqId: (req: Request) => req.headers["x-request-id"]?.toString() || nanoid(),
     // Don’t auto-log super-noisy endpoints
     autoLogging: {
-        ignore: (req) => req.url === "/healthz" || req.url === "/version"
+        ignore: (req: Request) => req.url === "/healthz" || req.url === "/version"
     },
 
     // Map status → level

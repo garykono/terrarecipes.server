@@ -110,10 +110,9 @@ export function combineIngredients({
                     type: standardConversionUnitInfo.type
                 }
             } else {
-                logger.debug(
+                logger.debug({ standardConversionUnitName, standardConversionUnitInfo },
                     `Couldn't derive a standard conversion unit from ${parsedIngredientName} so no conversion possible.
-                    Adding to miscellaneous ingredients.`,
-                    { standardConversionUnitName, standardConversionUnitInfo }
+                    Adding to miscellaneous ingredients.`
                 );
                 validatedIngredients.miscellaneous.push(parsedIngredientRawText);
                 return;
@@ -160,7 +159,7 @@ export function combineIngredients({
                     convertedUnitAmount = convertAnyUnit(parsedQuantity, standardParsedUnit, standardConversionUnit, ingredientInfo);
                     logger.debug(`conversion successful.`);
                 } catch (e) {
-                    logger.debug("Failed to convert. Adding to miscellaneous.", { error: e });
+                    logger.debug({ error: e }, "Failed to convert. Adding to miscellaneous.");
                     validatedIngredients.miscellaneous.push(parsedIngredientRawText);
                     return;
                 } 
@@ -189,13 +188,13 @@ export function combineIngredients({
                 updatedStandardUnitAmount;
 
             successfulAttemptsToCombine++;
-            logger.debug("ingredient successfully combined to grocery list",
+            logger.debug(
                 { 
                     ingredientName: parsedIngredientName, 
                     listAddedTo: isOptional ? "optional" : "validated",
                     previousQuantityInThisList: previousStandardUnitAmount,
                     newQuantityInThisList: updatedStandardUnitAmount
-                }
+                }, "ingredient successfully combined to grocery list"
             );
         })
     })

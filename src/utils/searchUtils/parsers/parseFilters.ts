@@ -1,6 +1,6 @@
 import { FilterOp } from "../../../types/policy";
 
-const { isPlainObject } = require("../../helpers");
+import { isPlainObject } from "../../helpers";
 
 const KNOWN_OPS = new Set([
     'eq','ne','gt','gte','lt','lte','between','in','all','nin','contains','exact','exists'
