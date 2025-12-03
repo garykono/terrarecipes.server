@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import env from './utils/env';
-
 import logger from './utils/logger';
-
 import app from './app';
 
 process.on('uncaughtException', (err) => {

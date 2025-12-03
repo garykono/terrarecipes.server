@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { BaseProfile } from "../types/policy";
-import logger from "../utils/logger";
 
 interface ParseInputArgs {
     payload?: any;

@@ -1,5 +1,4 @@
 import { BaseProfile } from "../types/policy";
-
 import { flattenTags } from "../utils/tags";
 import { normalizeRequest } from "./normalizeRequest";
 

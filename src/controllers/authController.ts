@@ -289,7 +289,7 @@ export const logout = (req: Request, res: Response) => {
     res.status(200).json({ 
         status: 'success' 
     });
-  };
+};
 
 export const protect = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     // 1) Getting token and check if it's there

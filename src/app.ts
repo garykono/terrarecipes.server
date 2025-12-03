@@ -4,7 +4,6 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
-import hpp from 'hpp';
 
 // Import Logging
 import pinoHttp, { Options as PinoHttpOptions } from "pino-http";
@@ -22,6 +21,7 @@ import userRouter from './routes/userRoutes';
 import collectionRouter from './routes/collectionRoutes';
 import categoryRouter from './routes/categoryRoutes';
 import groceryListRouter from './routes/groceryListRoutes';
+
 import env from './utils/env';
 
 // Logging
