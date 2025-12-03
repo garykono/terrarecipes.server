@@ -1,3 +1,6 @@
+/**
+ * Round to a cleaner fraction for readability.
+ */
 export function roundToCommonFraction(value: number): number {
     const fractions = [0, 0.25, 0.5, 0.75, 1];
     const integer = Math.floor(value);

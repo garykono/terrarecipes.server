@@ -23,9 +23,27 @@ export interface Direction {
     isSection: boolean;
 }
 
+export interface TagFacetCategory {
+    id: string;
+    label: string;
+    multi: boolean;
+    requirement: {
+        min: number;
+        max: number;
+    },
+    options: TagFacetOption[];
+}
+
+export interface TagFacetOption {
+    id: string;
+    label : string;
+    isActive : boolean;
+    sort : number
+}
+
 export interface Tags {
     facets: {
-        [key: string]: string[]
+        [key: string]: TagFacetCategory
     },
     custom: string[]
 }

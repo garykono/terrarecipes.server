@@ -1,6 +1,14 @@
 import { StandardIngredient } from "../../../types/standardized";
 import { ConversionsMap } from "../types";
 
+/**
+ * Determines which immediate conversion to use.
+ * 
+ * @param ingredientInfo 
+ * @param form 
+ * @param useTrueValues 
+ * @returns 
+ */
 export function pickCrossTable(
     ingredientInfo: StandardIngredient,
     form?: string | null,

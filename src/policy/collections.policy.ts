@@ -1,5 +1,3 @@
-/* HAVEN'T FULLY IMPLEMENTED THIS FILE */
-
 import { EndpointProfiles, ProfileMaps } from "../types/policy";
 
 export const COLLECTIONS_PROFILE_MAPS: ProfileMaps = {

@@ -3,6 +3,10 @@ export interface AppErrorOptions {
     [key: string]: unknown;          // allow any extra metadata
 }
 
+/**
+ * A custom error class that uses the "isOperational" field to signal to the error handler that this is a known error, and may have
+ * more curated messages and error info to be used for logging and responses.
+ */
 export class AppError extends Error {
     statusCode: number;
     name: ErrorName;

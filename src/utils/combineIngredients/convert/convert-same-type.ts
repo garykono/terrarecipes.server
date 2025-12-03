@@ -1,6 +1,9 @@
 import { Unit } from "../units";
 import { unitConversionTable } from "./unit-tables";
 
+/**
+ * Convert an amount from one unit to another of the same unit class (ex. a mass to mass conversion such as grams to pounds).
+ */
 export function convertSameType(amount: number, from: Unit, to: Unit): number {
     if (from === to) return amount;
 

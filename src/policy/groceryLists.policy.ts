@@ -1,7 +1,7 @@
 import { EndpointProfiles } from "../types/policy";
 
 
-// A single profile (e.g. groceryListS_PROFILES["getAll"])
+// A single profile (e.g. groceryLists_PROFILES["getAll"])
 export type groceryListProfileKey = keyof EndpointProfiles;
 export type groceryListProfile = EndpointProfiles[groceryListProfileKey];
 

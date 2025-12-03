@@ -1,5 +1,4 @@
 import { FilterQuery, Model } from 'mongoose';
-import { RECIPE_DEFAULT_SORT_KEY, RECIPE_PAGE_LIMITS } from '../../policy/recipes.policy';
 import APIFeatures from '../apiFeatures';
 import { buildPaginationPipeline } from './builders/searchBuilderHelpers';
 
@@ -36,10 +35,10 @@ export const searchDocuments = async <T>(
     const {
         matchFilters = {},
         addFields,
-        sortObj = RECIPE_DEFAULT_SORT_KEY,    // can be string or object
+        sortObj = "",    // can be string or object
         project = "",    // can be string or object
         page = 1, 
-        limit = RECIPE_PAGE_LIMITS.defaultPerPage,
+        limit = 20,
         useAggregate = false,
     } = options;
 

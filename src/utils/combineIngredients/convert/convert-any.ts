@@ -5,6 +5,18 @@ import { convertSameType } from "./convert-same-type";
 import { fromStandardCount, pickCrossTable, toStandardCount } from "./ingredient-cross";
 import logger from "../../logger";
 
+/**
+ * Convert a value from one standardized unit to another, using standardized ingredient info to provide conversion rates, 
+ * allowed conversions, etc. This can even be conversions from one unit class to another, such as a mass to volume conversion if the 
+ * standard ingredient provides the conversion for it.
+ * 
+ * @param amount The raw quantity of the unit being converted from.
+ * @param from The StandardUnit of what is being converted from.
+ * @param to The StandardUnit of what is being converted to.
+ * @param ingredientInfo A StandardIngredient that provides info such as conversion rates.
+ * @param options
+ * @returns 
+ */
 export function convertAnyUnit(
     amount: number, 
     from: StandardUnit, 

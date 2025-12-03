@@ -22,6 +22,13 @@ export interface CombineIngredientsProps {
     standardMeasurementsLookupTable: StandardLookupTable | null;
 }
 
+/**
+ * Combines all ingredients by first converting all ingredient entries (which can have duplicates, such as if the ingredient list was 
+ * derived from multiple different recipes) to the ingredient's standard measurement unit, and then summing all similar ingredients into 
+ * one amount.
+ * 
+ * If an ingredient disqualifies for this process for any reason, it is passed untouched to a separate miscellaneous category.
+ */
 export function combineIngredients({ 
     uncombinedIngredients, 
     standardIngredients,

@@ -1,5 +1,10 @@
 import { DisplayThresholds } from "../types";
 
+/*
+    Thresholds where a unit will start to look strange to a user if not converted into another unit (ex. 3 tablespoons likely looks
+    better than 9 teaspoons)
+*/
+
 export const unitDisplayThresholds: DisplayThresholds = {
     // volume
     milliliter: { to: 'teaspoon', threshold: 5 },

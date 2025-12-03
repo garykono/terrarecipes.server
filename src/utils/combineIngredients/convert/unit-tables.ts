@@ -1,5 +1,8 @@
 import { UnitConversionTable } from "../types";
 
+/**
+ * Universal conversions.
+ */
 export const unitConversionTable: UnitConversionTable = {
     // volume
     teaspoon: {

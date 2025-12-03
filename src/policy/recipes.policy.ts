@@ -1,5 +1,3 @@
-/* HAVEN'T FULLY IMPLEMENTED THIS FILE, ONLY RECIPE_PROFILES.GETALL */
-
 import { EndpointProfiles, ProfileMaps } from "../types/policy";
 
 export const RECIPE_PROFILE_MAPS: ProfileMaps = {

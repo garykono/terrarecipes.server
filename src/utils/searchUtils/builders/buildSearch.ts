@@ -207,7 +207,7 @@ export const buildSearch = ({
 
     // --- sort/projection/pagination/collation ---
     const sortObj = buildSortFilter(
-        sort || profile.defaultSort || "",
+        sort || profile.defaultSort || "-createdBy",
         profile.allowedSort ?? []
     );
     const project = Array.isArray(profile.projection)

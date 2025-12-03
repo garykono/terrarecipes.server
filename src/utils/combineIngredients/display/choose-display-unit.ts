@@ -48,6 +48,10 @@ function candidateValue(unit: Unit, totals: Totals, meta: StandardIngredient): n
     return val == null ? null : val;
 }
 
+/**
+ * Translate the value and unit into something more readable (ex. if the amount of olive oil given is something like 42.3333 teaspoons,
+ * it would be a lot more readable to translate it and then round it, like to tablespoons or cups).
+ */
 export function chooseDisplayUnit(meta: StandardIngredient, totals: Totals): { unit: Unit; value: number } {
     const override = INGREDIENT_OVERRIDES[meta.name.toLowerCase()];
     const rule = CATEGORY_RULES[meta.mainCategory as Category];

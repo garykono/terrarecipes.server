@@ -167,7 +167,7 @@ export async function getStandardizedData() {
         standardMeasurements: cache.formattedMeasurementUnits,
         standardIngredientsLookupTable: cache.ingredientNameLookupTable,
         standardMeasurementsLookupTable: cache.measurementUnitsNameLookupTable,
-        stardardIngredientsGroupedByCategory: cache.ingredients,
+        standardIngredientsGroupedByCategory: cache.ingredients,
         ingredientForms: cache.ingredientForms,
         ingredientPreparations: cache.ingredientPreparations,
         categories: cache.categoryData,
