@@ -1718,6 +1718,124 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Feedback",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST feedback: returns 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"This is feedback.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/feedback",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"feedback"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Feedback (no message)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST feedback/ no message\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}/feedback",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"feedback"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All Feedback (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE feedback/ denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}"
+						},
+						"url": {
+							"raw": "{{server_url}}/feedback",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"feedback"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2997,6 +3115,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete All Feedback (no auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE feedback/ denied without auth\", () => {\r",
+									"  pm.expect([400, 401, 403]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}"
+						},
+						"url": {
+							"raw": "{{server_url}}/feedback",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"feedback"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -3636,6 +3790,42 @@
 							"path": [
 								"users",
 								"{{userId2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All Feedback",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE /recipes/:id: returns 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}"
+						},
+						"url": {
+							"raw": "{{server_url}}/feedback",
+							"host": [
+								"{{server_url}}"
+							],
+							"path": [
+								"feedback"
 							]
 						}
 					},
