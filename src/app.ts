@@ -21,6 +21,7 @@ import userRouter from './routes/userRoutes';
 import collectionRouter from './routes/collectionRoutes';
 import categoryRouter from './routes/categoryRoutes';
 import groceryListRouter from './routes/groceryListRoutes';
+import feedbackRouter from './routes/feedbackRoutes';
 
 import env from './utils/env';
 
@@ -139,6 +140,7 @@ app.use('/users', userRouter);
 app.use('/collections', collectionRouter);
 app.use('/category', categoryRouter);
 app.use('/grocery-list', groceryListRouter);
+app.use('/feedback', feedbackRouter);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
     next(new AppError(404, ERROR_NAME.URL_NOT_FOUND, `Can't find ${req.originalUrl} on this server!`));
