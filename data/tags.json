@@ -5,12 +5,10 @@
             "label": "Meal",
             "multi": false,
             "requirement": {
-                "min": 1, 
-                "max": 1 
+                "min": 0
             },
             "options": [
                 { "id": "meal-breakfast", "label": "Breakfast", "isActive": true, "sort": 10 },
-                { "id": "meal-brunch",    "label": "Brunch",    "isActive": true, "sort": 20 },
                 { "id": "meal-lunch",     "label": "Lunch",     "isActive": true, "sort": 30 },
                 { "id": "meal-dinner",    "label": "Dinner",    "isActive": true, "sort": 40 },
                 { "id": "meal-snack",     "label": "Snack",     "isActive": true, "sort": 50 },
