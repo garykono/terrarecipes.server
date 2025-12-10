@@ -3,7 +3,7 @@
         "meal": {
             "id": "meal",
             "label": "Meal",
-            "multi": false,
+            "multi": true,
             "requirement": {
                 "min": 0
             },
