@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 /** Search modes for regex text filters */
 export type SearchMode = "contains" | "exact";
 
@@ -13,7 +15,7 @@ export interface FilterPayload {
 }
 
 // What kinds of values can filters operate on
-export type FilterType = "string" | "number" | "date";
+export type FilterType = "string" | "number" | "date" | "id"
 
 export type FilterOp =
     | "contains"

@@ -5,13 +5,20 @@ import { normalizeRecipeWriteRequest } from '../normalizers/normalizeRecipeWrite
 import { RECIPES_PROFILES, RECIPE_PROFILE_MAPS } from '../policy/recipes.policy';
 import { compileSearch } from '../middleware/compileSearch';
 import { assignAuthor, protect, restrictTo, setDataType, verifyAuthor } from '../controllers/authController';
-import { createRecipe, deleteRecipe, getAllRecipes, getRecipe, updateRecipe } from '../controllers/recipeController';
+import { addIdMatchSearchCondition, createRecipe, deleteRecipe, getAllRecipes, getRecipe, updateRecipe } from '../controllers/recipeController';
 
 const router = express.Router();
 
 router.use(setDataType('recipe'));
 
 router.route('/myRecipes/')
+    .get(
+        protect,
+        addIdMatchSearchCondition,
+        parseInput({ profile: RECIPES_PROFILES["getAll"], normalizer: normalizeSearchRequest }),
+        compileSearch(RECIPE_PROFILE_MAPS),
+        getAllRecipes
+    )
     .post(
         protect,
         parseInput({ profile: RECIPES_PROFILES["create"], normalizer: normalizeRecipeWriteRequest }),

@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export const castValue = (v: any, type: string) => {
     if (v == null) return v;
     switch (type) {
@@ -16,6 +18,21 @@ export const castValue = (v: any, type: string) => {
             if (v === 'true' || v === '1') return true;
             if (v === 'false' || v === '0') return false;
             throw new Error(`Expected boolean, got "${v}"`);
+        case 'id': {
+            // Already an ObjectId instance? return as is
+            if (v instanceof Types.ObjectId) return v;
+
+            // Acceptable forms: string or number convertible to string
+            const s = String(v);
+
+            // Validate
+            if (!Types.ObjectId.isValid(s)) {
+                throw new Error(`Expected valid ObjectId, got "${v}"`);
+            }
+
+            return new Types.ObjectId(s);
+        }
+
         default:
             return String(v);
     }

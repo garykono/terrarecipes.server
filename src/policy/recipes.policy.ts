@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { EndpointProfiles, ProfileMaps } from "../types/policy";
 
 export const RECIPE_PROFILE_MAPS: ProfileMaps = {
@@ -16,6 +17,8 @@ export const RECIPE_PROFILE_MAPS: ProfileMaps = {
         hasTag:     { path: "tagsFlat", type: "string", allowedOps: ["in","all","nin"], defaultOp: "in" },
         hasAllTags: { path: "tagsFlat", type: "string", allowedOps: ["all"],             defaultOp: "all" },
         excludeTag: { path: "tagsFlat", type: "string", allowedOps: ["nin"],             defaultOp: "nin" },
+
+        author: { path: "author", type: "id", allowedOps: ["eq"],             defaultOp: "eq" },
     },
     fieldMap : {
         name: ["name"],
@@ -57,7 +60,9 @@ export const RECIPES_PROFILES: RecipeProfiles = {
             "difficulty", 
             "hasTag", 
             "hasAllTags", 
-            "excludeTag"], 
+            "excludeTag",
+            "author"
+        ], 
         allowedSort: RECIPE_SORT_KEYS, 
         defaultSort: RECIPE_DEFAULT_SORT_KEY, 
         pageLimits: RECIPE_PAGE_LIMITS, 
