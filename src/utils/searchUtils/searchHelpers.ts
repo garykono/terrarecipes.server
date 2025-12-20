@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { FilterConfig, FilterMap, FilterOp, FilterPayload, FiltersInput, FilterType, SearchMode } from "../../types/policy";
 import { normalizeVals } from "../arrays";
 import { castValue, castMany } from "../cast";
@@ -146,3 +147,32 @@ export const filtersToMongo = (
     return and;
 }
 
+export const normalizeIds = (raw: unknown): mongoose.Types.ObjectId[] | undefined => {
+    if (!raw) return undefined;
+
+    const arr = Array.isArray(raw)
+        ? raw
+        : typeof raw === "string"
+            ? raw.split(",")   // allow comma-separated list
+            : [];
+
+    if (!arr.length) return undefined;
+
+    const ids = arr
+        .map(String)
+        .map((s) => s.trim())
+        .filter(Boolean);
+
+    const unique = Array.from(new Set(ids));
+
+    const valid = unique
+        .filter((id) => mongoose.Types.ObjectId.isValid(id))
+        .map((id) => new mongoose.Types.ObjectId(id));
+
+    return valid.length ? valid : undefined;
+};
+
+export const orderByIdList = <T extends { _id: any }>(docs: T[], ids: string[]): T[] => {
+    const map = new Map(docs.map((d) => [String(d._id), d]));
+    return ids.map((id) => map.get(String(id))).filter(Boolean) as T[];
+}

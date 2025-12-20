@@ -1,4 +1,5 @@
-import { Categories, CategorizedIngredientList, CategoryData, CategorySection, IndexedCategories, SeasonalFeaturedCategorySection, StandardIngredients, StandardLookupTable, StandardMeasurements, StandardMeasurementsList } from "../types/standardized";
+import { CategoriesConfig, CategoryData, CategorySection, IndexedCategories, SeasonalFeaturedCategorySection } from "../types/category";
+import { CategorizedIngredientList, StandardIngredients, StandardLookupTable, StandardMeasurements, StandardMeasurementsList } from "../types/standardized";
 
 export const formatIngredients = (ingredients: CategorizedIngredientList) => {
     const formattedIngredients: StandardIngredients = {};
@@ -59,11 +60,11 @@ function indexCategoriesBySlug(data: CategorySection, indexedList: IndexedCatego
     })
 }
 
-export const indexCategories = (categories: Categories) => {
+export const indexCategories = (categories: CategoriesConfig) => {
     const indexedList: IndexedCategories = {};
     // Core and Featured
     Object.keys(categories).forEach(categoryGroupName => {
-        if (categoryGroupName === 'core') {
+        if (categoryGroupName === 'core' || categoryGroupName === 'home') {
             indexedList[categoryGroupName] = {};
             indexCategoriesBySlug(categories[categoryGroupName], indexedList, categoryGroupName);
         } else if (categoryGroupName === 'featured') {
@@ -90,7 +91,7 @@ export const prepareCategoryData = (indexedCategories: IndexedCategories) => {
     // Core
     Object.keys(indexedCategories).forEach(categoryGroupName => {
         categoryData[categoryGroupName] = [];
-        if (categoryGroupName === 'core') {
+        if (categoryGroupName === 'core' || categoryGroupName === 'home') {
             const coreIndexedCategories = indexedCategories[categoryGroupName];
             Object.keys(coreIndexedCategories).forEach(coreCategoryName => {
                 categoryData[categoryGroupName].push({

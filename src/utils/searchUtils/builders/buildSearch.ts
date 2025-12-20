@@ -2,6 +2,7 @@ import { toRegex, filtersToMongo } from "../searchHelpers.js";
 import { buildSortFilter, buildMatchScoreField, buildSearchFilter } from "./searchBuilderHelpers.js";
 import logger from "../../logger";
 import { FieldMap, FilterMap, FiltersInput } from "../../../types/policy.js";
+import mongoose from "mongoose";
 
 /** A single text search clause */
 export interface SearchClause {
@@ -45,6 +46,7 @@ export interface BuildSearchOptions {
     sort?: string;
     page?: number | string;
     limit?: number | string;
+    includeIds?: mongoose.Types.ObjectId[]
 }
 
 export type SearchDocumentsOptions = BuildSearchResult;
@@ -74,7 +76,8 @@ export const buildSearch = ({
     orFilters,
     sort,
     page, 
-    limit  
+    limit,
+    includeIds
 }: BuildSearchOptions) => {
     if (!profile) {
         throw new Error("No profile was given, and one is required to build searches.");
@@ -199,7 +202,14 @@ export const buildSearch = ({
         combinedFilters = combinedFilters ? { $and: [combinedFilters, node] } : node;
     }
 
-    // 4) Final match
+    // 4) Add includeIds restriction
+    if (includeIds && includeIds?.length) {
+        const idsNode = { _id: { $in: includeIds } };
+
+        combinedFilters = combinedFilters ? { $and: [combinedFilters, idsNode] } : idsNode;
+    }
+
+    // Final match
     const matchFilters = combinedFilters ?? {};
 
     // --- addFields / scoring (only if we built any pieces) ---

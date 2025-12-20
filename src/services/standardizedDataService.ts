@@ -3,10 +3,7 @@ import path from "path";
 import logger from "../utils/logger";
 
 import {
-    Categories,
     CategorizedIngredientList,
-    CategoryData,
-    IndexedCategories,
     IngredientForms,
     IngredientPreparations,
     StandardIngredients,
@@ -23,6 +20,7 @@ import {
     indexCategories,
     prepareCategoryData,
 } from "../utils/formatStandardizedData";
+import { CategoriesConfig, CategoryData, IndexedCategories } from "../types/category";
 
 const ingredientsPath = path.join(__dirname, "../..", "data", "ingredients.json");
 const measurementUnitsPath = path.join(__dirname, "../..", "data", "measurementUnits.json");
@@ -44,7 +42,7 @@ type StandardizedDataCache = {
     measurementUnitsNameLookupTable: StandardLookupTable | null;
     ingredientForms: IngredientForms | null;
     ingredientPreparations: IngredientPreparations | null;
-    categories: Categories | null;
+    categories: CategoriesConfig | null;
     indexedCategories: IndexedCategories | null;
     categoryData: CategoryData | null;
     tags: StandardTags | null;

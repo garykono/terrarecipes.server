@@ -4,6 +4,8 @@ import { BaseProfile } from "../types/policy";
 import { normalizeSearchClauses } from "../utils/searchUtils/parsers/normalizeSearchClauses";
 import { parseSearchString } from "../utils/searchUtils/parsers/textSearchParser";
 import { normalizeAndSanitizeFilters } from "../utils/searchUtils/parsers/parseFilters";
+import { normalizeIds } from "../utils/searchUtils/searchHelpers";
+import logger from "../utils/logger";
 
 /**
  * Takes a search request payload and then parses out and sanitizes accepted search criteria.
@@ -24,6 +26,7 @@ export const normalizeSearchRequest = (
     const rawSort     = payload.sort;
     const rawPage     = payload.page;
     const rawLimit    = payload.limit;
+    const rawIncludeIds  = payload.includeIds       // a list of mongoose ids to search through instead of starting with a Model.find()
 
     // Whitelist by profile
     const allowedSearchFields  = new Set(profile.allowedSearchFields || []);
@@ -86,6 +89,8 @@ export const normalizeSearchRequest = (
             )
         : pageLimits.defaultPerPage;
 
+    const includeIds = normalizeIds(rawIncludeIds);
+
     return { 
         clean: {
             searchClauses,
@@ -93,7 +98,8 @@ export const normalizeSearchRequest = (
             orFilters,
             sort,
             page,
-            limit
+            limit,
+            includeIds
         },
         rejected: {}    // Not yet implemented
     };

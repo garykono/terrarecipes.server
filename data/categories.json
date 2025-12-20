@@ -1,4 +1,74 @@
 {
+    "home": {
+        "christmas-favorites": {
+            "title": "Christmas Favorites",
+            "icon": "🎄",
+            "description": "Cozy, festive recipes for holiday dinners, cookie exchanges, and Christmas celebrations.",
+            "slug": "christmas-favorites",
+            "searchCriteria": {
+                "hasAllTags":[
+                    "occasion-christmas"
+                ]
+            }
+        },
+        "quick-and-easy": {
+            "title": "Quick & Easy",
+            "icon": "⚡",
+            "description": "Simple, no-fuss recipes you can get on the table fast, even on busy days.",
+            "slug": "quick-and-easy",
+            "searchCriteria": {
+                "totalTimeMin": { "lte": 30 },
+                "hasAllTags": [
+                    "difficulty-easy", 
+                    "course-main"
+                ]
+            }
+        },
+        "featured": {
+            "title": "Featured",
+            "icon": "⭐",
+            "description": "A curated selection of standout recipes we think you’ll love.",
+            "slug": "featured",
+            "recipeIds": [
+                "67a91fd4b41822701102d240",
+                "683fc2fc73e2e9483f96ac2b",
+                "67a91fd4b41822701102d242",
+                "67a91fd4b41822701102d24c",
+                "67a91fd4b41822701102d24a",
+                "67d07c87a33ac9991d0a76b1",
+                "67d09595a33ac9991d0a77ec",
+                "67a91fd4b41822701102d244",
+                "693888051f3cc34b8affe4e2"
+            ]
+        },
+        "comfort-classics": {
+            "title": "Comfort Classics",
+            "icon": "🍲",
+            "description": "Warm, hearty dishes that feel like home — perfect for cozy nights in.",
+            "slug": "comfort-classics",
+            "searchCriteria": {
+                "hasAllTags": [
+                    "theme-comfort"
+                ],
+                "hasTag": [
+                    "meal-dinner", 
+                    "course-main", 
+                    "course-dessert"
+                ]
+            }
+        },
+        "recently-added": {
+            "title": "Recently Added",
+            "icon": "🆕",
+            "description": "Fresh new recipes added to TerraRecipes, ready to be explored.",
+            "slug": "recently-added",
+            "searchCriteria": {
+                "sortBy": "createdAt",
+                "sortOrder": "desc",
+                "limit": 12
+            }
+        }
+    },
     "core": {
         "breakfast": {
             "title": "Breakfast",

@@ -74,52 +74,6 @@ export type StandardLookupTable = {
     [key: string]: string;
 };
 
-export interface SearchCriteria {
-    [key: string]: string | string[];
-};
-
-export interface Category {
-    title: string;
-    icon: string;
-    description: string;
-    slug: string;
-    searchCriteria: SearchCriteria;
-}
-
-export interface FeaturedCategory extends Category {
-    subCategories: {
-        [key: string]: {
-            title: string;
-            description: string;
-            searchCriteria: SearchCriteria
-        }
-    },
-    relatedCategories: string[];
-}
-
-export interface CategorySection {
-    [key: string]: Category;
-}
-
-export interface SeasonalFeaturedCategorySection {
-    [key: string]: CategorySection;
-}
-
-export interface Categories {
-    core: CategorySection;
-    featured: {
-        [key: string]: SeasonalFeaturedCategorySection | CategorySection;
-    };
-}
-
-export interface IndexedCategories {
-    [key: string]: CategorySection
-}
-
-export interface CategoryData {
-    [key: string]: Category[];
-}
-
 export interface StandardTags {
     facets: {
         [key: string]: {
