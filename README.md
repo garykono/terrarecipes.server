@@ -1,102 +1,120 @@
-# TerraRecipes API (Node.js + Express + TypeScript + MongoDB)
+## TerraRecipes Backend README (Node/Express API)
 
-TerraRecipes is a full-stack recipe management platform featuring fundamental recipe site functions such as structured recipe authoring and user authentication, as well as some more complex features like advanced search and grocery list generation.
-This repository contains the **backend API**, built in **Node.js**, **Express**, and **TypeScript**, with **MongoDB/Mongoose** as the database layer.
+# TerraRecipes (Backend)
 
-The API is designed to showcase **production-ready engineering practices**, including:
-- Profile-driven request validation and whitelisting  
-- A flexible search engine built on MongoDB aggregation  
-- Strong separation of concerns  
-- Secure authentication with JWT cookies  
-- Structured logging, error handling, and environment config  
-- Comprehensive TypeScript support across controllers, models, and utilities
+The backend API for TerraRecipes — a full-stack recipe web app built to support rich browsing, advanced search, and future extensibility (recommendations, personalization, and more).
 
----
+This repo contains the **Node/Express** API, MongoDB models, and supporting services.
 
-## ⭐ Features
+## Features
 
-### **User System & Auth**
-- Email & password authentication  
-- JWT stored in HTTP-only cookies  
-- Signup, login, logout, email verification, password reset  
-- Authorization middleware (`protect`, `restrictTo`)  
-- Author-based access control on user content
+- REST API for recipes, categories, and supporting entities
+- Advanced recipe search (filters, sorting, pagination; update to match your implementation)
+- Grocery list generation support (structured ingredient output)
+- Authentication (sign up / sign in)
+- Email verification flow (Resend + email templates, if applicable)
+- Robust logging and error handling
+- Scalable structure designed for feature growth
 
-### **Recipes**
-- Create/update recipes with ingredients, tags, and metadata  
-- Rich querying: text search, facet filters, time filters, multi-field matching, and sorting  
-- Normalization of ingredients, measurements and tags
+## Tech Stack
 
-### **Collections**
-- User-defined recipe collections  
-- CRUD operations  
-- Middleware enforcing ownership
+- Node.js + Express
+- MongoDB + Mongoose
+- Auth: (JWT / cookies / sessions — specify yours)
+- Email: Resend (if used)
+- Logging: Pino (if used)
+- Testing: Postman collections / integration tests (if used)
+- Deployment: Render (or your provider)
 
-### **Advanced Search Engine**
-- Profile-driven search architecture:
-  - Allowed filters, operations, and fields defined per endpoint  
-  - Normalization of query inputs  
-  - Compilation into MongoDB queries or aggregation pipelines  
-- Weighted text search with relevance scoring  
-- Pagination, sorting, and projection controls
+## Getting Started
 
-### **Grocery Lists**
-- Auto-generated lists from recipes  
-- Unit normalization and ingredient consolidation  
-
-### **Categories & Standardized Data**
-- Static dataset loaders for ingredients and categories  
-- Cached in-memory service layer  
-- Consistent tagging/metadata across recipes
-
----
-
-## 🧱 Tech Stack
-
-- **Runtime:** Node.js  
-- **Framework:** Express  
-- **Language:** TypeScript  
-- **Database:** MongoDB Atlas + Mongoose  
-- **Logging:** Pino + pino-http  
-- **Security:** Helmet, CORS, Rate Limiting, Mongo Sanitize, XSS Clean, HPP  
-- **Auth:** JWT (HTTP-only cookies), password hashing, verification emails  
-- **Build:** ts-node / tsx for development, `tsc` for production build  
-
----
-
-## 📦 Folder Structure (Overview)
-src/
-    app.ts # Express app setup
-    server.ts # Server entry, DB connection, process handlers
-
-    controllers/ # Route handlers (thin), auth flows, CRUD wrappers
-    routes/ # API route definitions
-    models/ # Mongoose schemas + TypeScript types
-
-    normalizers/ # Input normalization (whitelisting and shaping data for functions) per endpoint
-    policy/ # Profile definitions: allowed filters/body fields/etc.
-    middleware/ # parseInput, compileSearch, auth guards, etc.
-
-    utils/
-        searchUtils/ # Search engine: parsing, building, execution
-        logger.ts
-        env.ts
-        apiFeatures.ts
-        appError.ts
-
-    services/ # Standardized data service (ingredients/tags)
-
-    types/ # Shared domain-level TypeScript types
-
-
-    For a detailed explanation of architecture and flow, see [ARCHITECTURE.md](./ARCHITECTURE.md).
-
----
-
-## 🚀 Getting Started
-
-### 1. Install
-```bash
-pnpm install
-# or
+### 1 - Install dependencies
 npm install
+
+### 2 - Configure environment variables
+Create a .env file in the project root:
+
+NODE_ENV=development
+APP_VERSION=1.0
+
+LOG_LEVEL=info
+
+CLIENT_URL_DEV=http://localhost:5173
+SERVERPORT=8080
+
+#### Mongodb database info
+DATABASE=
+DATABASE_USERNAME=
+DATABASE_PASSWORD=
+
+JWT_SECRET=
+JWT_EXPIRES_IN=90d
+JWT_COOKIE_EXPIRES_IN_DAYS=90
+
+RESEND_API_KEY=
+EMAIL_FROM=
+SUPPORT_EMAIL_ADDRESS=
+
+3) Run locally
+npm start
+
+The API should be available at:
+
+http://localhost:5000
+
+## Scripts
+
+npm start - Run development server
+
+npm build - Build for deployment
+
+npm start:prod - Run production server
+
+### API Overview
+Example endpoints:
+
+GET /recipes — List recipes (supports pagination/filtering)
+
+GET /recipes/:id — Get recipe by id
+
+POST /collections/ — Add multiple recipes to one place, can also create combined grocery lists
+
+POST /users/signup — Create account
+
+POST /users/login — Login
+
+## Project Structure (High Level)
+src/
+  app.js|server.js     Express app bootstrap
+  routes/              Route definitions
+  controllers/         Request handlers
+  models/              Mongoose schemas/models
+  normalizers/         Whitelisting and formatting query params and POST bodies
+  policy/              Allowed/Required query params and variables
+  services/            Mostly used for caching right now
+  middleware/          Currently helpers for parsing queries and searching
+  types/               For typescript
+  utils/               Helpers (env, async wrappers, etc.)
+
+## Error Handling & Logging
+Centralized error middleware for consistent API responses
+
+Structured logs (Pino) for easier debugging in local + production environments
+
+## Deployment Notes
+If deploying to Render (or similar):
+
+Set environment variables in the dashboard
+
+Ensure MongoDB connection uses the hosted URI
+
+Configure CORS allowed origin to your deployed frontend URL
+
+## Roadmap
+Recommendation engine / “smart suggestions”
+
+More advanced faceted browsing and ranking
+
+Improved search scoring and synonym support
+
+Educational content (simple "how to chop an onion" article with illustrations or photos)
