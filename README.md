@@ -9,10 +9,10 @@ This repo contains the **Node/Express** API, MongoDB models, and supporting serv
 ## Features
 
 - REST API for recipes, categories, and supporting entities
-- Advanced recipe search (filters, sorting, pagination; update to match your implementation)
+- Advanced recipe search (filters, sorting, pagination)
 - Grocery list generation support (structured ingredient output)
 - Authentication (sign up / sign in)
-- Email verification flow (Resend + email templates, if applicable)
+- Email verification flow (Resend + email templates)
 - Robust logging and error handling
 - Scalable structure designed for feature growth
 
@@ -20,11 +20,11 @@ This repo contains the **Node/Express** API, MongoDB models, and supporting serv
 
 - Node.js + Express
 - MongoDB + Mongoose
-- Auth: (JWT / cookies / sessions — specify yours)
-- Email: Resend (if used)
-- Logging: Pino (if used)
-- Testing: Postman collections / integration tests (if used)
-- Deployment: Render (or your provider)
+- Auth: (JWT and cookies)
+- Email: Resend
+- Logging: Pino
+- Testing: Postman collections
+- Deployment: Render
 
 ## Getting Started
 
@@ -85,16 +85,26 @@ POST /users/login — Login
 
 ## Project Structure (High Level)
 src/
-  app.js|server.js     Express app bootstrap
-  routes/              Route definitions
-  controllers/         Request handlers
-  models/              Mongoose schemas/models
-  normalizers/         Whitelisting and formatting query params and POST bodies
-  policy/              Allowed/Required query params and variables
-  services/            Mostly used for caching right now
-  middleware/          Currently helpers for parsing queries and searching
-  types/               For typescript
-  utils/               Helpers (env, async wrappers, etc.)
+
+    app.js|server.js     Express app bootstrap
+
+    routes/              Route definitions
+
+    controllers/         Request handlers
+
+    models/              Mongoose schemas/models
+
+    normalizers/         Whitelisting and formatting query params and POST bodies
+
+    policy/              Allowed/Required query params and variables
+
+    services/            Mostly used for caching right now
+
+    middleware/          Currently helpers for parsing queries and searching
+
+    types/               For typescript
+
+    utils/               Helpers (env, async wrappers, etc.)
 
 ## Error Handling & Logging
 Centralized error middleware for consistent API responses
