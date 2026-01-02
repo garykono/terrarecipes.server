@@ -35,6 +35,7 @@ npm install
 Create a .env file in the project root:
 
 NODE_ENV=development
+
 APP_VERSION=1.0
 
 LOG_LEVEL=info
@@ -44,15 +45,21 @@ SERVERPORT=8080
 
 #### Mongodb database info
 DATABASE=
+
 DATABASE_USERNAME=
+
 DATABASE_PASSWORD=
 
 JWT_SECRET=
+
 JWT_EXPIRES_IN=90d
+
 JWT_COOKIE_EXPIRES_IN_DAYS=90
 
 RESEND_API_KEY=
+
 EMAIL_FROM=
+
 SUPPORT_EMAIL_ADDRESS=
 
 3) Run locally
